@@ -23,10 +23,7 @@ module WebResourcePackager
     #removing resource links from block
     #example: "<link href="bla"><script src="bla"></script>my inline content" => "my inline content"
     def self.remove_links(block)
-      block.gsub!(LINK_PTR) do |s|
-        s = ""
-      end
-      block
+      block.gsub(LINK_PTR, "")
     end
 
     #looking for css and js files included and create BlockFiles with files paths
