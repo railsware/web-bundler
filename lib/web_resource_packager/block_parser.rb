@@ -2,7 +2,7 @@ module WebResourcePackager
   class BlockParser
     CONDITIONAL_BLOCK_PTR = /(\<\!\-\-\s*\[\s*if\s*IE\s*\d*\s*\]\s*\>.*?\<\!\s*\[\s*endif\s*\]\s*\-\-\>)/xmi
     CONDITIONAL_BLOCK_CONTENT_PTR = /\<\!\-\-\s*\[\s*if\s*IE\s*\d*\s*\]\s*\>(.*)?\<\!\s*\[\s*endif\s*\]\s*\-\-\>/xmi
-    CONDITION_PTR = /\<\!\-\-\s*([^<]*)\s*\>/
+    CONDITION_PTR = /\<\!\-\-\s*(\[[^<]*\])\s*\>/
     LINK_PTR = /(\<(link|script[^>]*?src\s*=).*?(\>\<\/script\>|\>))/ 
 
     #parsing block content recursively
@@ -40,7 +40,7 @@ module WebResourcePackager
 
     #just a short method to start parsing passed block
     def self.parse(block)
-      parse_block_with_childs(block, nil)
+      parse_block_with_childs(block, "")
     end
 
   end
