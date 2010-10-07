@@ -1,7 +1,7 @@
 $:.unshift(File.join(File.dirname(__FILE__), "../lib"))
 require 'web_resource_packager'
 module WebResourcePackager
-  @@styles = ["/styles/1.css","/boo/goo.css", "/f3/e3/sdf.css", "/styles/abc.css"]
+  @@styles = ["/styles/foo.css","/styles/sample.css", "/styles/temp.css", "/sample.css"]
   @@scripts = ["/scripts/13.js", "/scripts/my_script.js", "/foo/boo.js", "/goo/doo.js"]
   @@files1 = BlockFiles.new(@@scripts[0..1],@@styles[0..1])
   @@files2 = BlockFiles.new(@@scripts[2..3],@@styles[2..3])
@@ -66,4 +66,10 @@ module WebResourcePackager
     child.inline_block = sample_inline_block
     child
   end
+
+  @@settings_hash = {
+      :domen => "google.com",
+      :language => "eng"
+    }
+
 end

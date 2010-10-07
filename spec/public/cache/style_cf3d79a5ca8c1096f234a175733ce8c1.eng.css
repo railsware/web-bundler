@@ -1,0 +1,42 @@
+/* --------- /styles/foo.css --------- */
+.temp{margin:1px;background-image  
+: url( 'images/logo.jpg' )  ;width:300px  ;} .sdg{padding:10px;background-image  : url('temp/sdfo.jpg');}
+.fas{
+margin: 10px;
+background-image: url("images/good.jpg");
+}
+/* --------- END /styles/foo.css --------- */
+/* --------- /styles/sample.css --------- */
+.temp{margin:1px;background-image  
+: url( 'images/logo.jpg' )  ;width:300px  ;} .sdg{padding:10px;background-image  : url('temp/sdfo.jpg');}
+.fas{
+margin: 10px;
+background-image: url("images/good.jpg");
+}
+/* --------- END /styles/sample.css --------- */
+/* --------- /styles/temp.css --------- */
+/* --------- /styles/for_import.css --------- */
+.test
+{
+  background-color:Black;
+  width: 200px;
+  height :300px;
+  margin:100px;
+}
+/* --------- END /styles/for_import.css --------- */
+
+.temp{margin:1px;background-image  
+: url( 'images/logo.jpg' )  ;width:300px  ;} .sdg{padding:10px;background-image  : url('temp/sdfo.jpg');}
+.fas{
+margin: 10px;
+background-image: url("images/good.jpg");
+}
+/* --------- END /styles/temp.css --------- */
+/* --------- /sample.css --------- */
+.temp{margin:1px;background-image  
+: url( 'images/logo.jpg' )  ;width:300px  ;} .sdg{padding:10px;background-image  : url('temp/sdfo.jpg');}
+.fas{
+margin: 10px;
+background-image: url("images/good.jpg");
+}
+/* --------- END /sample.css --------- */
