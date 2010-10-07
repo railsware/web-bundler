@@ -26,7 +26,7 @@ module WebResourcePackager
 
       describe "#bundle_files" do
         it "bundle files in one chunk" do
-          result = File.read("/home/gregolsen/result.css")
+          result = File.read(File.join(File.dirname(__FILE__), '../public', 'result.css'))
           @file_packager.bundle_files(@file_urls).should == result
         end
       end
@@ -55,7 +55,6 @@ module WebResourcePackager
         it "creates file bundle file with specific name" do
           @file_packager.create_bundle(Resource::CSS, @@styles)
           filepath = @file_packager.get_bundle_file_path(@file_packager.get_bundle_file_name(Resource::CSS, @@styles))
-          puts filepath
           File.exist?(filepath).should be_true
         end
       end
