@@ -15,7 +15,9 @@ module WebResourcePackager
         block_data.child_blocks << parse_block_with_childs(CONDITIONAL_BLOCK_CONTENT_PTR.match(s)[1], cond)
         s = ""
       end
-      block_data.files = find_files(block)
+      files = find_files(block)
+      block_data.css.add_filenames files[:css]
+      block_data.js.add_filenames files[:js]
       block_data.inline_block = remove_links(block)
       block_data
     end
@@ -28,11 +30,11 @@ module WebResourcePackager
 
     #looking for css and js files included and create BlockFiles with files paths
     def self.find_files(block)
-      files = BlockFiles.new
+      files = {:css => [], :js => []}
       block.scan(/(href|src) *= *["']([^"^'^\?]+)/i).each do |property, value|
         case property
-          when "src" then files.js_files << value
-          when "href" then files.css_files << value
+          when "src" then files[:js] << value
+          when "href" then files[:css] << value
         end
       end
       files

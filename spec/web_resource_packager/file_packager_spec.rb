@@ -3,71 +3,77 @@ require 'digest/md5'
 module WebResourcePackager
   describe FilePackager do
 
-    describe "with correct dirname" do
-
-      before(:each) do
-        @test_dir = File.absolute_path(File.join(File.dirname(__FILE__), "../public"))
-        @settings = Settings.new(@@settings_hash)
-        @file_packager = FilePackager.new @test_dir, @settings
-        @file_urls = ['styles/sample.css', 'styles/temp.css']
-        @file_paths = @file_urls.map do |url|
-          File.join(@test_dir, url)
-        end
-        @bundle = File.read(File.join(File.dirname(__FILE__), '../public/styles/bundle.css'))
+    before(:each) do
+      @file_packager = FilePackager.new @@settings
+      @file_paths = @@styles.map do |url|
+        File.join(@@settings.resource_dir, url)
       end
-
-      describe "#get_absolute_file_path" do
-        it "returns absolute file path using url from css/js/html" do
-          (0...@file_urls.count).each do |i|
-            @file_packager.get_absolute_file_path(@file_urls[i]).should == @file_paths[i]
-          end
-        end
-      end
-
-      describe "#bundle_files" do
-        it "bundle files in one chunk" do
-          result = File.read(File.join(File.dirname(__FILE__), '../public', 'result.css'))
-          @file_packager.bundle_files(@file_urls).should == result
-        end
-      end
-
-      describe "#get_md5" do
-        it "returns md5 from filenames and else additional data" do
-          items = [@@styles, @settings.domen, @settings.protocol]
-          @file_packager.get_md5(@@styles).should == Digest::MD5.hexdigest(items.flatten.join('|'))
-        end
-      end
-
-      describe "#get_bundle_file_name" do
-        it "returns filename of bundle constructed from passed files" do
-          name = Resource::CSS[:name] + '_' + @file_packager.get_md5(@@styles) + '.' + @settings.language + '.' + Resource::CSS[:ext] 
-          @file_packager.get_bundle_file_name(Resource::CSS, @@styles).should == name 
-        end
-      end
-
-      describe "#get_bundle_file_path" do
-        it "returns bundle file path" do
-          @file_packager.get_bundle_file_path(@file_packager.get_bundle_file_name(Resource::CSS, @@styles)).should == File.join(@test_dir, FilePackager::CACHE_DIR,@file_packager.get_bundle_file_name(Resource::CSS, @@styles))   
-        end
-      end
-
-      describe "#create_bundle" do
-        it "creates file bundle file with specific name" do
-          @file_packager.create_bundle(Resource::CSS, @@styles)
-          filepath = @file_packager.get_bundle_file_path(@file_packager.get_bundle_file_name(Resource::CSS, @@styles))
-          File.exist?(filepath).should be_true
-        end
-      end
-
+      @css_resource = ResourceBundle::Data.new(ResourceBundle::CSS, @@styles)
+      @js_resource = ResourceBundle::Data.new(ResourceBundle::JS, @@scripts)
     end
 
-    describe "with incorrect directory passed" do
-      before(:each) do
-        @file_packager = FilePackager.new('incorrect/dir/name', Settings.new)
+    describe "#bundle_resource" do
+      it "creates bundle file from files passed with specific name" do
+        filepath = @file_packager.bundle_resource(@css_resource)
+        File.exist?(filepath).should be_true
+        js_filepath = @file_packager.bundle_resource(@js_resource)
+        File.exist?(js_filepath).should be_true
       end
-
     end
 
+    describe "#bundle_file_path" do
+      it "returns path of bundle file" do
+        path = File.join(@@settings.resource_dir, @@settings.cache_dir, @@res1.bundle_filename(@@settings)) 
+        @file_packager.bundle_file_path(@@res1.bundle_filename(@@settings)).should == path
+      end
+    end
+
+    describe "#file_path" do
+      it "returns resource file path using url from html" do
+        @@res1.files.each do |url|
+          @file_packager.file_path(url).should == File.join(@@settings.resource_dir, url)   
+        end
+      end
+    end
+
+    describe "#resource_exist?" do
+      it "return true if resource with given url exist in resource dir" do
+        @@res1.files.each do |url|
+          @file_packager.resource_exist?(url).should be_true
+        end
+      end
+    end
+
+    describe "#bundle_file_exist?" do
+      it "return true if resource with given url exist in resource dir" do
+        @file_packager.bundle_resource(@css_resource)
+        @file_packager.bundle_file_exist?(@css_resource.bundle_filename(@@settings)).should be_true
+      end
+    end
+
+    describe "#bundle_upto_date?" do
+
+      before(:each) do
+        @file_packager.bundle_resource(@css_resource)
+      end
+
+      it "returns true if bundle file exist and its change date later than change date of each file in bundle" do
+        @file_packager.bundle_upto_date?(@css_resource).should be_true
+      end
+
+      it "returns false if one of resource files was changed" do
+        system("touch #{@file_packager.file_path(@css_resource.files[0])} -m")
+        @file_packager.bundle_upto_date?(@css_resource).should be_false
+      end
+
+      it "returns false if bundle file was deleted" do
+        @file_packager.bundle_upto_date?(@css_resource).should be_true
+        File.delete(@file_packager.bundle_file_path(@css_resource.bundle_filename(@@settings)))
+        @file_packager.bundle_file_exist?(@css_resource.bundle_filename(@@settings)).should be_false
+        @file_packager.bundle_upto_date?(@css_resource).should be_false
+      end
+    end
+    
   end
 end
 

@@ -1,0 +1,3 @@
+module WebResourcePackager
+  
+end
