@@ -54,6 +54,7 @@ module WebResourcePackager
     describe "#bundle_upto_date?" do
 
       before(:each) do
+        sleep 0.1
         @file_packager.bundle_resource(@css_resource)
       end
 
