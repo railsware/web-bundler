@@ -2,7 +2,7 @@
 .my_style{padding:1px;background-image  
 : url( 'images/logo.jpg' )  ;height:300px  ;} 
 
-.another_style{margin:10px;background-image  : url('temp/sdfo.jpg');}
+.another_style{margin:10px;background-image  : url('temp/unexistent_image.jpg');}
 
 .fas
 {
