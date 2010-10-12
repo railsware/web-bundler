@@ -3,8 +3,6 @@ module ImageToCss
     TAGS = ['background-image', 'background']
     SEPARATOR = 'A_SEPARATOR'
     PATTERN = /(#{TAGS.join('|')})\s*:\s*url\(\s*['|"]([^;]*)['|"]\s*\)\s*;/
-    MHTML_FILE_ENDING = "_mhtml"
-    BASE_FILE_ENDING = "_base64"
 
     #get image url from string that matches tag
     def self.get_value(str)
@@ -63,12 +61,6 @@ module ImageToCss
 
     def self.new_filename_for_ie(file, new_ie_filename)
       File.join(File.dirname(file), new_ie_filename) 
-    end
-
-    #this method won't work if another file were encoded in the same directory?
-    #so what it for?
-    def self.already_encoded?(path)
-      /.*#{BASE_FILE_ENDING}\.css\z/.match(path) or /.*#{MHTML_FILE_ENDING}\.css\z/.match(path)
     end
 
     #generates new css file with images encode in base64

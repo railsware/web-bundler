@@ -3,7 +3,7 @@ module ImageToCss
 		#maximum file size allowed to be encoded
 		MAX_SIZE = 1024*10 #10 kbytes
 		MAX_RAND_FOR_ID = 10000
-		attr_reader :extension, :id, :path, :exist, :url, :size
+		attr_reader :extension, :id, :path, :exist, :url
 
 		def initialize(url, folder)
       @url = url
@@ -16,6 +16,10 @@ module ImageToCss
 				@id = name + rand(MAX_RAND_FOR_ID).to_s
 			end
 		end
+
+    def size
+      @size / 1024
+    end
 
 		#constructs part of css header with data for current image
 		def construct_mhtml_image_data(separator)

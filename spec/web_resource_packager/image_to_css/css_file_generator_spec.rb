@@ -33,13 +33,6 @@ module ImageToCss
       end
     end
     
-    describe "#already_encoded?" do
-      it "should return true if file has name similar to encoded files" do
-        CssFileGenerator.already_encoded?("../af/af#{CssFileGenerator::BASE_FILE_ENDING}.css").should be_true
-        CssFileGenerator.already_encoded?("../af/af#{CssFileGenerator::MHTML_FILE_ENDING}.css").should be_true
-      end
-    end
-
     describe "#iterate_through_matches" do
       it "should give strings that matches to pattern" do
         data = File.read(File.join(File.dirname(__FILE__), "../../public/sample.css"))
