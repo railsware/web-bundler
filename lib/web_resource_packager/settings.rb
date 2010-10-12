@@ -4,7 +4,7 @@ module WebResourcePackager
       :domen => 'domen.com',
       :protocol => 'http',
       :language => 'en',
-      :encode_images? => true,
+      :encode_images => true,
       :max_image_size => 23, #kbytes
       :resource_dir => '/public'
     }

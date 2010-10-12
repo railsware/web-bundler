@@ -5,7 +5,7 @@ module WebResourcePackager
   @@settings_hash = {
       :domen => "google.com",
       :language => "en",
-      :encode_images? => true,
+      :encode_images => true,
       :max_image_size => 30,
       :resource_dir => File.join(File.dirname(__FILE__), '/public'),
       :cache_dir => '/cache'

@@ -15,10 +15,6 @@ module ImageToCss
 				@data.encoded.should be_nil
 			end
 			
-			it "should not be small enough" do
-				@data.small_enough?.should_not be_true
-			end
-			
 			it "should not have id and extension" do
 				@data.id.should be_nil
 				@data.extension.should be_nil
@@ -35,10 +31,6 @@ module ImageToCss
 				@data.exist.should be_true
 			end
 
-			it "should be small enough" do
-				@data.should be_small_enough
-			end
-			
 			it "should have id and extension" do
 				@data.id.should_not be_nil
 				@data.extension.should_not be_nil
@@ -66,19 +58,5 @@ module ImageToCss
 				
 		end
 
-		context "with too big image" do
-			before(:each) do
-				@data = ImageData.new("../../public/images/too_big_image.jpg",File.dirname(__FILE__))
-			end
-			it "should be too big" do
-				@data.exist.should be_true		
-				@data.should_not be_small_enough
-			end
-			it "should return nil when encoded" do
-				@data.exist.should be_true		
-				@data.encoded.should be_nil
-			end
-		end
-		
-	end
+  end
 end

@@ -18,7 +18,7 @@ module ImageToCss
     
     describe "#pattern" do
       it "should match with correct original tags" do
-        correct_values = ["#{CssFileGenerator::TAG}:url('temp/image.png');","  #{CssFileGenerator::TAG}\t  :\n  url('temp/image.png') ;"]
+        correct_values = ["#{CssFileGenerator::TAGS[0]}:url('temp/image.png');","  #{CssFileGenerator::TAGS[1]}\t  :\n  url('temp/image.png') ;"]
         correct_values.each do |v|
           v.should match(CssFileGenerator::PATTERN)	
         end
@@ -51,22 +51,24 @@ module ImageToCss
     
     describe "#new_filename" do
       it "should return new filename for css for all browsers except IE" do
-        CssFileGenerator.new_filename("/abc/googligoo/mycss.css").should == "/abc/googligoo/mycss_base64.css"
+        file = "/abc/googligoo/mycss.css"
+        CssFileGenerator.new_filename(file, "mycss.css").should == file
       end
     end
 
     describe "#new_filename_for_ie" do
       it "should return new filename for css for IE" do
-        CssFileGenerator.new_filename_for_ie("/dsaf/fe/2.css").should == "/dsaf/fe/2_mhtml.css"
+        file = "/dsaf/fe/2.css"
+        CssFileGenerator.new_filename_for_ie(file, "ie.2.css").should == "/dsaf/fe/ie.2.css"
       end
     end
 
     describe "#generate" do
       it "should create two files" do
         original = File.join(File.dirname(__FILE__), "/../../public/sample.css")
-        new_file = File.join(File.dirname(__FILE__), "/../../public/sample_base64.css")
-        new_file_for_ie = File.join(File.dirname(__FILE__), "../../public/sample_mhtml.css")
-        CssFileGenerator.generate(original, "domen.com")
+        new_file = File.join(File.dirname(__FILE__), "/../../public/new_sample.css")
+        new_file_for_ie = File.join(File.dirname(__FILE__), "../../public/ie.sample.css")
+        CssFileGenerator.generate(original,"domen.com", 'new_sample.css', 'ie.sample.css', 20, false)
         File.exist?(new_file).should be_true
         File.exist?(new_file_for_ie).should be_true
       end

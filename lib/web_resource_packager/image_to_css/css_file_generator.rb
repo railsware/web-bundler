@@ -1,8 +1,8 @@
 module ImageToCss
   module CssFileGenerator
-    TAG = 'background-image'
+    TAGS = ['background-image', 'background']
     SEPARATOR = 'A_SEPARATOR'
-    PATTERN = /#{TAG}\s*:\s*url\(\s*['|"]([^;]*)['|"]\s*\)\s*;/
+    PATTERN = /(#{TAGS.join('|')})\s*:\s*url\(\s*['|"]([^;]*)['|"]\s*\)\s*;/
     MHTML_FILE_ENDING = "_mhtml"
     BASE_FILE_ENDING = "_base64"
 
@@ -10,7 +10,7 @@ module ImageToCss
     def self.get_value(str)
       match = PATTERN.match(str)
       if match
-        return match[1]
+        return match[2]
       else
         return nil
       end		
@@ -57,12 +57,12 @@ module ImageToCss
       end
     end
     
-    def self.new_filename(file)
-      File.absolute_path(file).sub(/\.css/, BASE_FILE_ENDING + ".css")
+    def self.new_filename(file, new_filename)
+      File.join(File.dirname(file), new_filename)
     end
 
-    def self.new_filename_for_ie(file)
-      File.absolute_path(file).sub(/\.css/, MHTML_FILE_ENDING + ".css")
+    def self.new_filename_for_ie(file, new_ie_filename)
+      File.join(File.dirname(file), new_ie_filename) 
     end
 
     #this method won't work if another file were encoded in the same directory?
@@ -72,7 +72,7 @@ module ImageToCss
     end
 
     #generates new css file with images encode in base64
-    def self.generate(file, domen)
+    def self.generate(file, domen, new_filename, new_ie_filename, max_image_size, ie_only = false)
       css_file = self.read_css_file(file)
       #this hash holds all found unique images that should be encoded (has small size)
       images = {}	
@@ -80,26 +80,28 @@ module ImageToCss
         #changing current dir to css file dir - for images can be found properly
         content = self.iterate_through_matches(css_file, PATTERN) do |s|
           data = ImageData.new(get_value(s), File.dirname(file)) 
-          if data.small_enough? 
+          if data.exist and data.size <= max_image_size
             #using image url as key to prevent one image be encoded many times
             images[data.url] = data unless images[data.path]
-            s.sub!(PATTERN, "*#{TAG}: url(mhtml:#{self.construct_mhtml_link(file,domen)}!#{data.id});")
+            s.sub!(PATTERN, "*#{TAGS[0]}: url(mhtml:#{self.construct_mhtml_link(file,domen)}!#{data.id});")
           else
             #if current image not found (html coder failed with url) we just leave this tag alone
             s.sub!(PATTERN, s)
           end
         end
         #actually generating file with new content
-        self.write_css_file(new_filename_for_ie(file), self.construct_header_for_ie(images) + content)
-        css_file = self.iterate_through_matches(css_file, PATTERN) do |s|
-        	data = images[get_value(s)]
-          if data
-         	  s.sub!(PATTERN, "#{TAG}:url('data:image/#{data.extension};base64,#{data.encoded}');")
-          else
-            s.sub!(PATTERN, s)
+        self.write_css_file(new_filename_for_ie(file, new_ie_filename), self.construct_header_for_ie(images) + content)
+        unless ie_only
+          css_file = self.iterate_through_matches(css_file, PATTERN) do |s|
+            data = images[get_value(s)]
+            if data
+              s.sub!(PATTERN, "#{TAGS[0]}:url('data:image/#{data.extension};base64,#{data.encoded}');")
+            else
+              s.sub!(PATTERN, s)
+            end
           end
+          self.write_css_file(new_filename(file, new_filename), css_file)
         end
-        self.write_css_file(new_filename(file), css_file)
       end
 
     end

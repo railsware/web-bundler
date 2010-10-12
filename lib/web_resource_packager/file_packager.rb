@@ -11,11 +11,6 @@ module WebResourcePackager
       end
     end
 
-    def bundle_block(block_data)
-      bundle_resource block_data.css
-      bundle_resource block_data.js
-    end
-
     def bundle_resource(data)
       path = bundle_file_path(data.bundle_filename(@settings))
       begin
@@ -62,7 +57,7 @@ module WebResourcePackager
     end
 
     def bundle_file_path(filename)
-      File.join(@settings.resource_dir, @settings.cache_dir, filename)
+      File.join(@settings.resource_dir, filename)
     end
 
     def file_path(url)
@@ -79,8 +74,9 @@ module WebResourcePackager
 
     def bundle_upto_date?(data)
       bundle_filename = data.bundle_filename(@settings)
+      bundle_path = bundle_file_path(bundle_filename)
       return false unless bundle_file_exist?(bundle_filename)
-      bundle_date = File.ctime(bundle_file_path(bundle_filename))
+      bundle_date = File.ctime(bundle_path)
       data.files.each do |url|
         return false unless resource_exist?(url) and File.ctime(file_path(url)) < bundle_date
       end

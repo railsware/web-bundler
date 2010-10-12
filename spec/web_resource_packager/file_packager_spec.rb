@@ -23,7 +23,7 @@ module WebResourcePackager
 
     describe "#bundle_file_path" do
       it "returns path of bundle file" do
-        path = File.join(@@settings.resource_dir, @@settings.cache_dir, @@res1.bundle_filename(@@settings)) 
+        path = File.join(@@settings.resource_dir, @@res1.bundle_filename(@@settings)) 
         @file_packager.bundle_file_path(@@res1.bundle_filename(@@settings)).should == path
       end
     end
@@ -45,7 +45,7 @@ module WebResourcePackager
     end
 
     describe "#bundle_file_exist?" do
-      it "return true if resource with given url exist in resource dir" do
+      it "return true if bundle file exist in resource dir" do
         @file_packager.bundle_resource(@css_resource)
         @file_packager.bundle_file_exist?(@css_resource.bundle_filename(@@settings)).should be_true
       end

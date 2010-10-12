@@ -3,7 +3,7 @@ module ImageToCss
 		#maximum file size allowed to be encoded
 		MAX_SIZE = 1024*10 #10 kbytes
 		MAX_RAND_FOR_ID = 10000
-		attr_reader :extension, :id, :path, :exist, :url
+		attr_reader :extension, :id, :path, :exist, :url, :size
 
 		def initialize(url, folder)
       @url = url
@@ -17,14 +17,9 @@ module ImageToCss
 			end
 		end
 
-		def small_enough?
-			return false unless @exist
-			@size <= MAX_SIZE
-		end
-
 		#constructs part of css header with data for current image
 		def construct_mhtml_image_data(separator)
-			if @exist and small_enough?
+			if @exist
 				result = separator + "\n"
 				result += "Content-Location:" + @id + "\n"
 				result +=	"Content-Transfer-Encoding:base64" + "\n"
@@ -34,7 +29,7 @@ module ImageToCss
 
 		def encoded
 			return nil unless @exist
-			Base64.encode64(File.read(@path)).gsub("\n", '') if small_enough? 
+			Base64.encode64(File.read(@path)).gsub("\n", '')
 		end
 	end
 end
