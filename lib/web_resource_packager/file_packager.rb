@@ -10,7 +10,7 @@ module WebResourcePackager
       path = bundle_file_path(data.bundle_filename(@settings))
       begin
         content = bundle_files(data.files)
-        if content
+        if content and not bundle_upto_date?(data)
           File.open(path, "w") do |file|
             file.puts content
           end
