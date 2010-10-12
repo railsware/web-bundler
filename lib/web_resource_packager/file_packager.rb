@@ -4,11 +4,6 @@ module WebResourcePackager
 
     def initialize(settings)
       @settings = settings
-      dir = @settings.resource_dir
-      @cache_dir = File.join(dir, @settings.cache_dir)
-      if Dir.exist?(dir) and not Dir.exist?(@cache_dir)
-        Dir.mkdir(@cache_dir)
-      end
     end
 
     def bundle_resource(data)
