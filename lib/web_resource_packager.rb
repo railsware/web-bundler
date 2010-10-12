@@ -31,7 +31,7 @@ module WebResourcePackager
       if @settings.encode_images
         resource = block_data.css
         file_path = @packager.bundle_file_path(resource.bundle_filename(@settings))
-        ie_only = block_data.condition ? true : false
+        ie_only = block_data.condition.empty? ? true : false
         ImageToCss::CssFileGenerator.generate(file_path, @settings.domen, resource.bundle_filename(@settings), resource.ie_bundle_filename(@settings), @settings.max_image_size, ie_only)
       end
       block_data.child_blocks.each do |block|

@@ -64,7 +64,7 @@ module ImageToCss
     end
 
     #generates new css file with images encode in base64
-    def self.generate(file, domen, new_filename, new_ie_filename, max_image_size, ie_only = false)
+    def self.generate(file, domen, new_filename, new_ie_filename, max_image_size, ie_only)
       css_file = self.read_css_file(file)
       #this hash holds all found unique images that should be encoded (has small size)
       images = {}	
