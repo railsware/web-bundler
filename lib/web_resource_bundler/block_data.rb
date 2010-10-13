@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), 'resource_bundle')
-module WebResourcePackager
+module WebResourceBundler
   class BlockData
     attr_accessor :css, :js, :inline_block, :condition, :child_blocks
 

@@ -1,15 +1,15 @@
 $:.unshift File.dirname(__FILE__)
-require 'web_resource_packager/block_parser'
-require 'web_resource_packager/block_data'
-require 'web_resource_packager/file_packager'
-require 'web_resource_packager/settings'
-require 'web_resource_packager/image_to_css.rb'
+require 'web_resource_bundler/block_parser'
+require 'web_resource_bundler/block_data'
+require 'web_resource_bundler/resource_packager'
+require 'web_resource_bundler/settings'
+require 'web_resource_bundler/image_encode_filter'
 require 'singleton'
-module WebResourcePackager
+module WebResourceBundler
   class Bundler
-    def initialize(settings = WebResourcePackager::Settings.new)
+    def initialize(settings = Settings.new)
       @settings = settings 
-      @packager = WebResourcePackager::FilePackager.new @settings
+      @packager = ResourcePackager.new @settings
     end
 
     def set_settings(hash)
@@ -17,7 +17,7 @@ module WebResourcePackager
     end
 
     def process(block)
-      block_data = WebResourcePackager::BlockParser.parse(block)
+      block_data = BlockParser.parse(block)
       bundle_block_with_childs(block_data)
 
       #processing block files with cdn filters
@@ -32,7 +32,7 @@ module WebResourcePackager
         resource = block_data.css
         file_path = @packager.bundle_file_path(resource.bundle_filename(@settings))
         ie_only = block_data.condition.empty? ? true : false
-        ImageToCss::CssFileGenerator.generate(file_path, @settings.domen, resource.bundle_filename(@settings), resource.ie_bundle_filename(@settings), @settings.max_image_size, ie_only)
+        ImageEncodeFilter::CssGenerator.encode_images(file_path, @settings.domen, resource.bundle_filename(@settings), resource.ie_bundle_filename(@settings), @settings.max_image_size, ie_only)
       end
       block_data.child_blocks.each do |block|
         bundle_block_with_childs(block)

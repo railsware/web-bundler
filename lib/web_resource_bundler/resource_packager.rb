@@ -1,5 +1,5 @@
-module WebResourcePackager
-  class FilePackager
+module WebResourceBundler
+  class ResourcePackager
     IMPORT_PTR = /\@import ['|"](.*?)['|"];/
 
     def initialize(settings)
@@ -77,7 +77,6 @@ module WebResourcePackager
       end
       true
     end
-
     
   end
 end

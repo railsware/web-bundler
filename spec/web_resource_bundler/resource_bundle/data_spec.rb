@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), "../../spec_helper")
-module WebResourcePackager
+module WebResourceBundler
   describe ResourceBundle::Data do
     before(:each) do
       @resource = ResourceBundle::Data.new(ResourceBundle::CSS, @@styles) 

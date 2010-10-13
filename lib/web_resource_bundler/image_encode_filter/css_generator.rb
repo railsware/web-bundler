@@ -1,5 +1,5 @@
-module ImageToCss
-  module CssFileGenerator
+module ImageEncodeFilter
+  module CssGenerator
     TAGS = ['background-image', 'background']
     SEPARATOR = 'A_SEPARATOR'
     PATTERN = /(#{TAGS.join('|')})\s*:\s*url\(\s*['|"]([^;]*)['|"]\s*\)\s*;/
@@ -23,7 +23,7 @@ module ImageToCss
       end
     end
 
-    #iterates through all matches in file and yield block for each match
+    #iterates through all matches in file calling block for each match
     def self.iterate_through_matches(content, pattern)
       content.gsub(pattern) do |s|
         yield s
@@ -63,8 +63,8 @@ module ImageToCss
       File.join(File.dirname(file), new_ie_filename) 
     end
 
-    #generates new css file with images encode in base64
-    def self.generate(file, domen, new_filename, new_ie_filename, max_image_size, ie_only)
+    #generates new css file with images encoded in base64
+    def self.encode_images(file, domen, new_filename, new_ie_filename, max_image_size, ie_only)
       css_file = self.read_css_file(file)
       #this hash holds all found unique images that should be encoded (has small size)
       images = {}	

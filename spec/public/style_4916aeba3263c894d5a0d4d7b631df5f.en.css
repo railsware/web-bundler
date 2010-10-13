@@ -1,5 +1,7 @@
 /* --------- /sample.css --------- */
-/* --------- END /sample.css --------- */
+.test_class {
+  background: url('images/logo.jpg');
+}/* --------- END /sample.css --------- */
 /* --------- /foo.css --------- */
 div {
   margin-top: 10px;

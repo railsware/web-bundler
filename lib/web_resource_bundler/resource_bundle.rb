@@ -1,5 +1,5 @@
 require 'digest/md5'
-module WebResourcePackager
+module WebResourceBundler
   module ResourceBundle
 
     CSS = {:name => 'style', :ext => 'css'}

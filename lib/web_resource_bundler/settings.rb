@@ -1,4 +1,4 @@
-module WebResourcePackager
+module WebResourceBundler
   class Settings
     @@defaults = {
       :domen => 'domen.com',

@@ -1,6 +1,6 @@
 $:.unshift(File.join(File.dirname(__FILE__), "../lib"))
-require 'web_resource_packager'
-module WebResourcePackager
+require 'web_resource_bundler'
+module WebResourceBundler
 
   @@settings_hash = {
       :domen => "google.com",

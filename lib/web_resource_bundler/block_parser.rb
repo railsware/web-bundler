@@ -1,4 +1,4 @@
-module WebResourcePackager
+module WebResourceBundler
   class BlockParser
     CONDITIONAL_BLOCK_PTR = /(\<\!\-\-\s*\[\s*if\s*IE\s*\d*\s*\]\s*\>.*?\<\!\s*\[\s*endif\s*\]\s*\-\-\>)/xmi
     CONDITIONAL_BLOCK_CONTENT_PTR = /\<\!\-\-\s*\[\s*if\s*IE\s*\d*\s*\]\s*\>(.*)?\<\!\s*\[\s*endif\s*\]\s*\-\-\>/xmi
