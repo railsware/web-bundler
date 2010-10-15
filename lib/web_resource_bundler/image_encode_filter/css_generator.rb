@@ -1,4 +1,4 @@
-module ImageEncodeFilter
+module WebResourceBundler::ImageEncodeFilter
   module CssGenerator
     TAGS = ['background-image', 'background']
     SEPARATOR = 'A_SEPARATOR'

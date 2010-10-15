@@ -1,4 +1,4 @@
-module WebResourceBundler
+module WebResourceBundler::BundleFilter
   class ResourcePackager
     IMPORT_PTR = /\@import ['|"](.*?)['|"];/
 

@@ -3,8 +3,8 @@ module WebResourceBundler
   describe Bundler do
     describe "#process" do
       it "process block" do
-        bundler = Bundler.new(@@settings)
-        bundler.process sample_block
+        bundler = Bundler.new(@settings)
+        bundler.process @sample_block_helper.sample_block
       end
     end
   end

@@ -1,15 +1,16 @@
-$:.unshift File.dirname(__FILE__)
-require 'web_resource_bundler/block_parser'
-require 'web_resource_bundler/block_data'
-require 'web_resource_bundler/resource_packager'
-require 'web_resource_bundler/settings'
-require 'web_resource_bundler/image_encode_filter'
+$:.unshift File.join(File.dirname(__FILE__), 'web_resource_bundler')
+require 'block_parser'
+require 'block_data'
+require 'settings'
+require 'resource_bundle'
+require 'bundle_filter'
+require 'image_encode_filter'
 require 'singleton'
 module WebResourceBundler
   class Bundler
     def initialize(settings = Settings.new)
       @settings = settings 
-      @packager = ResourcePackager.new @settings
+      @packager = BundleFilter::ResourcePackager.new @settings
     end
 
     def set_settings(hash)

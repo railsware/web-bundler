@@ -1,15 +1,13 @@
-require File.join(File.dirname(__FILE__), "../spec_helper")
+require File.join(File.dirname(__FILE__), "../../spec_helper")
 require 'digest/md5'
-module WebResourceBundler
-  describe ResourcePackager do
-
+describe WebResourceBundler::BundleFilter::ResourcePackager do
     before(:each) do
-      @file_packager = ResourcePackager.new @@settings
-      @file_paths = @@styles.map do |url|
-        File.join(@@settings.resource_dir, url)
+      @file_packager = BundleFilter::ResourcePackager.new @settings
+      @file_paths = @styles.map do |url|
+        File.join(@settings.resource_dir, url)
       end
-      @css_resource = ResourceBundle::Data.new(ResourceBundle::CSS, @@styles)
-      @js_resource = ResourceBundle::Data.new(ResourceBundle::JS, @@scripts)
+      @css_resource = ResourceBundle::Data.new(ResourceBundle::CSS, @styles)
+      @js_resource = ResourceBundle::Data.new(ResourceBundle::JS, @scripts)
     end
 
     describe "#bundle_resource" do
@@ -23,22 +21,22 @@ module WebResourceBundler
 
     describe "#bundle_file_path" do
       it "returns path of bundle file" do
-        path = File.join(@@settings.resource_dir, @@res1.bundle_filename(@@settings)) 
-        @file_packager.bundle_file_path(@@res1.bundle_filename(@@settings)).should == path
+        path = File.join(@settings.resource_dir, @css_resource.bundle_filename(@settings)) 
+        @file_packager.bundle_file_path(@css_resource.bundle_filename(@settings)).should == path
       end
     end
 
     describe "#file_path" do
       it "returns resource file path using url from html" do
-        @@res1.files.each do |url|
-          @file_packager.file_path(url).should == File.join(@@settings.resource_dir, url)   
+        @styles.each do |url|
+          @file_packager.file_path(url).should == File.join(@settings.resource_dir, url)   
         end
       end
     end
 
     describe "#resource_exist?" do
       it "return true if resource with given url exist in resource dir" do
-        @@res1.files.each do |url|
+        @styles.each do |url|
           @file_packager.resource_exist?(url).should be_true
         end
       end
@@ -47,7 +45,7 @@ module WebResourceBundler
     describe "#bundle_file_exist?" do
       it "return true if bundle file exist in resource dir" do
         @file_packager.bundle_resource(@css_resource)
-        @file_packager.bundle_file_exist?(@css_resource.bundle_filename(@@settings)).should be_true
+        @file_packager.bundle_file_exist?(@css_resource.bundle_filename(@settings)).should be_true
       end
     end
 
@@ -69,12 +67,11 @@ module WebResourceBundler
 
       it "returns false if bundle file was deleted" do
         @file_packager.bundle_upto_date?(@css_resource).should be_true
-        File.delete(@file_packager.bundle_file_path(@css_resource.bundle_filename(@@settings)))
-        @file_packager.bundle_file_exist?(@css_resource.bundle_filename(@@settings)).should be_false
+        File.delete(@file_packager.bundle_file_path(@css_resource.bundle_filename(@settings)))
+        @file_packager.bundle_file_exist?(@css_resource.bundle_filename(@settings)).should be_false
         @file_packager.bundle_upto_date?(@css_resource).should be_false
       end
     end
     
   end
-end
 

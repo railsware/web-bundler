@@ -1,6 +1,9 @@
-require File.join(File.dirname(__FILE__), "/../../spec_helper")
-module ImageEncodeFilter
+require File.join(File.dirname(__FILE__), "../../spec_helper")
+module WebResourceBundler::ImageEncodeFilter
 	describe ImageData do
+    def image_path(filename)
+      File.join("/images", filename)
+    end
 		context "with non existent file" do
 
 			before(:each) do
@@ -24,7 +27,7 @@ module ImageEncodeFilter
 
 		context "with existent small enough file" do
 			before(:each) do
-				@data = ImageData.new("../../public/images/logo.jpg",File.dirname(__FILE__))
+				@data = ImageData.new(image_path("logo.jpg"), @settings.resource_dir)
 			end
 			
 			it "should exist" do
@@ -41,7 +44,7 @@ module ImageEncodeFilter
 			end
 
 			it "should have unique id" do
-				new_data = ImageData.new("../../public/images/good.jpg",File.dirname(__FILE__))
+				new_data = ImageData.new(image_path("good.jpg"), @settings.resource_dir)
 				new_data.exist.should be_true
 				@data.id.should_not equal(new_data.id)
   		end

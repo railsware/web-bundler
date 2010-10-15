@@ -1,4 +1,4 @@
-module ImageEncodeFilter
+module WebResourceBundler::ImageEncodeFilter
 	class ImageData
 		#maximum file size allowed to be encoded
 		MAX_SIZE = 1024*10 #10 kbytes

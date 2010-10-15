@@ -4,11 +4,11 @@ module WebResourceBundler
 
     describe "#remove_links" do
       it "deletes all links to resources (js, css) from block" do
-        block = construct_links_block(@@styles, @@scripts)
-        block += sample_inline_block
-        block += construct_links_block(@@styles, @@scripts)
-        block += sample_inline_block
-        BlockParser.remove_links(block).should == sample_inline_block + sample_inline_block
+        block = @sample_block_helper.construct_links_block(@styles, @scripts)
+        block += @sample_block_helper.sample_inline_block
+        block += @sample_block_helper.construct_links_block(@styles, @scripts)
+        block += @sample_block_helper.sample_inline_block
+        BlockParser.remove_links(block).should == @sample_block_helper.sample_inline_block + @sample_block_helper.sample_inline_block
       end
     end
 
@@ -32,9 +32,9 @@ module WebResourceBundler
       end
 
       it "return BlockData with all content and child inline blocks" do
-        block_data = BlockParser.parse(sample_block)
-        compare_block_datas(block_data, sample_block_data)
-        compare_block_datas(block_data.child_blocks[0], sample_block_data.child_blocks[0])
+        block_data = BlockParser.parse(@sample_block_helper.sample_block)
+        compare_block_datas(block_data, @sample_block_helper.sample_block_data)
+        compare_block_datas(block_data.child_blocks[0], @sample_block_helper.sample_block_data.child_blocks[0])
       end
 
     end
@@ -42,9 +42,9 @@ module WebResourceBundler
     describe "#find_files" do
     
       it "returns list of css and js files linked in block" do
-        result = BlockParser.find_files(construct_links_block(@@styles, @@scripts))
-        (result[:css]- @@styles).should be_empty
-        (result[:js]- @@scripts).should be_empty
+        result = BlockParser.find_files(@sample_block_helper.construct_links_block(@styles, @scripts))
+        (result[:css]- @styles).should be_empty
+        (result[:js]- @scripts).should be_empty
       end
 
     end

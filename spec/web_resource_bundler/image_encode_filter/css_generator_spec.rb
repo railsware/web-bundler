@@ -1,5 +1,5 @@
-require File.join(File.dirname(__FILE__), "/../../spec_helper")
-module ImageEncodeFilter
+require File.join(File.dirname(__FILE__), "../../spec_helper")
+module WebResourceBundler::ImageEncodeFilter
   describe CssGenerator do
     describe "#read_css_file" do
       it "should return nil if file not exist" do
@@ -7,7 +7,7 @@ module ImageEncodeFilter
       end		
 
       it "should return file content if file exist and has css extension" do
-        CssGenerator.read_css_file(File.join(File.dirname(__FILE__), "../../public/sample.css")).should_not be_nil
+        CssGenerator.read_css_file(File.join(@settings.resource_dir, "sample.css")).should_not be_nil
       end
 
       it "should return nil even if file exist but hasn't css extension" do
@@ -35,7 +35,7 @@ module ImageEncodeFilter
     
     describe "#iterate_through_matches" do
       it "should give strings that matches to pattern" do
-        data = File.read(File.join(File.dirname(__FILE__), "../../public/sample.css"))
+        data = File.read(File.join(@settings.resource_dir, "sample.css"))
         CssGenerator.iterate_through_matches(data, CssGenerator::PATTERN) do |s|
           s.should match(CssGenerator::PATTERN)
         end
@@ -58,9 +58,9 @@ module ImageEncodeFilter
 
     describe "#encode_images" do
       it "should create two files" do
-        original = File.join(File.dirname(__FILE__), "/../../public/sample.css")
-        new_file = File.join(File.dirname(__FILE__), "/../../public/new_sample.css")
-        new_file_for_ie = File.join(File.dirname(__FILE__), "../../public/ie.sample.css")
+        original = File.join(@settings.resource_dir, "sample.css")
+        new_file = File.join(@settings.resource_dir, "new_sample.css")
+        new_file_for_ie = File.join(@settings.resource_dir, "ie.sample.css")
         CssGenerator.encode_images(original,"domen.com", 'new_sample.css', 'ie.sample.css', 20, false)
         File.exist?(new_file).should be_true
         File.exist?(new_file_for_ie).should be_true
@@ -70,7 +70,7 @@ module ImageEncodeFilter
     describe "#construct_mhtml_link" do
       it "should create link without public folder" do
         domen = "domen.com"
-        CssGenerator.construct_mhtml_link(File.join(File.dirname(__FILE__), "../../public/temp.css"), domen).should == "http://domen.com/temp.css"
+        CssGenerator.construct_mhtml_link(File.join(@settings.resource_dir, "temp.css"), domen).should == "http://domen.com/temp.css"
       end
     end
   end

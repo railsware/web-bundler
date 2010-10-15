@@ -1,40 +1,38 @@
 require 'digest/md5'
-module WebResourceBundler
-  module ResourceBundle
+module WebResourceBundler::ResourceBundle
 
-    CSS = {:name => 'style', :ext => 'css'}
-    JS = {:name => 'script', :ext => 'js'}
-    
-    class Data
-      attr_reader :files, :type, :bundle_filename, :paths
+  CSS = {:name => 'style', :ext => 'css'}
+  JS = {:name => 'script', :ext => 'js'}
+  
+  class Data
+    attr_reader :files, :type, :bundle_filename, :paths
 
-      def initialize(type, filenames = [])
-        @type = type
-        @files = filenames
-        @bundle_filename = ''
-      end
-
-      def add_filenames(filenames)
-        @files += filenames
-      end
-
-      def get_md5(settings)
-        items = [@files, settings.domen, settings.protocol]
-        Digest::MD5.hexdigest(items.flatten.join('|'))
-      end
-
-      def bundle_filename(settings)
-        if @bundle_filename.empty? and not @files.empty?
-          items = [@type[:name] + '_' + get_md5(settings), settings.language, @type[:ext]]
-          @bundle_filename = items.join('.') 
-        end
-       @bundle_filename 
-      end
-
-      def ie_bundle_filename(settings)
-        'ie.' + bundle_filename(settings)
-      end
-
+    def initialize(type, filenames = [])
+      @type = type
+      @files = filenames
+      @bundle_filename = ''
     end
+
+    def add_filenames(filenames)
+      @files += filenames
+    end
+
+    def get_md5(settings)
+      items = [@files, settings.domen, settings.protocol]
+      Digest::MD5.hexdigest(items.flatten.join('|'))
+    end
+
+    def bundle_filename(settings)
+      if @bundle_filename.empty? and not @files.empty?
+        items = [@type[:name] + '_' + get_md5(settings), settings.language, @type[:ext]]
+        @bundle_filename = items.join('.') 
+      end
+     @bundle_filename 
+    end
+
+    def ie_bundle_filename(settings)
+      'ie.' + bundle_filename(settings)
+    end
+
   end
 end

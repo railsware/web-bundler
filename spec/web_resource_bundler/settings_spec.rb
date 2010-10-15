@@ -3,13 +3,13 @@ module WebResourceBundler
   describe Settings do
     
     before(:each) do
-      @s = Settings.new(@@settings_hash)
+      @s = Settings.new(@settings_hash)
     end
 
     it "should contain proper defaults after initialization" do
-      @@settings_hash.each_key do |k|
-        @s[k].should == @@settings_hash[k] 
-        @s.send(k).should == @@settings_hash[k]
+      @settings_hash.each_key do |k|
+        @s[k].should == @settings_hash[k] 
+        @s.send(k).should == @settings_hash[k]
       end
     end
 
@@ -19,8 +19,8 @@ module WebResourceBundler
     end
 
     it "returns values while calling keys as methods" do
-      @@settings_hash.each_key do |k|
-        @s.send(k).should == @@settings_hash[k]
+      @settings_hash.each_key do |k|
+        @s.send(k).should == @settings_hash[k]
       end
     end
 
@@ -31,9 +31,9 @@ module WebResourceBundler
 
     describe "#set" do
       it "merges current settings with passed hash" do
-        @@settings_hash[:domen] = "new_value"
+        @settings_hash[:domen] = "new_value"
         @s.set({:domen => "new_value"})
-        @@settings_hash.each do |k, v|
+        @settings_hash.each do |k, v|
           @s.send(k).should == v 
         end
       end
