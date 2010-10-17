@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), 'resource_bundle')
 module WebResourceBundler
   class BlockData
-    attr_accessor :css, :js, :inline_block, :condition, :child_blocks
+    attr_accessor :css, :js, :inline_block, :condition, :child_blocks, :bundled, :result_files
 
     def initialize(condition = "")
       @inline_block = ""
@@ -9,6 +9,19 @@ module WebResourceBundler
       @js = ResourceBundle::Data.new ResourceBundle::JS
       @condition = condition
       @child_blocks = []
+      @bundled = false
+      @result_files = css.files + js.files
+    end
+
+    def apply_filters(filters)
+      unless filters.empty?
+        filters.each do |filter|
+          filter.apply(self)
+        end      
+        @child_blocks.each do |b|
+          b.apply_filters filters  
+        end
+      end
     end
 
   end

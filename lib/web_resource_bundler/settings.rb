@@ -6,7 +6,8 @@ module WebResourceBundler
       :language => 'en',
       :encode_images => true,
       :max_image_size => 23, #kbytes
-      :resource_dir => '/public'
+      :resource_dir => '/public',
+      :cache_dir => '/public/cache'
     }
 
     def initialize(hash = {})

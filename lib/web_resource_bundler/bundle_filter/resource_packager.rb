@@ -4,6 +4,10 @@ module WebResourceBundler::BundleFilter
 
     def initialize(settings)
       @settings = settings
+      path = File.join(settings.resource_dir, settings.cache_dir)
+      unless Dir.exist?(path)
+        Dir.mkdir(path)
+      end
     end
 
     def bundle_resource(data)
@@ -15,7 +19,7 @@ module WebResourceBundler::BundleFilter
             file.puts content
           end
         end
-        return path
+        return File.join(@settings.cache_dir, File.basename(path))
       rescue
         return nil
         #something went wrong here
@@ -23,9 +27,6 @@ module WebResourceBundler::BundleFilter
     end
 
     #recursively iterates through all files and imported files
-    #yielding content of each file if block provided
-    #could be used to rewrite images urls and encode images with base64
-    #directly to css file
     def bundle_files(urls = [])
       output = ""
       urls.each do |url|
@@ -42,7 +43,8 @@ module WebResourceBundler::BundleFilter
             result = ""
           end
           output << bundle_files(imported_files)
-          output << (block_given? ? yield(file_path, content) : content)
+          content = BundleFilter::CssUrlRewriter.rewrite_content_urls(url, content) if File.extname(file_path) == '.css' 
+          output << content
           output << "/* --------- END #{url} --------- */\n"
         rescue 
           return nil
@@ -52,7 +54,7 @@ module WebResourceBundler::BundleFilter
     end
 
     def bundle_file_path(filename)
-      File.join(@settings.resource_dir, filename)
+      File.join(@settings.resource_dir, @settings.cache_dir, filename)
     end
 
     def file_path(url)

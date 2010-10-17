@@ -1,17 +1,20 @@
-require File.join(File.dirname(__FILE__), "../../spec_helper")
+require File.absolute_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 module WebResourceBundler::ImageEncodeFilter
   describe CssGenerator do
+    before(:each) do
+      @generator = CssGenerator.new @settings
+    end
     describe "#read_css_file" do
       it "should return nil if file not exist" do
-        CssGenerator.read_css_file("NonExistentFile.css").should be_nil
+        @generator.read_css_file("NonExistentFile.css").should be_nil
       end		
 
       it "should return file content if file exist and has css extension" do
-        CssGenerator.read_css_file(File.join(@settings.resource_dir, "sample.css")).should_not be_nil
+        @generator.read_css_file(@styles.first).should_not be_nil
       end
 
       it "should return nil even if file exist but hasn't css extension" do
-        CssGenerator.read_css_file(File.absolute_path(__FILE__)).should be_nil
+        @generator.read_css_file(__FILE__).should be_nil
       end	
 
     end
@@ -33,44 +36,59 @@ module WebResourceBundler::ImageEncodeFilter
       end
     end
     
-    describe "#iterate_through_matches" do
-      it "should give strings that matches to pattern" do
-        data = File.read(File.join(@settings.resource_dir, "sample.css"))
-        CssGenerator.iterate_through_matches(data, CssGenerator::PATTERN) do |s|
-          s.should match(CssGenerator::PATTERN)
+    describe "#encode_images_basic" do
+
+      before(:each) do
+        @content = "background-image: url('images/logo.jpg'); background: url(\"non_existent.jpg\");"
+        @images = @generator.encode_images_basic(@content) do |image_data|
+          image_data.extension
         end
-      end 
+      end
+
+      it "substitute each image tag (image should exist and has proper size) with result of a yield" do
+        @content.should == "jpg background: url(\"non_existent.jpg\");"
+      end
+
+      it "returns hash of images found and with proper size" do
+        @images.count.should == 1
+        @images['images/logo.jpg'].should be_an_instance_of(ImageData)
+      end
+
     end
     
     describe "#new_filename" do
       it "should return new filename for css for all browsers except IE" do
-        file = "/abc/googligoo/mycss.css"
-        CssGenerator.new_filename(file, "mycss.css").should == file
+        filename = "mycss.css"
+        @generator.encoded_filename(filename).should == CssGenerator::FILE_PREFIX + filename
       end
     end
 
     describe "#new_filename_for_ie" do
       it "should return new filename for css for IE" do
-        file = "/dsaf/fe/2.css"
-        CssGenerator.new_filename_for_ie(file, "ie.2.css").should == "/dsaf/fe/ie.2.css"
+        filename = "2.css"
+        @generator.encoded_filename_for_ie(filename).should == CssGenerator::IE_FILE_PREFIX + filename
       end
     end
 
     describe "#encode_images" do
-      it "should create two files" do
-        original = File.join(@settings.resource_dir, "sample.css")
-        new_file = File.join(@settings.resource_dir, "new_sample.css")
-        new_file_for_ie = File.join(@settings.resource_dir, "ie.sample.css")
-        CssGenerator.encode_images(original,"domen.com", 'new_sample.css', 'ie.sample.css', 20, false)
-        File.exist?(new_file).should be_true
-        File.exist?(new_file_for_ie).should be_true
+      it "creates file in cache dir with new name" do
+        file = @styles.first
+        fileurl = @generator.encode_images(file)
+        File.exist?(File.join(@settings.resource_dir,fileurl)).should be_true
+      end
+    end
+    
+    describe "#encode_images_for_ie" do
+      it "creates file in cache dir with new name and content for IE browser" do
+        file = @styles.first
+        fileurl = @generator.encode_images_for_ie(file)
+        File.exist?(File.join(@settings.resource_dir, fileurl)).should be_true
       end
     end
 
     describe "#construct_mhtml_link" do
       it "should create link without public folder" do
-        domen = "domen.com"
-        CssGenerator.construct_mhtml_link(File.join(@settings.resource_dir, "temp.css"), domen).should == "http://domen.com/temp.css"
+        @generator.construct_mhtml_link("temp.css").should == "http://#{@settings.domen}/cache/temp.css"
       end
     end
   end

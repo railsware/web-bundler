@@ -1,11 +1,21 @@
 module WebResourceBundler::ImageEncodeFilter
-  module CssGenerator
+  class CssGenerator
     TAGS = ['background-image', 'background']
     SEPARATOR = 'A_SEPARATOR'
     PATTERN = /(#{TAGS.join('|')})\s*:\s*url\(\s*['|"]([^;]*)['|"]\s*\)\s*;/
+    FILE_PREFIX = 'base64_'
+    IE_FILE_PREFIX = 'base64_ie_'
+
+    def initialize(settings)
+      @settings = settings
+      path = File.join(@settings.resource_dir, @settings.cache_dir)
+      unless Dir.exist?(path)
+        Dir.mkdir(path)
+      end
+    end
 
     #get image url from string that matches tag
-    def self.get_value(str)
+    def get_value(str)
       match = PATTERN.match(str)
       if match
         return match[2]
@@ -15,23 +25,34 @@ module WebResourceBundler::ImageEncodeFilter
     end
     
     #checks if file exists and has css extension, if so - reads whole file in string
-    def self.read_css_file(filename)
-      if File.exist?(filename) and File.extname(filename) == ".css"
-        File.read(filename) 
+    def read_css_file(file)
+      path = File.join(@settings.resource_dir, file)
+      if File.exist?(path) and File.extname(path) == ".css"
+        File.read(path) 
       else
         nil
       end
     end
 
     #iterates through all matches in file calling block for each match
-    def self.iterate_through_matches(content, pattern)
-      content.gsub(pattern) do |s|
-        yield s
+    def encode_images_basic(content)
+      images = {}
+      content.gsub!(PATTERN) do |s|
+        data = ImageData.new(get_value(s), @settings.resource_dir) 
+        if data.exist and data.size <= @settings.max_image_size and block_given?
+          #using image url as key to prevent one image be encoded many times
+          images[data.url] = data unless images[data.path]
+          s.sub!(PATTERN, yield(data))
+        else
+          #if current image not found (html coder failed with url) we just leave this tag alone
+          s.sub!(PATTERN, s)
+        end
       end
+      images
     end
     
     #construct head of css file with definition of image data in base64
-    def self.construct_header_for_ie(images)
+    def construct_header_for_ie(images)
       result = ""
       unless images.empty?
         result += "/*" + "\n"
@@ -44,58 +65,53 @@ module WebResourceBundler::ImageEncodeFilter
       result
     end
 
-    def self.construct_mhtml_link(file, domen)
-      web_path = File.absolute_path(file).split("/public/")[-1]
-      "http://#{domen + '/' + web_path}"
+    def construct_mhtml_link(filename)
+      "http://#{File.join(@settings.domen, @settings.cache_dir, filename)}"
     end
 
-    def self.write_css_file(filename, file_content)
-      File.open(filename, "w") do |file|
-        file.write file_content
+    def write_css_file(filename, file_content)
+      begin
+        path = File.join(@settings.resource_dir, @settings.cache_dir, filename)
+        File.open(path, "w") do |file|
+          file.write file_content
+        end
+        return true
+      rescue
+        return false
       end
     end
     
-    def self.new_filename(file, new_filename)
-      File.join(File.dirname(file), new_filename)
+    def encoded_filename(filename)
+      FILE_PREFIX + filename
     end
 
-    def self.new_filename_for_ie(file, new_ie_filename)
-      File.join(File.dirname(file), new_ie_filename) 
+    def encoded_filename_for_ie(filename)
+      IE_FILE_PREFIX + filename
     end
 
-    #generates new css file with images encoded in base64
-    def self.encode_images(file, domen, new_filename, new_ie_filename, max_image_size, ie_only)
-      css_file = self.read_css_file(file)
-      #this hash holds all found unique images that should be encoded (has small size)
-      images = {}	
-      if css_file
-        #changing current dir to css file dir - for images can be found properly
-        content = self.iterate_through_matches(css_file, PATTERN) do |s|
-          data = ImageData.new(get_value(s), File.dirname(file)) 
-          if data.exist and data.size <= max_image_size
-            #using image url as key to prevent one image be encoded many times
-            images[data.url] = data unless images[data.path]
-            s.sub!(PATTERN, "*#{TAGS[0]}: url(mhtml:#{self.construct_mhtml_link(file,domen)}!#{data.id});")
-          else
-            #if current image not found (html coder failed with url) we just leave this tag alone
-            s.sub!(PATTERN, s)
-          end
+    #generates css file for IE with encoded images using mhtml in resource dir
+    def encode_images_for_ie(file)
+      if css_file = read_css_file(file)
+        new_filename = encoded_filename_for_ie(File.basename(file))
+        images = encode_images_basic(css_file) do |image_data|
+          "*#{TAGS[0]}: url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id});"
         end
         #actually generating file with new content
-        self.write_css_file(new_filename_for_ie(file, new_ie_filename), self.construct_header_for_ie(images) + content)
-        unless ie_only
-          css_file = self.iterate_through_matches(css_file, PATTERN) do |s|
-            data = images[get_value(s)]
-            if data
-              s.sub!(PATTERN, "#{TAGS[0]}:url('data:image/#{data.extension};base64,#{data.encoded}');")
-            else
-              s.sub!(PATTERN, s)
-            end
-          end
-          self.write_css_file(new_filename(file, new_filename), css_file)
-        end
+        done = write_css_file(new_filename, construct_header_for_ie(images) + css_file) unless images.empty?
       end
-
+      done ? File.join(@settings.cache_dir, new_filename) : file
+    end
+    
+    #generates css file with encoded images in resource dir 
+    def encode_images(file)
+      if css_file = read_css_file(file)
+        new_filename = encoded_filename(File.basename(file))
+        images = encode_images_basic(css_file) do |image_data|
+            "#{TAGS[0]}:url('data:image/#{image_data.extension};base64,#{image_data.encoded}');"
+        end
+        done = write_css_file(new_filename, css_file) unless images.empty?
+      end
+      done ? File.join(@settings.cache_dir, new_filename) : file
     end
 
   end

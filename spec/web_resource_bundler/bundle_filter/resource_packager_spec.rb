@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "../../spec_helper")
+require File.absolute_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 require 'digest/md5'
 describe WebResourceBundler::BundleFilter::ResourcePackager do
     before(:each) do
@@ -13,16 +13,18 @@ describe WebResourceBundler::BundleFilter::ResourcePackager do
     describe "#bundle_resource" do
       it "creates bundle file from files passed with specific name" do
         filepath = @file_packager.bundle_resource(@css_resource)
-        File.exist?(filepath).should be_true
-        js_filepath = @file_packager.bundle_resource(@js_resource)
-        File.exist?(js_filepath).should be_true
+        File.exist?(File.join(@settings.resource_dir, filepath)).should be_true
+      end
+      it "creates bundle file containing all files content" do
+        pending
       end
     end
 
     describe "#bundle_file_path" do
       it "returns path of bundle file" do
-        path = File.join(@settings.resource_dir, @css_resource.bundle_filename(@settings)) 
-        @file_packager.bundle_file_path(@css_resource.bundle_filename(@settings)).should == path
+        name = "sample_file.css"
+        path = File.join(@settings.resource_dir, @settings.cache_dir, name) 
+        @file_packager.bundle_file_path(name).should == path
       end
     end
 
