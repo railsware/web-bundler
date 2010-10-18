@@ -33,3 +33,9 @@ h1 { font-family: sans-serif }
 background-image: url('/images/too_big_image.jpg');
 }
 /* --------- END /temp.css --------- */
+/* --------- /styles/boo.css --------- */
+.funky_class
+{
+  background-image: url('/images/logo.jpg');
+}
+/* --------- END /styles/boo.css --------- */

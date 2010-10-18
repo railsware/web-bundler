@@ -10,6 +10,12 @@ end
 Spec::Runner.configure do |config|
   config.before(:all) do
     config.mock_with :rspec
+    
+    @styles = ["/sample.css","/foo.css", "/temp.css", "/styles/boo.css"]
+    @scripts = ["/set_cookies.js", "/seal.js", "/salog20.js", "/marketing.js"]
+    @sample_block_helper = SampleBlockHelper.new(@styles, @scripts)
+  end
+  config.before(:each) do
     @settings_hash = {
         :domen => "google.com",
         :language => "en",
@@ -19,9 +25,6 @@ Spec::Runner.configure do |config|
         :bundle_files => true,
         :cache_dir => '/cache'
       }
-    @styles = ["/sample.css","/foo.css", "/temp.css", "/styles/boo.css"]
-    @scripts = ["/set_cookies.js", "/seal.js", "/salog20.js", "/marketing.js"]
     @settings = Settings.new @settings_hash
-    @sample_block_helper = SampleBlockHelper.new(@styles, @scripts)
   end
 end
