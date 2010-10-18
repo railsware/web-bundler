@@ -4,6 +4,7 @@ require 'block_data'
 require 'settings'
 require 'resource_bundle'
 require 'bundle_filter'
+require 'file_manager'
 require 'image_encode_filter'
 require 'singleton'
 module WebResourceBundler

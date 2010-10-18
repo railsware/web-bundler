@@ -4,6 +4,7 @@ module WebResourceBundler::BundleFilter
 
     def initialize(settings)
       @settings = settings
+      @file_manager = WebResourceBundler::FileManager.new @settings
       path = File.join(settings.resource_dir, settings.cache_dir)
       unless Dir.exist?(path)
         Dir.mkdir(path)
@@ -11,15 +12,16 @@ module WebResourceBundler::BundleFilter
     end
 
     def bundle_resource(data)
-      path = bundle_file_path(data.bundle_filename(@settings))
+      bundle_url = File.join(@settings.cache_dir, data.bundle_filename(@settings)) 
+      path = @file_manager.full_path(bundle_url)
       begin
         content = bundle_files(data.files)
-        if content and not bundle_upto_date?(data)
+        if content and not @file_manager.bundle_upto_date?(bundle_url, data.files)
           File.open(path, "w") do |file|
             file.puts content
           end
         end
-        return File.join(@settings.cache_dir, File.basename(path))
+        return bundle_url 
       rescue
         return nil
         #something went wrong here
@@ -32,7 +34,7 @@ module WebResourceBundler::BundleFilter
       urls.each do |url|
         output << "/* --------- #{url} --------- */\n"
         begin
-          file_path = file_path(url)
+          file_path = @file_manager.full_path(url)
           content = File.read(file_path)
           imported_files = []
           content.gsub!(IMPORT_PTR).each do |result|
@@ -43,7 +45,7 @@ module WebResourceBundler::BundleFilter
             result = ""
           end
           output << bundle_files(imported_files)
-          content = BundleFilter::CssUrlRewriter.rewrite_content_urls(url, content) if File.extname(file_path) == '.css' 
+          content = WebResourceBundler::CssUrlRewriter.rewrite_content_urls(url, content) if File.extname(file_path) == '.css' 
           output << content
           output << "/* --------- END #{url} --------- */\n"
         rescue 
@@ -57,28 +59,9 @@ module WebResourceBundler::BundleFilter
       File.join(@settings.resource_dir, @settings.cache_dir, filename)
     end
 
-    def file_path(url)
-      File.join(@settings.resource_dir, url)  
-    end
-
-    def resource_exist?(url)
-      File.exist?(file_path(url)) ? true : false
-    end
-
     def bundle_file_exist?(filename)
       File.exist?(bundle_file_path(filename)) ? true : false
     end
 
-    def bundle_upto_date?(data)
-      bundle_filename = data.bundle_filename(@settings)
-      bundle_path = bundle_file_path(bundle_filename)
-      return false unless bundle_file_exist?(bundle_filename)
-      bundle_date = File.ctime(bundle_path)
-      data.files.each do |url|
-        return false unless resource_exist?(url) and File.ctime(file_path(url)) < bundle_date
-      end
-      true
-    end
-    
   end
 end
