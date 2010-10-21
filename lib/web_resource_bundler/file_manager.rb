@@ -26,5 +26,12 @@ module WebResourceBundler
       File.ctime full_path(url) if exist?(url)
     end
 
+    def create_cache_dir
+      path = File.join(@settings.resource_dir, @settings.cache_dir)
+      unless Dir.exist?(path)
+        Dir.mkdir(path)
+      end
+    end
+
   end
 end

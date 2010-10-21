@@ -9,12 +9,8 @@ module WebResourceBundler::BundleFilter
     end
 
     def apply(block_data)
-      result_files = []
-      result_files << @packager.bundle_resource(block_data.css)
-      result_files << @packager.bundle_resource(block_data.js)
-      #marking block data as bundled to tell subsequent filters what files to operate
-      block_data.bundled = true
-      block_data.result_files = result_files
+      block_data.css.files = [@packager.bundle_resource(block_data.css)]
+      block_data.js.files = [@packager.bundle_resource(block_data.js)]
     end
 
   end

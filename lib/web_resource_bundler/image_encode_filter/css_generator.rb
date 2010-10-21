@@ -9,10 +9,8 @@ module WebResourceBundler::ImageEncodeFilter
     #creates cache dir if it doesn't exist
     def initialize(settings)
       @settings = settings
-      path = File.join(@settings.resource_dir, @settings.cache_dir)
-      unless Dir.exist?(path)
-        Dir.mkdir(path)
-      end
+      @file_manager = FileManager.new settings
+      @file_manager.create_cache_dir
     end
 
     #get image url from string that matches tag
@@ -27,7 +25,7 @@ module WebResourceBundler::ImageEncodeFilter
     
     #checks if file exists and has css extension, if so - reads whole file in string
     def read_css_file(file)
-      path = File.join(@settings.resource_dir, file)
+      path = @file_manager.full_path(file)
       if File.exist?(path) and File.extname(path) == ".css"
         File.read(path) 
       else
@@ -75,7 +73,7 @@ module WebResourceBundler::ImageEncodeFilter
 
     def write_css_file(filename, file_content)
       begin
-        path = File.join(@settings.resource_dir, @settings.cache_dir, filename)
+        path = @file_manager.full_path(File.join(@settings.cache_dir, filename))
         File.open(path, "w") do |file|
           file.write file_content
         end
@@ -98,6 +96,7 @@ module WebResourceBundler::ImageEncodeFilter
     #generates css file for IE with encoded images using mhtml in cache dir
     def encode_images_for_ie(file)
       if css_file = read_css_file(file)
+        content = CssUrlRewriter.rewrite_content_urls(file, css_file)
         new_filename = encoded_filename_for_ie(File.basename(file))
         images = encode_images_basic(css_file) do |image_data|
           "*#{TAGS[0]}: url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id});"
@@ -112,6 +111,7 @@ module WebResourceBundler::ImageEncodeFilter
     #generates css file with encoded images in cache dir 
     def encode_images(file)
       if css_file = read_css_file(file)
+        content = CssUrlRewriter.rewrite_content_urls(file, css_file)
         new_filename = encoded_filename(File.basename(file))
         images = encode_images_basic(css_file) do |image_data|
             "#{TAGS[0]}:url('data:image/#{image_data.extension};base64,#{image_data.encoded}');"

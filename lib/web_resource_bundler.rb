@@ -7,6 +7,7 @@ require 'bundle_filter'
 require 'file_manager'
 require 'image_encode_filter'
 require 'singleton'
+require 'block_constructor'
 module WebResourceBundler
   class Bundler
     def initialize(settings = Settings.new)

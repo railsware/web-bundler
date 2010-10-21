@@ -16,8 +16,8 @@ module WebResourceBundler
         s = ""
       end
       files = find_files(block)
-      block_data.css.add_filenames files[:css]
-      block_data.js.add_filenames files[:js]
+      block_data.css.files = files[:css]
+      block_data.js.files = files[:js]
       block_data.inline_block = remove_links(block)
       block_data
     end

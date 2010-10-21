@@ -18,10 +18,4 @@ describe WebResourceBundler::ResourceBundle::Data do
     end
   end
 
-  describe "#add_filenames" do
-    it "adds filenames to data files" do
-      @resource.add_filenames ['new-file.css']
-      @resource.files.include?('new-file.css').should be_true
-    end
-  end
 end

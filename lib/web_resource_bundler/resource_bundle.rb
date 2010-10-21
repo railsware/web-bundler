@@ -5,16 +5,13 @@ module WebResourceBundler::ResourceBundle
   JS = {:name => 'script', :ext => 'js'}
   
   class Data
-    attr_reader :files, :type, :bundle_filename, :paths
+    attr_reader :type, :bundle_filename, :paths
+    attr_accessor :files
 
     def initialize(type, filenames = [])
       @type = type
       @files = filenames
       @bundle_filename = ''
-    end
-
-    def add_filenames(filenames)
-      @files += filenames
     end
 
     def get_md5(settings)
