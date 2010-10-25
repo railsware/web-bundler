@@ -32,7 +32,7 @@ class WebResourceBundler::CssUrlRewriter
     # url(/stylesheets/../images/active_scaffold/default/add.gif);
     # url('/images/active_scaffold/default/add.gif');
     def rewrite_content_urls(filename, content)
-      content.gsub!(/url\s*\(['|"]([^\)]+)['|"]\)/) { "url('#{rewrite_relative_path(filename, $1)}')" }
+      content.gsub!(/url\s*\(['|"]?([^\)'"]+)['|"]?\)/) { "url('#{rewrite_relative_path(filename, $1)}')" }
       content
     end
     

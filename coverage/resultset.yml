@@ -1,0 +1,2368 @@
+--- 
+RSpec: 
+  :original_result: 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 0
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/block_parser.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 6
+    - 6
+    - 2
+    - 2
+    - 2
+    - 2
+    - 
+    - 6
+    - 6
+    - 6
+    - 6
+    - 6
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 24
+    - 12
+    - 12
+    - 
+    - 
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 4
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/block_data.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 
+    - 
+    - 1
+    - 4
+    - 4
+    - 4
+    - 
+    - 4
+    - 2
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/resource_bundle.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 79
+    - 79
+    - 79
+    - 
+    - 
+    - 1
+    - 16
+    - 16
+    - 
+    - 
+    - 1
+    - 19
+    - 13
+    - 13
+    - 
+    - 19
+    - 
+    - 
+    - 1
+    - 0
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/settings.rb: 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 62
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 9
+    - 
+    - 
+    - 1
+    - 0
+    - 
+    - 
+    - 1
+    - 471
+    - 1
+    - 
+    - 470
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/bundle_filter.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 5
+    - 
+    - 
+    - 1
+    - 5
+    - 5
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/bundle_filter/resource_packager.rb: 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 9
+    - 9
+    - 9
+    - 9
+    - 2
+    - 
+    - 
+    - 
+    - 1
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 8
+    - 8
+    - 
+    - 
+    - 12
+    - 
+    - 0
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 54
+    - 54
+    - 42
+    - 42
+    - 42
+    - 42
+    - 42
+    - 42
+    - 6
+    - 6
+    - 6
+    - 
+    - 6
+    - 
+    - 42
+    - 42
+    - 42
+    - 42
+    - 
+    - 0
+    - 
+    - 
+    - 54
+    - 
+    - 
+    - 1
+    - 2
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/css_url_rewriter.rb: 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 57
+    - 
+    - 57
+    - 57
+    - 
+    - 
+    - 57
+    - 86
+    - 15
+    - 
+    - 71
+    - 
+    - 
+    - 
+    - 57
+    - 
+    - 57
+    - 57
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 90
+    - 38
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/file_manager.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 31
+    - 
+    - 
+    - 1
+    - 15
+    - 6
+    - 6
+    - 17
+    - 
+    - 5
+    - 
+    - 
+    - 1
+    - 154
+    - 
+    - 
+    - 1
+    - 57
+    - 
+    - 
+    - 1
+    - 23
+    - 
+    - 
+    - 1
+    - 16
+    - 16
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/image_encode_filter.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 3
+    - 3
+    - 
+    - 
+    - 1
+    - 3
+    - 3
+    - 3
+    - 4
+    - 4
+    - 3
+    - 
+    - 
+    - 3
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/image_encode_filter/image_data.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 44
+    - 44
+    - 44
+    - 44
+    - 22
+    - 22
+    - 
+    - 22
+    - 
+    - 
+    - 
+    - 1
+    - 16
+    - 
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 16
+    - 15
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/image_encode_filter/css_generator.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 15
+    - 15
+    - 15
+    - 
+    - 
+    - 
+    - 1
+    - 35
+    - 35
+    - 35
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 12
+    - 12
+    - 10
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 11
+    - 11
+    - 35
+    - 35
+    - 
+    - 16
+    - 16
+    - 
+    - 
+    - 19
+    - 
+    - 
+    - 11
+    - 
+    - 
+    - 
+    - 1
+    - 4
+    - 4
+    - 4
+    - 4
+    - 4
+    - 6
+    - 
+    - 4
+    - 
+    - 4
+    - 
+    - 
+    - 1
+    - 9
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 7
+    - 
+    - 0
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 5
+    - 
+    - 
+    - 
+    - 1
+    - 6
+    - 
+    - 
+    - 
+    - 1
+    - 5
+    - 5
+    - 5
+    - 5
+    - 8
+    - 
+    - 
+    - 5
+    - 
+    - 
+    - 5
+    - 
+    - 
+    - 
+    - 1
+    - 4
+    - 4
+    - 4
+    - 4
+    - 6
+    - 
+    - 
+    - 4
+    - 
+    - 
+    - 4
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/block_constructor.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 3
+    - 
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    - 
+    - 2
+    - 2
+    - 2
+    - 
+    - 2
+    - 2
+    - 1
+    - 
+    - 2
+    - 1
+    - 
+    - 2
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/sample_block_helper.rb: 
+    - 1
+    - 1
+    - 38
+    - 38
+    - 
+    - 
+    - 1
+    - 20
+    - 
+    - 
+    - 1
+    - 20
+    - 
+    - 
+    - 1
+    - 
+    - 22
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 20
+    - 
+    - 7
+    - 20
+    - 
+    - 7
+    - 
+    - 
+    - 1
+    - 
+    - 2
+    - 
+    - 2
+    - 
+    - 
+    - 1
+    - 2
+    - 2
+    - 2
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/image_encode_filter/filter_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 3
+    - 3
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/image_encode_filter/css_generator_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 12
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 2
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 2
+    - 2
+    - 2
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/image_encode_filter/image_data_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 6
+    - 
+    - 1
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 5
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/web_resource_bundler_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/block_constructor_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 0
+    - 0
+    - 0
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/css_url_rewriter_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 5
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/block_data_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/file_manager_spec.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 21
+    - 21
+    - 
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 
+    - 1
+    - 7
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/bundle_filter/filter_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 2
+    - 2
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/bundle_filter/resource_packager_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 4
+    - 4
+    - 16
+    - 
+    - 4
+    - 4
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/settings_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 5
+    - 
+    - 
+    - 1
+    - 1
+    - 7
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 7
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/block_parser_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  :created_at: 2010-10-25 19:46:34.318263 +03:00
+/usr/local/bin/spec .: 
+  :original_result: 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 0
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/block_parser.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 6
+    - 6
+    - 2
+    - 2
+    - 2
+    - 
+    - 6
+    - 6
+    - 6
+    - 6
+    - 6
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 24
+    - 12
+    - 12
+    - 
+    - 
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 4
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/block_data.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 
+    - 
+    - 1
+    - 4
+    - 4
+    - 4
+    - 
+    - 4
+    - 2
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/resource_bundle.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 79
+    - 79
+    - 79
+    - 
+    - 
+    - 1
+    - 16
+    - 16
+    - 
+    - 
+    - 1
+    - 19
+    - 13
+    - 13
+    - 
+    - 19
+    - 
+    - 
+    - 1
+    - 0
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/settings.rb: 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 61
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 9
+    - 
+    - 
+    - 1
+    - 0
+    - 
+    - 
+    - 1
+    - 471
+    - 1
+    - 
+    - 470
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/bundle_filter.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 5
+    - 
+    - 
+    - 1
+    - 5
+    - 5
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/bundle_filter/resource_packager.rb: 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 9
+    - 9
+    - 9
+    - 9
+    - 2
+    - 
+    - 
+    - 
+    - 1
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 8
+    - 8
+    - 
+    - 
+    - 12
+    - 
+    - 0
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 54
+    - 54
+    - 42
+    - 42
+    - 42
+    - 42
+    - 42
+    - 42
+    - 6
+    - 6
+    - 6
+    - 
+    - 6
+    - 
+    - 42
+    - 42
+    - 42
+    - 42
+    - 
+    - 0
+    - 
+    - 
+    - 54
+    - 
+    - 
+    - 1
+    - 2
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/css_url_rewriter.rb: 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 57
+    - 
+    - 57
+    - 57
+    - 
+    - 
+    - 57
+    - 86
+    - 15
+    - 
+    - 71
+    - 
+    - 
+    - 
+    - 57
+    - 
+    - 57
+    - 57
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 90
+    - 38
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/file_manager.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 31
+    - 
+    - 
+    - 1
+    - 15
+    - 6
+    - 6
+    - 17
+    - 
+    - 5
+    - 
+    - 
+    - 1
+    - 154
+    - 
+    - 
+    - 1
+    - 57
+    - 
+    - 
+    - 1
+    - 23
+    - 
+    - 
+    - 1
+    - 16
+    - 16
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/image_encode_filter.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 3
+    - 3
+    - 
+    - 
+    - 1
+    - 3
+    - 3
+    - 3
+    - 4
+    - 4
+    - 3
+    - 
+    - 
+    - 3
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/image_encode_filter/image_data.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 44
+    - 44
+    - 44
+    - 44
+    - 22
+    - 22
+    - 
+    - 22
+    - 
+    - 
+    - 
+    - 1
+    - 16
+    - 
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 16
+    - 15
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/image_encode_filter/css_generator.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 15
+    - 15
+    - 15
+    - 
+    - 
+    - 
+    - 1
+    - 35
+    - 35
+    - 35
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 12
+    - 12
+    - 10
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 11
+    - 11
+    - 35
+    - 35
+    - 
+    - 16
+    - 16
+    - 
+    - 
+    - 19
+    - 
+    - 
+    - 11
+    - 
+    - 
+    - 
+    - 1
+    - 4
+    - 4
+    - 4
+    - 4
+    - 4
+    - 6
+    - 
+    - 4
+    - 
+    - 4
+    - 
+    - 
+    - 1
+    - 9
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 7
+    - 
+    - 0
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 5
+    - 
+    - 
+    - 
+    - 1
+    - 6
+    - 
+    - 
+    - 
+    - 1
+    - 5
+    - 5
+    - 5
+    - 5
+    - 8
+    - 
+    - 
+    - 5
+    - 
+    - 
+    - 5
+    - 
+    - 
+    - 
+    - 1
+    - 4
+    - 4
+    - 4
+    - 4
+    - 6
+    - 
+    - 
+    - 4
+    - 
+    - 
+    - 4
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/lib/web_resource_bundler/block_constructor.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 3
+    - 
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    - 
+    - 2
+    - 2
+    - 2
+    - 
+    - 2
+    - 2
+    - 1
+    - 
+    - 2
+    - 1
+    - 
+    - 2
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/sample_block_helper.rb: 
+    - 1
+    - 1
+    - 37
+    - 37
+    - 
+    - 
+    - 1
+    - 20
+    - 
+    - 
+    - 1
+    - 20
+    - 
+    - 
+    - 1
+    - 
+    - 22
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 20
+    - 
+    - 7
+    - 20
+    - 
+    - 7
+    - 
+    - 
+    - 1
+    - 
+    - 2
+    - 
+    - 2
+    - 
+    - 
+    - 1
+    - 2
+    - 2
+    - 2
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/image_encode_filter/filter_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 3
+    - 3
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/image_encode_filter/css_generator_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 12
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 2
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 2
+    - 2
+    - 2
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/image_encode_filter/image_data_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 6
+    - 
+    - 1
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 5
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/web_resource_bundler_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/block_constructor_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 0
+    - 0
+    - 0
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/css_url_rewriter_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 5
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/block_data_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/file_manager_spec.rb: 
+    - 1
+    - 1
+    - 
+    - 1
+    - 21
+    - 21
+    - 
+    - 
+    - 
+    - 1
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 7
+    - 
+    - 
+    - 1
+    - 7
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 3
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/bundle_filter/filter_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 2
+    - 2
+    - 
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/bundle_filter/resource_packager_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 4
+    - 4
+    - 16
+    - 
+    - 4
+    - 4
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/settings_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 5
+    - 
+    - 
+    - 1
+    - 1
+    - 7
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 7
+    - 
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 7
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    /home/gregolsen/projects/web-bundler/spec/web_resource_bundler/block_parser_spec.rb: 
+    - 1
+    - 1
+    - 1
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    - 
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 1
+    - 
+    - 1
+    - 1
+    - 1
+    - 1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  :created_at: 2010-10-25 18:02:32.233996 +03:00

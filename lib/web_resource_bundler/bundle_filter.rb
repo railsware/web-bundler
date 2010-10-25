@@ -9,8 +9,8 @@ module WebResourceBundler::BundleFilter
     end
 
     def apply(block_data)
-      block_data.css.files = [@packager.bundle_resource(block_data.css)]
-      block_data.js.files = [@packager.bundle_resource(block_data.js)]
+      block_data.css.files = [@packager.bundle_resource(block_data.css)] unless block_data.css.files.empty?
+      block_data.js.files = [@packager.bundle_resource(block_data.js)] unless block_data.js.files.empty?
     end
 
   end

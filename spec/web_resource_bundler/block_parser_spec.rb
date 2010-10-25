@@ -2,6 +2,15 @@ require File.absolute_path(File.join(File.dirname(__FILE__), "../spec_helper"))
 module WebResourceBundler
   describe BlockParser do
 
+    #pattern testing
+    it "matches with different conditional comments" do
+      tests = ['<!--[if lte IE 7]>...<![endif]-->','<!--[if !(IE 7)]>...<![endif]-->',
+        '<!--[if IE]>...<![endif]-->']
+      tests.each do |test|
+        BlockParser::CONDITIONAL_BLOCK_PTR.match(test).should be_true
+      end
+    end
+
     describe "#remove_links" do
       it "deletes all links to resources (js, css) from block" do
         block = @sample_block_helper.construct_links_block(@styles, @scripts)
@@ -23,7 +32,7 @@ module WebResourceBundler
         data.css.files.should be_empty
         data.js.files.should be_empty
       end
-      
+
       def compare_block_datas(a,b)
         (a.css.files - b.css.files).should be_empty
         (a.js.files - b.js.files).should be_empty

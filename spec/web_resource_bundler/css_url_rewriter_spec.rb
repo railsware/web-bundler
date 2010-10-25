@@ -17,8 +17,8 @@ describe WebResourceBundler::CssUrlRewriter do
   end
   describe "#rewrite_content_urls" do
     it "rewrites all urls in css block" do
-      css = "abracada: url\t('../image.gif'); \n backaground-image: url(\"../../image.gif\");"
-      result = "abracada: url('\/styles\/image.gif'); \n backaground-image: url('\/image.gif');"
+      css = "abracada: url\t('../image.gif'); \n backaground-image: url(\"../../image.gif\");background: url(./i/backgrounds/menu.png) repeat-x 0 100%; }"
+      result = "abracada: url('\/styles\/image.gif'); \n backaground-image: url('\/image.gif');background: url('/styles/skin/i/backgrounds/menu.png') repeat-x 0 100%; }"
       CssUrlRewriter.rewrite_content_urls("/styles/skin/1.css", css).should == result
     end
   end

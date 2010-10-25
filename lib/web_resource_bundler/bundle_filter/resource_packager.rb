@@ -5,26 +5,28 @@ module WebResourceBundler::BundleFilter
     def initialize(settings)
       @settings = settings
       @file_manager = WebResourceBundler::FileManager.new @settings
-      path = File.join(settings.resource_dir, settings.cache_dir)
+      path = File.join(@settings.resource_dir, @settings.cache_dir)
       unless Dir.exist?(path)
         Dir.mkdir(path)
       end
     end
 
     def bundle_resource(data)
-      bundle_url = File.join(@settings.cache_dir, data.bundle_filename(@settings)) 
-      path = @file_manager.full_path(bundle_url)
-      begin
-        content = bundle_files(data.files)
-        if content and not @file_manager.bundle_upto_date?(bundle_url, data.files)
-          File.open(path, "w") do |file|
-            file.puts content
+      unless data.files.empty?
+        bundle_url = File.join(@settings.cache_dir, data.bundle_filename(@settings)) 
+        path = @file_manager.full_path(bundle_url)
+        begin
+          content = bundle_files(data.files)
+          if content and not @file_manager.bundle_upto_date?(bundle_url, data.files)
+            File.open(path, "w") do |file|
+              file.puts content
+            end
           end
+          return bundle_url 
+        rescue
+          return nil
+          #something went wrong here
         end
-        return bundle_url 
-      rescue
-        return nil
-        #something went wrong here
       end
     end
 
@@ -40,7 +42,7 @@ module WebResourceBundler::BundleFilter
           content.gsub!(IMPORT_PTR).each do |result|
             imported_file = IMPORT_PTR.match(result)[1]
             if imported_file
-              imported_files << imported_file
+              imported_files << File.join(File.dirname(url), imported_file)
             end
             result = ""
           end

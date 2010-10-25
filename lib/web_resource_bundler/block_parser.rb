@@ -1,7 +1,6 @@
 module WebResourceBundler
   class BlockParser
-    CONDITIONAL_BLOCK_PTR = /(\<\!\-\-\s*\[\s*if\s*IE\s*\d*\s*\]\s*\>.*?\<\!\s*\[\s*endif\s*\]\s*\-\-\>)/xmi
-    CONDITIONAL_BLOCK_CONTENT_PTR = /\<\!\-\-\s*\[\s*if\s*IE\s*\d*\s*\]\s*\>(.*)?\<\!\s*\[\s*endif\s*\]\s*\-\-\>/xmi
+    CONDITIONAL_BLOCK_PTR = /\<\!\-\-\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*\>(.*?)\<\!\s*\[\s*endif\s*\]\s*\-\-\>/xmi
     CONDITION_PTR = /\<\!\-\-\s*(\[[^<]*\])\s*\>/
     LINK_PTR = /(\<(link|script[^>]*?src\s*=).*?(\>\<\/script\>|\>))/ 
 
@@ -11,8 +10,9 @@ module WebResourceBundler
     def self.parse_block_with_childs(block, condition)
       block_data = BlockData.new(condition)
       block.gsub!(CONDITIONAL_BLOCK_PTR) do |s|
-        cond = CONDITION_PTR.match(s)[1]
-        block_data.child_blocks << parse_block_with_childs(CONDITIONAL_BLOCK_CONTENT_PTR.match(s)[1], cond)
+        new_block = CONDITIONAL_BLOCK_PTR.match(s)[1]
+        new_condition = CONDITION_PTR.match(s)[1]
+        block_data.child_blocks << parse_block_with_childs(new_block, new_condition)
         s = ""
       end
       files = find_files(block)

@@ -7,7 +7,7 @@ module WebResourceBundler
       :encode_images => true,
       :max_image_size => 23, #kbytes
       :resource_dir => '/public',
-      :cache_dir => '/public/cache'
+      :cache_dir => '/cache'
     }
 
     def initialize(hash = {})

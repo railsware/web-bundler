@@ -11,7 +11,7 @@ require 'block_constructor'
 module WebResourceBundler
   class Bundler
     def initialize(settings = Settings.new)
-      @settings = settings 
+      @settings = Settings.new settings 
     end
 
     def set_settings(hash)
@@ -24,9 +24,9 @@ module WebResourceBundler
       filters << BundleFilter::Filter.new(@settings)
       block_data.apply_filters(filters)
 
+      return BlockConstructor.construct_block(block_data)
       #processing block files with cdn filters
       
-      #construct_output_block(block_data)
     end
 
   end
