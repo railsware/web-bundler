@@ -1,5 +1,5 @@
-require 'simplecov'
-SimpleCov.start
+# require 'simplecov'
+# SimpleCov.start
 require File.join(File.dirname(__FILE__), "../lib/web_resource_bundler")
 require 'fileutils'
 require File.join(File.dirname(__FILE__), 'sample_block_helper')

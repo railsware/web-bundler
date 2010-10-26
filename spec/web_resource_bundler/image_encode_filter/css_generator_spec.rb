@@ -1,4 +1,4 @@
-require File.absolute_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 module WebResourceBundler::ImageEncodeFilter
   describe CssGenerator do
     before(:each) do
@@ -50,7 +50,7 @@ module WebResourceBundler::ImageEncodeFilter
       end
 
       it "returns hash of images found and with proper size" do
-        @images.count.should == 1
+        @images.size.should == 1
         @images['images/logo.jpg'].should be_an_instance_of(ImageData)
       end
 

@@ -1,4 +1,4 @@
-require File.absolute_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 require 'digest/md5'
 describe WebResourceBundler::BundleFilter::ResourcePackager do
     before(:each) do

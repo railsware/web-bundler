@@ -30,21 +30,21 @@ class SampleBlockHelper
 
   def sample_cond_block
     "<!-- [if IE 7] >" +
-    construct_links_block(@styles[(@styles.count / 2)..-1], @scripts[(@styles.count / 2)..-1]) +
+    construct_links_block(@styles[(@styles.size / 2)..-1], @scripts[(@styles.size / 2)..-1]) +
     sample_inline_block +
     "<! [endif] -->"
   end
 
   def sample_block
-    block = construct_links_block(@styles[0..(@styles.count / 2 - 1)], @scripts[0..(@styles.count / 2 - 1)]) + "\n"
+    block = construct_links_block(@styles[0..(@styles.size / 2 - 1)], @scripts[0..(@styles.size / 2 - 1)]) + "\n"
     block += sample_inline_block
     block += sample_cond_block
   end
 
   def sample_block_data
     data = BlockData.new
-    data.css = ResourceBundle::Data.new(ResourceBundle::CSS, @styles[0..(@styles.count / 2)])
-    data.js = ResourceBundle::Data.new(ResourceBundle::JS, @scripts[0..(@styles.count / 2)])
+    data.css = ResourceBundle::Data.new(ResourceBundle::CSS, @styles[0..(@styles.size / 2)])
+    data.js = ResourceBundle::Data.new(ResourceBundle::JS, @scripts[0..(@styles.size / 2)])
     data.inline_block = sample_inline_block
     data.child_blocks << child_block_data
     data

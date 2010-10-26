@@ -6,7 +6,7 @@ module WebResourceBundler::BundleFilter
       @settings = settings
       @file_manager = WebResourceBundler::FileManager.new @settings
       path = File.join(@settings.resource_dir, @settings.cache_dir)
-      unless Dir.exist?(path)
+      unless File.exist?(path)
         Dir.mkdir(path)
       end
     end

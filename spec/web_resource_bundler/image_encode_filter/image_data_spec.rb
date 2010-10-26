@@ -1,4 +1,4 @@
-require File.absolute_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 module WebResourceBundler::ImageEncodeFilter
 	describe ImageData do
     def image_path(filename)
