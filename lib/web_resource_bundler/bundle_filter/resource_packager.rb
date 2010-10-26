@@ -39,7 +39,7 @@ module WebResourceBundler::BundleFilter
           file_path = @file_manager.full_path(url)
           content = File.read(file_path)
           imported_files = []
-          content.gsub!(IMPORT_PTR).each do |result|
+          content.gsub!(IMPORT_PTR) do |result|
             imported_file = IMPORT_PTR.match(result)[1]
             if imported_file
               imported_files << File.join(File.dirname(url), imported_file)
