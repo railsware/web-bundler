@@ -16,7 +16,7 @@ describe WebResourceBundler::FileManager do
     @file2_url = 'temp/temp2.dat'
     @file2_path = File.join(@settings.resource_dir, @file2_url)
     create_stub_file(@file2_url) 
-    sleep 0.1
+    sleep 0.3
     @bundle_url = 'temp/bundle.dat'
     @bundle_path = File.join(@settings.resource_dir, @bundle_url)
     create_stub_file(@bundle_url)

@@ -23,7 +23,7 @@ module WebResourceBundler
     end
 
     def access_time(url)
-      File.ctime full_path(url) if exist?(url)
+      File.ctime(full_path(url)).to_f if exist?(url)
     end
 
     def create_cache_dir
