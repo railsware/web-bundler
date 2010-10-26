@@ -1,4 +1,4 @@
-require File.absolute_path(File.join(File.dirname(__FILE__), "../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../spec_helper"))
 module WebResourceBundler
   describe BlockParser do
 
@@ -36,7 +36,7 @@ module WebResourceBundler
       def compare_block_datas(a,b)
         (a.css.files - b.css.files).should be_empty
         (a.js.files - b.js.files).should be_empty
-        a.child_blocks.count.should == b.child_blocks.count
+        a.child_blocks.size.should == b.child_blocks.size
         a.condition.should == b.condition
       end
 

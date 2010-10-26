@@ -1,4 +1,4 @@
-require File.absolute_path(File.join(File.dirname(__FILE__), "/../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "/../spec_helper"))
 describe WebResourceBundler::BlockConstructor do
   describe "#construct_css_link" do
     it "constructs proper html link to css file" do

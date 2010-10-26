@@ -1,4 +1,4 @@
-require File.absolute_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 describe WebResourceBundler::BundleFilter::Filter do
   before(:each) do
     clean_cache_dir
@@ -6,7 +6,7 @@ describe WebResourceBundler::BundleFilter::Filter do
   end
 
   it "creates cache dir on initialization" do
-    Dir.exist?(File.join(@settings.resource_dir, @settings.cache_dir)).should be_true
+    File.exist?(File.join(@settings.resource_dir, @settings.cache_dir)).should be_true
   end
 
   describe "#apply" do

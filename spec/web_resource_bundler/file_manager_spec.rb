@@ -9,7 +9,7 @@ describe WebResourceBundler::FileManager do
 
   before(:each) do
     temp_dir = File.join(@settings.resource_dir, 'temp')
-    Dir.mkdir(temp_dir) unless Dir.exist?(temp_dir)
+    Dir.mkdir(temp_dir) unless File.exist?(temp_dir)
     @file1_url = 'temp/temp1.dat'
     @file1_path = File.join(@settings.resource_dir, @file1_url)
     create_stub_file(@file1_url)
@@ -32,7 +32,7 @@ describe WebResourceBundler::FileManager do
       dir_path = File.join(@settings.resource_dir, @settings.cache_dir)
       FileUtils.rm_rf(dir_path)
       @manager.create_cache_dir
-      Dir.exist?(dir_path).should == true
+      File.exist?(dir_path).should == true
     end
   end
   

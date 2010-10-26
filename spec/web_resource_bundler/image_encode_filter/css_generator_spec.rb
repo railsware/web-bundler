@@ -1,4 +1,4 @@
-require File.absolute_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 module WebResourceBundler::ImageEncodeFilter
   describe CssGenerator do
     before(:each) do
@@ -50,7 +50,7 @@ module WebResourceBundler::ImageEncodeFilter
       end
 
       it "returns hash of images found and with proper size" do
-        @images.count.should == 1
+        @images.size.should == 1
         @images['images/logo.jpg'].should be_an_instance_of(ImageData)
       end
 
@@ -88,7 +88,7 @@ module WebResourceBundler::ImageEncodeFilter
 
     describe "#construct_mhtml_link" do
       it "should create link without public folder" do
-        @generator.construct_mhtml_link("temp.css").should == "http://#{@settings.domen}/cache/temp.css"
+        @generator.construct_mhtml_link("temp.css").should == "http://#{@settings.domain}/cache/temp.css"
       end
     end
   end

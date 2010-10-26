@@ -28,7 +28,7 @@ module WebResourceBundler
 
     def create_cache_dir
       path = File.join(@settings.resource_dir, @settings.cache_dir)
-      unless Dir.exist?(path)
+      unless File.exist?(path)
         Dir.mkdir(path)
       end
     end

@@ -1,4 +1,4 @@
-require File.absolute_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 describe WebResourceBundler::ImageEncodeFilter::Filter do
   before(:each) do
     @file_prefix = ImageEncodeFilter::CssGenerator::FILE_PREFIX

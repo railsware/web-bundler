@@ -1,7 +1,7 @@
 module WebResourceBundler
   class Settings
     @@defaults = {
-      :domen => 'domen.com',
+      :domain => 'domain.com',
       :protocol => 'http',
       :language => 'en',
       :encode_images => true,
@@ -27,6 +27,7 @@ module WebResourceBundler
     end
 
     def method_missing(m, *args, &block)
+      m=m.to_s
       if /.*=\z/.match(m)
         @settings[m[0..-2].to_sym] = args[0] 
       else

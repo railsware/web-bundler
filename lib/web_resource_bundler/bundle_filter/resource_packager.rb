@@ -6,7 +6,7 @@ module WebResourceBundler::BundleFilter
       @settings = settings
       @file_manager = WebResourceBundler::FileManager.new @settings
       path = File.join(@settings.resource_dir, @settings.cache_dir)
-      unless Dir.exist?(path)
+      unless File.exist?(path)
         Dir.mkdir(path)
       end
     end
@@ -23,9 +23,9 @@ module WebResourceBundler::BundleFilter
             end
           end
           return bundle_url 
-        rescue
-          return nil
-          #something went wrong here
+        # rescue
+        #   return nil
+        #   #something went wrong here
         end
       end
     end
@@ -39,7 +39,7 @@ module WebResourceBundler::BundleFilter
           file_path = @file_manager.full_path(url)
           content = File.read(file_path)
           imported_files = []
-          content.gsub!(IMPORT_PTR).each do |result|
+          content.gsub!(IMPORT_PTR) do |result|
             imported_file = IMPORT_PTR.match(result)[1]
             if imported_file
               imported_files << File.join(File.dirname(url), imported_file)
@@ -50,8 +50,8 @@ module WebResourceBundler::BundleFilter
           content = WebResourceBundler::CssUrlRewriter.rewrite_content_urls(url, content) if File.extname(file_path) == '.css' 
           output << content
           output << "/* --------- END #{url} --------- */\n"
-        rescue 
-          return nil
+        # rescue 
+        #   return nil
         end
       end
       output

@@ -1,5 +1,5 @@
-require 'simplecov'
-SimpleCov.start
+# require 'simplecov'
+# SimpleCov.start
 require File.join(File.dirname(__FILE__), "../lib/web_resource_bundler")
 require 'fileutils'
 require File.join(File.dirname(__FILE__), 'sample_block_helper')
@@ -19,7 +19,7 @@ Spec::Runner.configure do |config|
   end
   config.before(:each) do
     @settings_hash = {
-        :domen => "google.com",
+        :domain => "google.com",
         :language => "en",
         :encode_images => true,
         :max_image_size => 30,
