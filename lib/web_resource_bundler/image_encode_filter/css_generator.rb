@@ -78,8 +78,8 @@ module WebResourceBundler::ImageEncodeFilter
           file.write file_content
         end
         return true
-      rescue
-        return false
+      # rescue
+      #   return false
       end
     end
     
