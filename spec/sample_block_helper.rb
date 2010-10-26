@@ -60,3 +60,7 @@ class SampleBlockHelper
 
 end
 
+
+def clean_public_folder
+  FileUtils.rm_rf(File.join(@settings.resource_dir,'/*'))
+end

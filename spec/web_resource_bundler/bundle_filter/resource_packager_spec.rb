@@ -2,6 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 require 'digest/md5'
 describe WebResourceBundler::BundleFilter::ResourcePackager do
     before(:each) do
+      clean_public_folder
       @file_packager = BundleFilter::ResourcePackager.new @settings
       @file_paths = @styles.map do |url|
         File.join(@settings.resource_dir, url)
