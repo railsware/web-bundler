@@ -68,7 +68,7 @@ module WebResourceBundler::ImageEncodeFilter
     end
 
     def construct_mhtml_link(filename)
-      "http://#{File.join(@settings.domen, @settings.cache_dir, filename)}"
+      "http://#{File.join(@settings.domain, @settings.cache_dir, filename)}"
     end
 
     def write_css_file(filename, file_content)

@@ -14,8 +14,8 @@ module WebResourceBundler
     end
 
     it "should set proper values using unexistent setters" do
-      @s.domen = "new_domen"
-      @s[:domen].should == "new_domen"
+      @s.domain = "new_domain"
+      @s[:domain].should == "new_domain"
     end
 
     it "returns values while calling keys as methods" do
@@ -31,8 +31,8 @@ module WebResourceBundler
 
     describe "#set" do
       it "merges current settings with passed hash" do
-        @settings_hash[:domen] = "new_value"
-        @s.set({:domen => "new_value"})
+        @settings_hash[:domain] = "new_value"
+        @s.set({:domain => "new_value"})
         @settings_hash.each do |k, v|
           @s.send(k).should == v 
         end

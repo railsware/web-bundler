@@ -7,7 +7,7 @@ describe WebResourceBundler::ResourceBundle::Data do
 
   describe "#get_md5" do
     it "returns md5 from filenames and else additional data" do
-      items = [@styles, @settings.domen, @settings.protocol]
+      items = [@styles, @settings.domain, @settings.protocol]
       @resource.get_md5(@settings).should == Digest::MD5.hexdigest(items.flatten.join('|'))
     end
   end

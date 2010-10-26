@@ -15,7 +15,7 @@ module WebResourceBundler::ResourceBundle
     end
 
     def get_md5(settings)
-      items = [@files, settings.domen, settings.protocol]
+      items = [@files, settings.domain, settings.protocol]
       Digest::MD5.hexdigest(items.flatten.join('|'))
     end
 

@@ -1,7 +1,7 @@
 module WebResourceBundler
   class Settings
     @@defaults = {
-      :domen => 'domen.com',
+      :domain => 'domain.com',
       :protocol => 'http',
       :language => 'en',
       :encode_images => true,
