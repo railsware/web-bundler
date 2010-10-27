@@ -21,7 +21,7 @@ class WebResourceBundler::CssUrlRewriter
       #adding file name - last element of elememnts
       result << elements[-1]
       #removing empty elements
-      result.delete('')
+      result.delete("")
       '/' + result.join('/')
     end
   

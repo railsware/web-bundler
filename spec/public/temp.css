@@ -1,10 +1,1 @@
-@import '/styles/for_import.css';
-.my_style{padding:1px;background-image  
-: url( 'images/logo.jpg' )  ;height:300px  ;} 
-
-.another_style{margin:10px;background-image  : url('temp/unexistent_image.jpg');}
-
-.fas
-{
-background-image: url("images/too_big_image.jpg");
-}
+background: url('http://boogle.com/images/1.png');background-image: url('http://boogle.com/images/1.png');

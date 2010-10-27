@@ -27,9 +27,5 @@ module WebResourceBundler::ResourceBundle
      @bundle_filename 
     end
 
-    def ie_bundle_filename(settings)
-      'ie.' + bundle_filename(settings)
-    end
-
   end
 end
