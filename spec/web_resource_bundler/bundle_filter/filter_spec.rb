@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 describe WebResourceBundler::BundleFilter::Filter do
   before(:each) do
     clean_cache_dir
-    @filter = BundleFilter::Filter.new(@settings)
+    @filter = BundleFilter::Filter.new(@settings, @logger)
   end
 
   it "creates cache dir on initialization" do

@@ -15,18 +15,13 @@ module WebResourceBundler::BundleFilter
       unless data.files.empty?
         bundle_url = File.join(@settings.cache_dir, data.bundle_filename(@settings)) 
         path = @file_manager.full_path(bundle_url)
-        begin
-          content = bundle_files(data.files)
-          if content and not @file_manager.bundle_upto_date?(bundle_url, data.files)
-            File.open(path, "w") do |file|
-              file.puts content
-            end
+        content = bundle_files(data.files)
+        if content and not @file_manager.bundle_upto_date?(bundle_url, data.files)
+          File.open(path, "w") do |file|
+            file.puts content
           end
-          return bundle_url 
-        # rescue
-        #   return nil
-        #   #something went wrong here
         end
+        return bundle_url 
       end
     end
 
@@ -35,24 +30,21 @@ module WebResourceBundler::BundleFilter
       output = ""
       urls.each do |url|
         output << "/* --------- #{url} --------- */\n"
-        begin
-          file_path = @file_manager.full_path(url)
-          content = File.read(file_path)
-          imported_files = []
-          content.gsub!(IMPORT_PTR) do |result|
-            imported_file = IMPORT_PTR.match(result)[1]
-            if imported_file
-              imported_files << File.join(File.dirname(url), imported_file)
-            end
-            result = ""
+        file_path = @file_manager.full_path(url)
+        raise ResourceNotFoundError.new(file_path) unless @file_manager.exist?(url)
+        content = File.read(file_path)
+        imported_files = []
+        content.gsub!(IMPORT_PTR) do |result|
+          imported_file = IMPORT_PTR.match(result)[1]
+          if imported_file
+            imported_files << File.join(File.dirname(url), imported_file)
           end
-          output << bundle_files(imported_files)
-          content = WebResourceBundler::CssUrlRewriter.rewrite_content_urls(url, content) if File.extname(file_path) == '.css' 
-          output << content
-          output << "/* --------- END #{url} --------- */\n"
-        # rescue 
-        #   return nil
+          result = ""
         end
+        output << bundle_files(imported_files)
+        content = WebResourceBundler::CssUrlRewriter.rewrite_content_urls(url, content) if File.extname(file_path) == '.css' 
+        output << content
+        output << "/* --------- END #{url} --------- */\n"
       end
       output
     end

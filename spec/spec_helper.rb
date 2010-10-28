@@ -3,6 +3,7 @@
 require File.join(File.dirname(__FILE__), "../lib/web_resource_bundler")
 require 'fileutils'
 require File.join(File.dirname(__FILE__), 'sample_block_helper')
+require 'logger'
 include WebResourceBundler 
 
 def clean_cache_dir
@@ -25,8 +26,10 @@ Spec::Runner.configure do |config|
         :max_image_size => 30,
         :resource_dir => File.join(File.dirname(__FILE__), '/public'),
         :bundle_files => true,
-        :cache_dir => '/cache'
+        :cache_dir => '/cache',
+        :log_path => File.join(File.dirname(__FILE__), '/spec.log')
       }
     @settings = Settings.new @settings_hash
+    @logger = Logger.new(STDOUT)
   end
 end

@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "/../spec_helper"))
 describe WebResourceBundler::CdnFilter do
   before(:each) do
     @settings.http_hosts = ['http://boogle.com']
-    @filter = CdnFilter.new @settings
+    @filter = CdnFilter.new @settings, @logger
   end
 
   describe "#insert_hosts_in_urls" do
@@ -26,7 +26,7 @@ describe WebResourceBundler::CdnFilter do
 
     it "returns https host if request was https" do
       @settings.protocol = 'https'
-      @filter = CdnFilter.new @settings
+      @filter = CdnFilter.new @settings, @logger
       url = '/images/1.gif'
       @filter.host_for_image(url).should == @settings.https_hosts[url.hash % @settings.https_hosts.size]
     end
@@ -45,7 +45,7 @@ describe WebResourceBundler::CdnFilter do
 
     it "binds image to one particular host" do
       @settings.http_hosts << 'http://froogle.com'
-      @filter = CdnFilter.new @settings
+      @filter = CdnFilter.new @settings, @logger
       content = "background: url('../images/1.png');background-image: url('../images/1.png');" 
       host = @settings.http_hosts['/styles/images/1.png'.hash % @settings.http_hosts.size]
       url = "#{host}/styles/images/1.png"

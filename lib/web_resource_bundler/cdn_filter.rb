@@ -1,16 +1,19 @@
 module WebResourceBundler
-  class CdnFilter
-    def initialize(settings)
-      @settings = settings
+  class CdnFilter < WebResourceBundler::FilterBase
+    def initialize(settings, logger)
+      super(settings, logger)
       @file_manager = FileManager.new @settings
     end
 
     def apply(block_data)
-      block_data.css.files.each { |f| insert_hosts_in_urls(f) }
+      super do
+        block_data.css.files.each { |f| insert_hosts_in_urls(f) }
+      end
     end
 
     def insert_hosts_in_urls(file_url)
       path = @file_manager.full_path(file_url)
+      raise ResourceNotFoundError.new(path) unless @file_manager.exist?(file_url)
       content = File.read(path)
       if content
         rewrite_content_urls(file_url, content)
