@@ -14,6 +14,7 @@ describe WebResourceBundler::CdnFilter do
       @filter.insert_hosts_in_urls('/temp.css')
       content = File.read(path)
       content.should == "background: url('http://boogle.com/images/1.png');background-image: url('http://boogle.com/images/1.png');"
+      File.delete(path) if File.exist?(path)
     end
   end
 
