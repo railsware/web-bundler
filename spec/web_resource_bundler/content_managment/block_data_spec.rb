@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), "/../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 describe WebResourceBundler::BlockData do
   describe "#apply_filter" do
     it "applies filter to block_data, its childs, and theirs childs etc." do

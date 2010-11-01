@@ -12,13 +12,27 @@ describe WebResourceBundler::BundleFilter::ResourcePackager do
     end
 
     describe "#bundle_resource" do
-      it "creates bundle file from files passed with specific name" do
-        filepath = @file_packager.bundle_resource(@css_resource)
-        File.exist?(File.join(@settings.resource_dir, filepath)).should be_true
+
+      before(:each) do
+        @filepath = File.join(@settings.resource_dir, @file_packager.bundle_resource(@css_resource))
       end
+
+      it "creates bundle file from files passed with specific name" do
+        File.exist?(@filepath).should be_true
+      end
+
       it "creates bundle file containing all files content" do
         pending
+        content = File.read(@filepath)
+        p content
+        @css_resource.files.each do |f|
+          file_content = File.read(File.join(@settings.resource_dir, f))
+          puts "####################"
+          p file_content
+          content.scan(file_content).size.should be_true
+        end
       end
+
     end
 
     describe "#bundle_file_path" do

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), "../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 describe WebResourceBundler::CssUrlRewriter do
   describe "#rewrite_relative_path" do
     it "returns absolute path using url and css file path" do

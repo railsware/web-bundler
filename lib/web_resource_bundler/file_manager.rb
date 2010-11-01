@@ -9,7 +9,7 @@ module WebResourceBundler
       return false unless exist?(bundle_url) 
       bundle_date = access_time(bundle_url)
       files.each do |url|
-        return false unless exist?(bundle_url) and access_time(url) < bundle_date
+        return false if access_time(url) > bundle_date
       end
       true
     end

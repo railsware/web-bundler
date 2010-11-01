@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '../spec_helper')
+require File.expand_path(File.join(File.dirname(__FILE__), "../spec_helper"))
 describe WebResourceBundler::FileManager do
 
   def create_stub_file(name)
@@ -16,7 +16,7 @@ describe WebResourceBundler::FileManager do
     @file2_url = 'temp/temp2.dat'
     @file2_path = File.join(@settings.resource_dir, @file2_url)
     create_stub_file(@file2_url) 
-    sleep 0.3
+    sleep 1
     @bundle_url = 'temp/bundle.dat'
     @bundle_path = File.join(@settings.resource_dir, @bundle_url)
     create_stub_file(@bundle_url)
@@ -49,6 +49,7 @@ describe WebResourceBundler::FileManager do
       end
 
       it "returns false if one of files was modified after bundling" do
+        sleep 1
         system("touch " + @file1_path + " -m")
         is_upto_date?.should be_false 
       end
