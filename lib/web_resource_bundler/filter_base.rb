@@ -12,7 +12,7 @@ module WebResourceBundler
         @logger.error("#{self.class}: #{exception}")
         begin
           self.cleanup
-        rescue
+        rescue Exception
           @logger.error("#{self.class}: cleanup failed")
         end
       end

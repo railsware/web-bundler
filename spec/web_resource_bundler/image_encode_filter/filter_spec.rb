@@ -1,9 +1,11 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 describe WebResourceBundler::ImageEncodeFilter::Filter do
+
   before(:each) do
     @file_prefix = ImageEncodeFilter::CssGenerator::FILE_PREFIX
     @ie_file_prefix = ImageEncodeFilter::CssGenerator::IE_FILE_PREFIX
   end
+
   describe "#apply" do
     context "block was bundled" do
       it "encodes images in bundles by creating two files (for IE and others) if block_data without condition" do

@@ -49,13 +49,5 @@ module WebResourceBundler::BundleFilter
       output
     end
 
-    def bundle_file_path(filename)
-      File.join(@settings.resource_dir, @settings.cache_dir, filename)
-    end
-
-    def bundle_file_exist?(filename)
-      File.exist?(bundle_file_path(filename)) ? true : false
-    end
-
   end
 end
