@@ -74,15 +74,11 @@ module WebResourceBundler
         end
 
         def write_css_file(filename, file_content)
-          begin
-            path = @file_manager.full_path(File.join(@settings.cache_dir, filename))
-            File.open(path, "w") do |file|
-              file.write file_content
-            end
-            return true
-          # rescue
-          #   return false
+          path = @file_manager.full_path(File.join(@settings.cache_dir, filename))
+          File.open(path, "w") do |file|
+            file.write file_content
           end
+          return true
         end
     
         #name of a new file with images encoded

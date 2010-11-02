@@ -11,6 +11,25 @@ describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
       @js_resource = ResourceBundle::Data.new(ResourceBundle::JS, @scripts)
     end
 
+    describe "#bundle_files" do
+      context "one of the files unexistent" do
+        before(:each) do
+          @files = [@styles[0], 'unexistent.css']
+        end
+        it "throws ResourceNotFoundError exception" do
+          lambda { @file_packager.bundle_files(@files) }.should raise_error(WebResourceBundler::Exceptions::ResourceNotFoundError)
+        end
+      end
+    end
+
+    describe "#extract_imported_files!" do
+      it "returns array of imported css files" do
+        content = "@import 'styles/first.css';\n@import 'styles/skins/second.css';"
+        @file_packager.extract_imported_files!(content)
+        content.should == "\n"
+      end
+    end
+
     describe "#bundle_resource" do
 
       before(:each) do

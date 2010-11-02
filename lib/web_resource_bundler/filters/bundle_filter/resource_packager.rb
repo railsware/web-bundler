@@ -33,22 +33,27 @@ module WebResourceBundler
           urls.each do |url|
             output << "/* --------- #{url} --------- */\n"
             file_path = @file_manager.full_path(url)
-            raise ResourceNotFoundError.new(file_path) unless @file_manager.exist?(url)
+            raise Exceptions::ResourceNotFoundError.new(file_path) unless @file_manager.exist?(url)
             content = File.read(file_path)
-            imported_files = []
-            content.gsub!(IMPORT_PTR) do |result|
-              imported_file = IMPORT_PTR.match(result)[1]
-              if imported_file
-                imported_files << File.join(File.dirname(url), imported_file)
-              end
-              result = ""
-            end
+            imported_files = extract_imported_files!(content).map {|f| File.join(File.dirname(url), f)}
             output << bundle_files(imported_files)
             content = WebResourceBundler::CssUrlRewriter.rewrite_content_urls(url, content) if File.extname(file_path) == '.css' 
             output << content
             output << "/* --------- END #{url} --------- */\n"
           end
           output
+        end
+
+        def extract_imported_files!(content)
+          imported_files = []
+          content.gsub!(IMPORT_PTR) do |result|
+            imported_file = IMPORT_PTR.match(result)[1]
+            if imported_file
+              imported_files << imported_file
+            end
+            result = ""
+          end
+          return imported_files
         end
 
       end

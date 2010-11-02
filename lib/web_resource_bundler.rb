@@ -10,6 +10,7 @@ require 'file_manager'
 require 'singleton'
 require 'logger'
 require 'filters'
+require 'exceptions'
 
 module WebResourceBundler
   class Bundler
