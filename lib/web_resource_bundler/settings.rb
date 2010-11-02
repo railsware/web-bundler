@@ -17,7 +17,7 @@ module WebResourceBundler
     end
 
     def set(hash)
-      @settings = @settings.merge(hash)
+      @settings.merge!(hash)
     end
 
     def [](i)

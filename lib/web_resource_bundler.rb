@@ -10,9 +10,10 @@ require 'singleton'
 require 'content_managment/block_constructor'
 require 'cdn_filter'
 require 'logger'
+
 module WebResourceBundler
   class Bundler
-    def initialize(settings = Settings.new)
+    def initialize(settings = {})
       @settings = Settings.new settings
       file = File.open(@settings.log_path, File::WRONLY | File::APPEND | File::CREAT)
       @logger = Logger.new(file)
