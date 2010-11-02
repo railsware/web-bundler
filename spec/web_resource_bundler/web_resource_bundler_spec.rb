@@ -3,7 +3,7 @@ module WebResourceBundler
   describe Bundler do
     describe "#process" do
       it "process block" do
-        bundler = Bundler.new(@settings_hash)
+        bundler = WebResourceBundler::Bundler.new(@settings_hash)
         bundler.process @sample_block_helper.sample_block
       end
     end

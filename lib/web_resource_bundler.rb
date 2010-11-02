@@ -26,7 +26,7 @@ module WebResourceBundler
     def process(block)
       block_data = BlockParser.parse(block)
       filters = []
-      filters << BundleFilter::Filter.new(@settings, @logger)
+      filters << Filters::BundleFilter::Filter.new(@settings, @logger)
       block_data.apply_filters(filters)
 
       return BlockConstructor.construct_block(block_data)
