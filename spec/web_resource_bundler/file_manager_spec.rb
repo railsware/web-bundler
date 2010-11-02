@@ -50,7 +50,7 @@ describe WebResourceBundler::FileManager do
 
       it "returns false if one of files was modified after bundling" do
         sleep 1
-        system("touch " + @file1_path + " -m")
+        system("touch -m #{@file1_path}" )
         is_upto_date?.should be_false 
       end
 
