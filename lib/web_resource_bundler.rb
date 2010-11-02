@@ -1,15 +1,15 @@
 $:.unshift File.join(File.dirname(__FILE__), 'web_resource_bundler')
-require 'content_managment/block_parser'
-require 'content_managment/block_data'
+require 'content_management/block_parser'
+require 'content_management/block_data'
+require 'content_management/css_url_rewriter'
+require 'content_management/resource_bundle'
+require 'content_management/block_constructor'
+
 require 'settings'
-require 'content_managment/resource_bundle'
-require 'bundle_filter'
 require 'file_manager'
-require 'image_encode_filter'
 require 'singleton'
-require 'content_managment/block_constructor'
-require 'cdn_filter'
 require 'logger'
+require 'filters'
 
 module WebResourceBundler
   class Bundler
