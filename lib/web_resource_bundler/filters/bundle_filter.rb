@@ -21,8 +21,9 @@ module WebResourceBundler
         end
 
         def cleanup
-          File.delete(File.join(@settings.resouce_dir, @css_bundle))
-          File.delete(File.join(@settings.resouce_dir, @js_bundle))
+          file_manager = FileManager.new(@settings)
+          File.delete(file_manager.full_path(@css_bundle)) if @css_bundle and File.exist?(file_manager.full_path(@css_bundle))
+          File.delete(file_manager.full_path(@js_bundle)) if @js_bundle and File.exist?(file_manager.full_path(@js_bundle))
         end
 
       end

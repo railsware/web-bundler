@@ -27,8 +27,9 @@ module WebResourceBundler
         end
 
         def cleanup
+          file_manager = FileManager.new @settings
           @result_files.each do |file|
-            File.delete(File.join(@settings.resource_dir, file))
+            File.delete(file_manager.full_path(file))
           end
         end
       end

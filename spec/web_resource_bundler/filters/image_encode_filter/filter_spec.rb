@@ -6,6 +6,18 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
     @ie_file_prefix = Filters::ImageEncodeFilter::CssGenerator::IE_FILE_PREFIX
   end
 
+  describe "#clenup" do
+    it "deletes all files in @result_files variable" do
+      filter = Filters::ImageEncodeFilter::Filter.new(@settings, @logger)
+      filename = 'temp.temp'
+      create_mock_file(filename)
+      File.exist?(File.join(@settings.resource_dir, filename)).should be_true
+      filter.instance_eval "@result_files = ['#{filename}']"
+      filter.cleanup
+      File.exist?(File.join(@settings.resource_dir, filename)).should be_false
+    end
+  end
+
   describe "#apply" do
     context "block was bundled" do
       it "encodes images in bundles by creating two files (for IE and others) if block_data without condition" do
