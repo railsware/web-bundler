@@ -1,5 +1,5 @@
 module WebResourceBundler
-  class BlockConstructor
+  class BundledContentConstructor
 
     class << self
       def construct_js_link(path)

@@ -1,17 +1,17 @@
 module WebResourceBundler
   class BlockParser
-    CONDITIONAL_BLOCK_PTR = /\<\!\-\-\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*\>(.*?)\<\!\s*\[\s*endif\s*\]\s*\-\-\>/xmi
-    CONDITION_PTR = /\<\!\-\-\s*(\[[^<]*\])\s*\>/
-    LINK_PTR = /(\<(link|script[^>]*?src\s*=).*?(\>\<\/script\>|\>))/ 
+    CONDITIONAL_BLOCK_PATTERN = /\<\!\-\-\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*\>(.*?)\<\!\s*\[\s*endif\s*\]\s*\-\-\>/xmi
+    CONDITION_PATTERN = /\<\!\-\-\s*(\[[^<]*\])\s*\>/
+    LINK_PATTERN = /(\<(link|script[^>]*?src\s*=).*?(\>\<\/script\>|\>))/ 
 
     #parsing block content recursively
     #nested comments NOT supported
     #result is BlockData with conditional blocks in child_blocks
     def self.parse_block_with_childs(block, condition)
       block_data = BlockData.new(condition)
-      block.gsub!(CONDITIONAL_BLOCK_PTR) do |s|
-        new_block = CONDITIONAL_BLOCK_PTR.match(s)[1]
-        new_condition = CONDITION_PTR.match(s)[1]
+      block.gsub!(CONDITIONAL_BLOCK_PATTERN) do |s|
+        new_block = CONDITIONAL_BLOCK_PATTERN.match(s)[1]
+        new_condition = CONDITION_PATTERN.match(s)[1]
         block_data.child_blocks << parse_block_with_childs(new_block, new_condition)
         s = ""
       end
@@ -25,7 +25,7 @@ module WebResourceBundler
     #removing resource links from block
     #example: "<link href="bla"><script src="bla"></script>my inline content" => "my inline content"
     def self.remove_links(block)
-      block.gsub(LINK_PTR, "")
+      block.gsub(LINK_PATTERN, "")
     end
 
     #looking for css and js files included and create BlockFiles with files paths

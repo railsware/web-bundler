@@ -6,7 +6,7 @@ module WebResourceBundler
         @settings, @logger = settings, logger
       end
 
-      def apply(unnecessary_var = nil)
+      def apply(block_data = nil)
         begin
           yield if block_given?
         rescue Exception => exception

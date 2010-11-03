@@ -7,7 +7,7 @@ module WebResourceBundler
       tests = ['<!--[if lte IE 7]>...<![endif]-->','<!--[if !(IE 7)]>...<![endif]-->',
         '<!--[if IE]>...<![endif]-->']
       tests.each do |test|
-        BlockParser::CONDITIONAL_BLOCK_PTR.match(test).should be_true
+        BlockParser::CONDITIONAL_BLOCK_PATTERN.match(test).should be_true
       end
     end
 
