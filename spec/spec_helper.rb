@@ -10,12 +10,6 @@ def clean_cache_dir
   FileUtils.rm_rf(File.join(File.dirname(__FILE__), '/public/cache'))
 end
 
-def create_mock_file(file)
-  File.open(File.join(@settings.resource_dir, file), "w") do |f|
-    f.puts "it's a mock"
-  end
-end
-  
 Spec::Runner.configure do |config|
   config.before(:all) do
     config.mock_with :rspec
