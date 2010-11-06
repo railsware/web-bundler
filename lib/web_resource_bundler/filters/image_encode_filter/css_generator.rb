@@ -77,7 +77,7 @@ module WebResourceBundler
         def encode_images_for_ie(path, content)
           new_filename = encoded_filename_for_ie(path)
           result = encode_images_basic(content) do |image_data|
-            "*#{TAGS[0]}: url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
+            "*#{TAGS[0]}:url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
           end
           unless result[:images].empty?
             { File.join(@settings.cache_dir, new_filename) => (construct_header_for_ie(result[:images]) + result[:content]) }

@@ -24,7 +24,7 @@ describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
     it "throws ResourceNotFoundError exception if one of imported files not found" do
       pending
       files = {'styles/base.css' => "@import 'import/first.css';\n@import 'import/second.css';"}
-      @file_packager.bundle_files(files).should raise_error 
+      @file_packager.bundle_files(files).should raise_error(ResourceNotFoundError) 
     end
   end
 
