@@ -5,13 +5,13 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
     @file_prefix = Filters::ImageEncodeFilter::CssGenerator::FILE_PREFIX
     @ie_file_prefix = Filters::ImageEncodeFilter::CssGenerator::IE_FILE_PREFIX
     @file_manager = FileManager.new @settings
-    @filter = Filters::ImageEncodeFilter::Filter.new(@settings, @logger, @file_manager)
+    @filter = Filters::ImageEncodeFilter::Filter.new(@settings, @file_manager)
   end
 
   describe "#apply" do
     context "block was bundled" do
       before(:each) do
-        @bundler_filter = Filters::BundleFilter::Filter.new(@settings, @logger, @file_manager)
+        @bundler_filter = Filters::BundleFilter::Filter.new(@settings, @file_manager)
       end
       it "encodes images in bundles by creating two files (for IE and others) if block_data without condition" do
         block_data = @sample_block_helper.sample_block_data

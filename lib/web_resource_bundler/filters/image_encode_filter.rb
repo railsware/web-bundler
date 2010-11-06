@@ -5,10 +5,9 @@ require 'image_encode_filter/css_generator'
 module WebResourceBundler::Filters::ImageEncodeFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
 
-    def initialize(settings, logger, file_manager)
-      super settings, logger
-      @file_manager = file_manager
-      @generator = CssGenerator.new(settings, file_manager)
+    def initialize(settings, file_manager)
+      super settings, file_manager
+      @generator = CssGenerator.new(@settings, @file_manager)
     end
 
     def apply(block_data)

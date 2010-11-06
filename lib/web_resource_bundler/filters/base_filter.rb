@@ -2,8 +2,9 @@ module WebResourceBundler
   module Filters
     class BaseFilter
 
-      def initialize(settings, logger)
-        @settings, @logger = settings, logger
+      def initialize(settings, file_manager)
+        @settings = settings
+        @file_manager = file_manager
       end
 
       def apply(block_data = nil)

@@ -3,7 +3,7 @@ describe WebResourceBundler::Filters::CdnFilter do
   before(:each) do
     @settings.http_hosts = ['http://boogle.com']
     @file_manager = FileManager.new @settings
-    @filter = Filters::CdnFilter::Filter.new(@settings, @logger, @file_manager)
+    @filter = Filters::CdnFilter::Filter.new(@settings, @file_manager)
   end
 
   describe "#host_for_image" do
@@ -15,7 +15,7 @@ describe WebResourceBundler::Filters::CdnFilter do
 
     it "returns https host if request was https" do
       @settings.protocol = 'https'
-      @filter = Filters::CdnFilter::Filter.new(@settings, @logger, @file_manager)
+      @filter = Filters::CdnFilter::Filter.new(@settings, @file_manager)
       url = '/images/1.gif'
       @filter.host_for_image(url).should == @settings.https_hosts[url.hash % @settings.https_hosts.size]
     end
@@ -34,7 +34,7 @@ describe WebResourceBundler::Filters::CdnFilter do
 
     it "binds image to one particular host" do
       @settings.http_hosts << 'http://froogle.com'
-      @filter = Filters::CdnFilter::Filter.new(@settings, @logger, @file_manager)
+      @filter = Filters::CdnFilter::Filter.new(@settings, @file_manager)
       content = "background: url('../images/1.png');background-image: url('../images/1.png');" 
       host = @settings.http_hosts['/styles/images/1.png'.hash % @settings.http_hosts.size]
       url = "#{host}/styles/images/1.png"
