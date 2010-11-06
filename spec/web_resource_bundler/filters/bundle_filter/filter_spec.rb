@@ -2,35 +2,39 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../../../spec_helper
 describe WebResourceBundler::Filters::BundleFilter::Filter do
   before(:each) do
     clean_cache_dir
-    @filter = Filters::BundleFilter::Filter.new(@settings, @logger)
+    @filter = Filters::BundleFilter::Filter.new(@settings, @logger, FileManager.new(@settings))
+    @block_data = @sample_block_helper.sample_block_data
+    css_type = ResourceBundle::CSS
+    js_type = ResourceBundle::JS
+    items = [@block_data.css.files.keys, @settings.domain, @settings.protocol]
+    @css_md5_value = Digest::MD5.hexdigest(items.flatten.join('|'))
+    @css_bundle_file = [css_type[:name] + '_' + @css_md5_value, @settings.language, css_type[:ext]].join('.')
+    items = [@block_data.js.files.keys, @settings.domain, @settings.protocol]
+    js_md5_value = Digest::MD5.hexdigest(items.flatten.join('|'))
+    @js_bundle_file = [js_type[:name] + '_' + js_md5_value, @settings.language, js_type[:ext]].join('.')
   end
 
-  describe "#cleanup" do
-    it "deletes bundle css and js files" do
-      filter = Filters::BundleFilter::Filter.new(@settings, @logger)
-      css_bundle = 'bundle_mock_css.css'
-      js_bundle = 'bundle_mock_js.js'
-      create_mock_file(css_bundle)
-      create_mock_file(js_bundle)
-      File.exist?(File.join(@settings.resource_dir, css_bundle)).should be_true
-      File.exist?(File.join(@settings.resource_dir, js_bundle)).should be_true
-      filter.instance_eval "@css_bundle = '#{css_bundle}'; @js_bundle = '#{js_bundle}'"
-      filter.cleanup
-      File.exist?(File.join(@settings.resource_dir, css_bundle)).should be_false
-      File.exist?(File.join(@settings.resource_dir, js_bundle)).should be_false
-    end
-  end
-
-  it "creates cache 2 on initialization" do
+  it "creates cache folder on initialization" do
     File.exist?(File.join(@settings.resource_dir, @settings.cache_dir)).should be_true
   end
 
   describe "#apply" do
     it "bundles each block_data resources in single file" do
-      block_data = @sample_block_helper.sample_block_data
-      @filter.apply(block_data)
-      File.exist?(File.join(@settings.resource_dir, @settings.cache_dir, block_data.css.bundle_filename(@settings))).should be_true
-      File.exist?(File.join(@settings.resource_dir, @settings.cache_dir, block_data.js.bundle_filename(@settings))).should be_true
+      @filter.apply(@block_data)
+      @block_data.css.files.keys.should == [File.join(@settings.cache_dir, @css_bundle_file)]
+      @block_data.js.files.keys.should == [File.join(@settings.cache_dir, @js_bundle_file)]
+    end
+  end
+
+  describe "#get_md5" do
+    it "returns md5 from filenames and else additional data" do
+      @filter.get_md5(@block_data.css).should == @css_md5_value
+    end
+  end
+
+  describe "#bundle_filename" do
+    it "returns filename of bundle constructed from passed files" do
+      @filter.bundle_filename(@block_data.css).should == @css_bundle_file 
     end
   end
 end

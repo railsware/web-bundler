@@ -24,7 +24,13 @@ module WebResourceBundler
     end
 
     def access_time(relative_path)
-      File.ctime(full_path(relative_path)).to_f if exist?(relative_path)
+      raise Exceptions::ResourceNotFoundError.new(full_path(relative_path)) unless exist?(relative_path) 
+      File.ctime(full_path(relative_path)).to_f
+    end
+
+    def get_content(relative_path)
+      raise Exceptions::ResourceNotFoundError.new(full_path(relative_path)) unless exist?(relative_path)
+      File.read(full_path(relative_path))
     end
 
     def create_cache_dir

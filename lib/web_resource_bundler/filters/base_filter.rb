@@ -7,21 +7,14 @@ module WebResourceBundler
       end
 
       def apply(block_data = nil)
-        begin
-          yield if block_given?
-        rescue Exception => exception
-          @logger.error("#{self.class}: #{exception}")
-          begin
-            self.cleanup
-          rescue Exception
-            @logger.error("#{self.class}: cleanup failed")
-          end
-        end
+        #applies filter to block_data
       end
 
-      def cleanup
-        #this method used to delete unnecessary files if error occured
+      def change_resulted_files!(block_data = nil)
+        #this method changes resource file names in block_data to resulted files paths
+        #used to determine if resulted files exist
       end
+
     end
   end
 end

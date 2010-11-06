@@ -1,26 +1,20 @@
-module WebResourceBundler::Filters
-  class CdnFilter < WebResourceBundler::Filters::BaseFilter
-    def initialize(settings, logger)
+module WebResourceBundler::Filters::CdnFilter
+  class Filter < WebResourceBundler::Filters::BaseFilter
+    def initialize(settings, logger, file_manager)
       super(settings, logger)
-      @file_manager = FileManager.new @settings
+      @file_manager = file_manager
     end
 
     def apply(block_data)
-      super do
-        block_data.css.files.each { |f| insert_hosts_in_urls(f) }
+      resulted_files = {}
+      block_data.css.files.each_pair do |path, content| 
+        resulted_files[new_file_path(path)] = rewrite_content_urls!(path, content)
       end
+      block_data.css.files = resulted_files
     end
 
-    def insert_hosts_in_urls(file_url)
-      path = @file_manager.full_path(file_url)
-      raise ResourceNotFoundError.new(path) unless @file_manager.exist?(file_url)
-      content = File.read(path)
-      if content
-        rewrite_content_urls(file_url, content)
-      end
-      File.open(path, "w") do |file|
-        file.print content
-      end
+    def new_file_path(path)
+      File.join(File.dirname(path), 'cdn_' + File.basename(path))
     end
 
     def host_for_image(image_url)
@@ -33,15 +27,24 @@ module WebResourceBundler::Filters
       hosts[host_index]
     end
 
-    def rewrite_content_urls(file_url, content)
+    def rewrite_content_urls!(file_path, content)
       content.gsub!(/url\s*\(['|"]?([^\)'"]+)['|"]?\)/) do
         matched_url = $1
         if matched_url.match(/\.(jpg|gif|png|jpeg|bmp)/)
-          url = CssUrlRewriter.rewrite_relative_path(file_url, matched_url)
+          url = CssUrlRewriter.rewrite_relative_path(file_path, matched_url)
           host = host_for_image(url)
           s = "url('#{host}#{url}')"
         end 
       end
     end
+
+    def change_resulted_files!(resources)
+      resulted_files = {}
+      resources[:css].files.each_key do |path|
+        resulted_files[new_file_path(path)] = ""
+      end
+      resources[:css].files = resulted_files
+    end
+
   end
 end

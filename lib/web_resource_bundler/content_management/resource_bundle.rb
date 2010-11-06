@@ -5,27 +5,13 @@ module WebResourceBundler::ResourceBundle
   JS = {:name => 'script', :ext => 'js'}
   
   class Data
-    attr_reader :type, :bundle_filename, :paths
+    attr_reader :type
+    #hash, key - file path, value - file content
     attr_accessor :files
 
-    def initialize(type, filenames = [])
+    def initialize(type, files = {}) 
       @type = type
-      @files = filenames
-      @bundle_filename = ''
+      @files = files
     end
-
-    def get_md5(settings)
-      items = [@files, settings.domain, settings.protocol]
-      Digest::MD5.hexdigest(items.flatten.join('|'))
-    end
-
-    def bundle_filename(settings)
-      if @bundle_filename.empty? and not @files.empty?
-        items = [@type[:name] + '_' + get_md5(settings), settings.language, @type[:ext]]
-        @bundle_filename = items.join('.') 
-      end
-     @bundle_filename 
-    end
-
   end
 end

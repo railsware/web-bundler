@@ -19,18 +19,8 @@ end
 Spec::Runner.configure do |config|
   config.before(:all) do
     config.mock_with :rspec
-    
     @styles = ["/sample.css","/foo.css", "/test.css", "/styles/boo.css"]
     @scripts = ["/set_cookies.js", "/seal.js", "/salog20.js", "/marketing.js"]
-    @sample_block_helper = SampleBlockHelper.new(@styles, @scripts)
-  end
-  config.after(:all) do
-    log_path = File.join(File.dirname(__FILE__), '/spec.log')
-    File.delete(log_path) if File.exist?(log_path)
-    cache_path = File.join(@settings.resource_dir, @settings.cache_dir)
-    FileUtils.rm_rf(cache_path)
-  end
-  config.before(:each) do
     @settings_hash = {
         :domain => "google.com",
         :language => "en",
@@ -42,6 +32,13 @@ Spec::Runner.configure do |config|
         :log_path => File.join(File.dirname(__FILE__), '/spec.log')
       }
     @settings = Settings.new @settings_hash
+    @sample_block_helper = SampleBlockHelper.new(@styles, @scripts, @settings)
     @logger = Logger.new(STDOUT)
+  end
+
+  config.after(:all) do
+    log_path = File.join(File.dirname(__FILE__), '/spec.log')
+    File.delete(log_path) if File.exist?(log_path)
+    clean_cache_dir
   end
 end

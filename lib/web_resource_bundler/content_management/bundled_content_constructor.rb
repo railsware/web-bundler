@@ -12,11 +12,11 @@ module WebResourceBundler
 
       def construct_block(block_data)
         result = ""
-        block_data.css.files.each do |url|
+        block_data.css.files.each_key do |url|
           result += construct_css_link(url)
           result += "\n"
         end
-        block_data.js.files.each do |url|
+        block_data.js.files.each_key do |url|
           result += construct_js_link(url)
           result += "\n"
         end

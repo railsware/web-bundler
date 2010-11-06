@@ -17,9 +17,27 @@ module WebResourceBundler
           filter.apply(self)
         end      
         @child_blocks.each do |b|
-          b.apply_filters filters  
+          b.apply_filters(filters)  
         end
       end
+    end
+
+    def get_resulted_files(filters)
+      unless filters.empty?
+        resources = {:css => @css.dup, :js => @js.dup, :condition => @condition.dup} 
+        filters.each do |filter|
+          filter.change_resulted_files!(resources)
+        end
+        files = resources[:css].files.keys + resources[:js].files.keys 
+        @child_blocks.each do |b|
+          files += b.get_resulted_files(filters)
+        end
+      end
+      files
+    end
+
+    def all_files
+      @css.files.merge(@js.files)
     end
 
   end

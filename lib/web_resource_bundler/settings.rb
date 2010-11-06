@@ -4,7 +4,9 @@ module WebResourceBundler
       :domain => 'domain.com',
       :protocol => 'http',
       :language => 'en',
+      :bundle_files => true,
       :encode_images => true,
+      :use_cdn => true,
       :max_image_size => 23, #kbytes
       :resource_dir => '/public',
       :cache_dir => '/cache',

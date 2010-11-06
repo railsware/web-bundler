@@ -7,7 +7,7 @@ module WebResourceBundler
     #parsing block content recursively
     #nested comments NOT supported
     #result is BlockData with conditional blocks in child_blocks
-    def self.parse_block_with_childs(block, condition)
+    def parse_block_with_childs(block, condition)
       block_data = BlockData.new(condition)
       block.gsub!(CONDITIONAL_BLOCK_PATTERN) do |s|
         new_block = CONDITIONAL_BLOCK_PATTERN.match(s)[1]
@@ -24,24 +24,24 @@ module WebResourceBundler
 
     #removing resource links from block
     #example: "<link href="bla"><script src="bla"></script>my inline content" => "my inline content"
-    def self.remove_links(block)
+    def remove_links(block)
       block.gsub(LINK_PATTERN, "")
     end
 
     #looking for css and js files included and create BlockFiles with files paths
-    def self.find_files(block)
-      files = {:css => [], :js => []}
+    def find_files(block)
+      files = {:css => {}, :js => {}}
       block.scan(/(href|src) *= *["']([^"^'^\?]+)/i).each do |property, value|
         case property
-          when "src" then files[:js] << value
-          when "href" then files[:css] << value
+          when "src" then files[:js][value] = "" 
+          when "href" then files[:css][value] = "" 
         end
       end
       files
     end
 
     #just a short method to start parsing passed block
-    def self.parse(block)
+    def parse(block)
       parse_block_with_childs(block, "")
     end
 
