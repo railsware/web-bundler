@@ -12,12 +12,12 @@ module WebResourceBundler::Filters::BundleFilter
 
     def apply(block_data)
       unless block_data.css.files.empty?
-        new_css_file = File.join(@settings.cache_dir, bundle_filename(block_data.css.type, block_data.css.files.keys))
+        new_css_file = bundle_filename(block_data.css.type, block_data.css.files.keys)
         new_css_content = @packager.bundle_files(block_data.css.files)
         block_data.css.files = { new_css_file => new_css_content }
       end
       unless block_data.js.files.empty?
-        new_js_file = File.join(@settings.cache_dir, bundle_filename(block_data.js.type, block_data.js.files.keys))
+        new_js_file = bundle_filename(block_data.js.type, block_data.js.files.keys)
         new_js_content = @packager.bundle_files(block_data.js.files)
         block_data.js.files = { new_js_file => new_js_content }
       end

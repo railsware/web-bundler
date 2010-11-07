@@ -5,7 +5,6 @@ module WebResourceBundler::Filters::BundleFilter
     def initialize(settings, file_manager)
       @settings = settings
       @file_manager = file_manager 
-      @file_manager.create_cache_dir
     end
 
     #recursively iterates through all files and imported files

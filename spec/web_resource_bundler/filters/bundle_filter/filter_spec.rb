@@ -14,15 +14,11 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
     @js_bundle_file = [js_type[:name] + '_' + js_md5_value, @settings.language, js_type[:ext]].join('.')
   end
 
-  it "creates cache folder on initialization" do
-    File.exist?(File.join(@settings.resource_dir, @settings.cache_dir)).should be_true
-  end
-
   describe "#apply" do
     it "bundles each block_data resources in single file" do
       @filter.apply(@block_data)
-      @block_data.css.files.keys.should == [File.join(@settings.cache_dir, @css_bundle_file)]
-      @block_data.js.files.keys.should == [File.join(@settings.cache_dir, @js_bundle_file)]
+      @block_data.css.files.keys.should == [@css_bundle_file]
+      @block_data.js.files.keys.should == [@js_bundle_file]
     end
   end
 

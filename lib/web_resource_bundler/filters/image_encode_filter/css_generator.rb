@@ -8,11 +8,9 @@ module WebResourceBundler
         FILE_PREFIX = 'base64_'
         IE_FILE_PREFIX = 'base64_ie_'
 
-        #creates cache dir if it doesn't exist
         def initialize(settings, file_manager)
           @settings = settings
           @file_manager = file_manager 
-          @file_manager.create_cache_dir
         end
 
         #get image url from string that matches tag
@@ -80,7 +78,7 @@ module WebResourceBundler
             "*#{TAGS[0]}:url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
           end
           unless result[:images].empty?
-            { File.join(@settings.cache_dir, new_filename) => (construct_header_for_ie(result[:images]) + result[:content]) }
+            { new_filename => (construct_header_for_ie(result[:images]) + result[:content]) }
           else
             { path => content }
           end
@@ -93,7 +91,7 @@ module WebResourceBundler
               "#{TAGS[0]}:url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
           end
           unless result[:images].empty?
-            { File.join(@settings.cache_dir, new_filename) => result[:content] }
+            { new_filename => result[:content] }
           else
             { path => content }
           end

@@ -19,8 +19,8 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         @bundler_filter.apply(block_data)
         @filter.apply(block_data)
         generated_files = block_data.css.files.keys
-        generated_files.include?(File.join(@settings.cache_dir, @file_prefix + bundle_filename)).should be_true
-        generated_files.include?(File.join(@settings.cache_dir, @ie_file_prefix + bundle_filename)).should be_true
+        generated_files.include?(@file_prefix + bundle_filename).should be_true
+        generated_files.include?(@ie_file_prefix + bundle_filename).should be_true
       end
 
       it "encodes images in bundles by creating one file for IE if block_data is conditional block" do
@@ -29,7 +29,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         @bundler_filter.apply(block_data)
         @filter.apply(block_data)
         generated_files = block_data.css.files.keys
-        generated_files.include?(File.join(@settings.cache_dir, @ie_file_prefix + bundle_filename)).should be_true
+        generated_files.include?(@ie_file_prefix + bundle_filename).should be_true
       end
     end
     context "block wasn't bundled" do
@@ -39,7 +39,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         @filter.apply(block_data)
         generated_files = block_data.css.files.keys
         #sample.css has proper images and should be encoded
-        generated_files.include?(File.join(@settings.cache_dir, @file_prefix + File.basename('sample.css'))).should be_true
+        generated_files.include?(@file_prefix + File.basename('sample.css')).should be_true
         #foo.css has no images in there, so it shouldn't be encoded
         generated_files.include?('/foo.css').should be_true
       end

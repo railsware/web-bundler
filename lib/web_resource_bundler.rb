@@ -77,6 +77,7 @@ module WebResourceBundler
 
     #recursive method to write all resulted files on disk
     def write_files_on_disk(block_data)
+      @file_manager.create_cache_dir
       block_data.all_files.each_pair do |name, content|
         File.open(File.join(@settings.resource_dir, @settings.cache_dir, name), "w") do |f|
           f.print(content)

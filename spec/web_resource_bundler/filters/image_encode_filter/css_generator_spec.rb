@@ -86,7 +86,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         it "returns hash with new file path and images encoded in content" do
           result = @generator.encode_images(@path, @content)
           new_path = result.keys[0]
-          new_path.should == File.join(@settings.cache_dir, 'base64_' + File.basename(@path))
+          new_path.should == 'base64_' + File.basename(@path)
           result[new_path].include?(":url('data:image").should be_true
         end
       end
@@ -94,7 +94,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         it "returns hash with new file path and images encoded in content" do
           result = @generator.encode_images_for_ie(@path, @content)
           new_path = result.keys[0]
-          new_path.should == File.join(@settings.cache_dir, 'base64_ie_' + File.basename(@path))
+          new_path.should == 'base64_ie_' + File.basename(@path)
           result[new_path].include?(":url(mhtml:").should be_true
         end
       end
