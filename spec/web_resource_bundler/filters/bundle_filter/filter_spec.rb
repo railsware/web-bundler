@@ -27,14 +27,30 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
   end
 
   describe "#get_md5" do
-    it "returns md5 from filenames and else additional data" do
-      @filter.get_md5(@block_data.css).should == @css_md5_value
+    it "returns md5 from filenames and another additional data" do
+      @filter.get_md5(@block_data.css.files.keys).should == @css_md5_value
     end
   end
 
   describe "#bundle_filename" do
     it "returns filename of bundle constructed from passed files" do
-      @filter.bundle_filename(@block_data.css).should == @css_bundle_file 
+      @filter.bundle_filename(@block_data.css.type, @block_data.css.files.keys).should == @css_bundle_file 
+    end
+  end
+
+  describe "#change_resulted_files" do
+    it "changes files paths in array to one bundle file name" do
+      result = {
+        :css => [@filter.bundle_filename(@block_data.css.type, @block_data.css.files.keys)],
+        :js => [@filter.bundle_filename(@block_data.js.type, @block_data.js.files.keys)],
+        :condition => @block_data.condition
+      }
+      original = {
+        :css => @block_data.css.files.keys,
+        :js => @block_data.js.files.keys,
+        :condition => @block_data.condition
+      }
+      @filter.change_resulted_files(original).should == result
     end
   end
 end

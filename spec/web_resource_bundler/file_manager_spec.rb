@@ -1,22 +1,15 @@
-require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
+require File.expand_path(File.join(File.dirname(__FILE__), "../spec_helper"))
 describe WebResourceBundler::FileManager do
 
   def create_stub_file(name)
     File.open(File.join(@settings.resource_dir, name), "w") do |file|
-      file.puts "hi there"
+      file.print "hi there"
     end
   end
 
   before(:each) do
     temp_dir = File.join(@settings.resource_dir, 'temp')
     Dir.mkdir(temp_dir) unless File.exist?(temp_dir)
-    @file1_url = 'temp/temp1.dat'
-    @file1_path = File.join(@settings.resource_dir, @file1_url)
-    create_stub_file(@file1_url)
-    @file2_url = 'temp/temp2.dat'
-    @file2_path = File.join(@settings.resource_dir, @file2_url)
-    create_stub_file(@file2_url) 
-    sleep 1
     @bundle_url = 'temp/bundle.dat'
     @bundle_path = File.join(@settings.resource_dir, @bundle_url)
     create_stub_file(@bundle_url)
@@ -35,34 +28,11 @@ describe WebResourceBundler::FileManager do
       File.exist?(dir_path).should == true
     end
   end
-  
-  describe "#bundle_upto_date?" do
 
-    def is_upto_date?
-      @manager.bundle_upto_date?(@bundle_url, [@file1_url, @file2_url])
+  describe "#get_content" do
+    it "reads file and returns its content" do
+      @manager.get_content(@bundle_url).should == 'hi there'
     end
-
-    context "bundle file exist" do
-
-      it "returns true if bundle last access time greater than for resource files" do
-        is_upto_date?.should be_true
-      end
-
-      it "returns false if one of files was modified after bundling" do
-        sleep 1
-        system("touch -m #{@file1_path}" )
-        is_upto_date?.should be_false 
-      end
-
-    end
-
-    context "bundle file doesn't exists" do
-      it "returns false" do
-        File.delete(@bundle_path)
-        is_upto_date?.should == false
-      end
-    end
-
   end
 
   describe "#full_path" do

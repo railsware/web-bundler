@@ -21,6 +21,13 @@ describe WebResourceBundler::Filters::CdnFilter do
     end
   end
 
+  describe "#new_filename" do
+    it "adds cdn_ prefix to original file name" do
+      path = 'styles/1.css'
+      @filter.new_filename(path).should == 'cdn_1.css'
+    end
+  end
+
   describe "#rewrite_content_urls!" do
     before(:each) do
       @file_path = '/styles/skin/1.css'
@@ -50,7 +57,20 @@ describe WebResourceBundler::Filters::CdnFilter do
       block_data = BlockData.new
       block_data.css = resource
       @filter.apply(block_data)
-      block_data.css.files['/cdn_temp.css'].should == "background: url('http://boogle.com/images/1.png');background-image: url('http://boogle.com/images/1.png');"
+      block_data.css.files['cdn_temp.css'].should == "background: url('http://boogle.com/images/1.png');background-image: url('http://boogle.com/images/1.png');"
+    end
+  end
+
+  describe "#change_resulted_files" do
+    it "returns hash with modified css files paths" do
+      resources = {
+        :css => ['styles/1.css', '/4.css'],
+        :js => ['file/that/shouldnt/change.js'],
+        :condition => ""
+      }
+      result = @filter.change_resulted_files(resources) 
+      result[:css].should == ['cdn_1.css', 'cdn_4.css']
+      result[:js].should == resources[:js] 
     end
   end
 

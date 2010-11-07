@@ -30,7 +30,7 @@ module WebResourceBundler
       begin
         block_data = @parser.parse(block)
         filters = build_filters 
-        unless bundle_upto_date?(filters, block_data)
+        unless filters.empty? or bundle_upto_date?(filters, block_data)
           read_resources!(block_data)
           block_data.apply_filters(filters)
           write_files_on_disk(block_data)
@@ -64,7 +64,10 @@ module WebResourceBundler
     def read_resources!(block_data)
       [block_data.css, block_data.js].each do |data|
         data.files.each_key do |path|
-          data.files[path] = @file_manager.get_content(path)
+          content = @file_manager.get_content(path)
+          #rewriting url to absolute if content is css
+          WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(path, content) if File.extname(path) == '.css'  
+          data.files[path] = content
         end
       end
       block_data.child_blocks.each do |block|
@@ -74,8 +77,8 @@ module WebResourceBundler
 
     #recursive method to write all resulted files on disk
     def write_files_on_disk(block_data)
-      block_data.all_files.each_pair do |path, content|
-        File.open(File.join(@settings.resource_dir, path), "w") do |f|
+      block_data.all_files.each_pair do |name, content|
+        File.open(File.join(@settings.resource_dir, @settings.cache_dir, name), "w") do |f|
           f.print(content)
         end
       end

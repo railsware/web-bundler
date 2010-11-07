@@ -22,7 +22,6 @@ module WebResourceBundler::Filters::BundleFilter
           end
           #bundling imported files
           output << bundle_files(imported_files_hash) unless imported_files_hash.empty?
-          content = WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(path, content)  
         end
         content += ';' if File.extname(path) == '.js'
         output << content

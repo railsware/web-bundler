@@ -7,13 +7,13 @@ module WebResourceBundler::Filters::CdnFilter
     def apply(block_data)
       resulted_files = {}
       block_data.css.files.each_pair do |path, content| 
-        resulted_files[new_file_path(path)] = rewrite_content_urls!(path, content)
+        resulted_files[new_filename(path)] = rewrite_content_urls!(path, content)
       end
       block_data.css.files = resulted_files
     end
 
-    def new_file_path(path)
-      File.join(File.dirname(path), 'cdn_' + File.basename(path))
+    def new_filename(path)
+      'cdn_' + File.basename(path)
     end
 
     def host_for_image(image_url)
@@ -37,12 +37,14 @@ module WebResourceBundler::Filters::CdnFilter
       end
     end
 
-    def change_resulted_files!(resources)
-      resulted_files = {}
-      resources[:css].files.each_key do |path|
-        resulted_files[new_file_path(path)] = ""
+    #resource is hash {:css => css_files_array, :js => js_files_array}
+    def change_resulted_files(resources)
+      resulted_files = [] 
+      resources[:css].each do |path|
+        resulted_files << new_filename(path)
       end
-      resources[:css].files = resulted_files
+      resources[:css] = resulted_files
+      resources
     end
 
   end

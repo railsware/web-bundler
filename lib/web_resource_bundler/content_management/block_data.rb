@@ -24,11 +24,11 @@ module WebResourceBundler
 
     def get_resulted_files(filters)
       unless filters.empty?
-        resources = {:css => @css.dup, :js => @js.dup, :condition => @condition.dup} 
+        resources = {:css => @css.files.keys, :js => @js.files.keys, :condition => @condition} 
         filters.each do |filter|
-          filter.change_resulted_files!(resources)
+          resources = filter.change_resulted_files(resources)
         end
-        files = resources[:css].files.keys + resources[:js].files.keys 
+        files = resources[:css] + resources[:js] 
         @child_blocks.each do |b|
           files += b.get_resulted_files(filters)
         end

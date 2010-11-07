@@ -47,7 +47,7 @@ module WebResourceBundler
         @bundler.read_resources!(block_data)
         all_files = block_data.css.files.merge(block_data.js.files).merge(block_data.child_blocks[0].css.files).merge(block_data.child_blocks[0].js.files)
         all_files.each_pair do |path, content|
-          File.read(File.join(@settings.resource_dir, path)).should == content
+          CssUrlRewriter::rewrite_content_urls!(path, File.read(File.join(@settings.resource_dir, path))).should == content
         end
       end
     end

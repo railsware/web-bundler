@@ -11,9 +11,10 @@ module WebResourceBundler
         #applies filter to block_data
       end
 
-      def change_resulted_files!(block_data = nil)
-        #this method changes resource file names in block_data to resulted files paths
-        #used to determine if resulted files exist
+      #resource is hash {:css => ResourceBundle::Data, :js => ResourceBundle::Data}
+      def change_resulted_files!(resource = nil)
+        #this method changes resource file names to resulted files paths
+        #used to determine if resulted files exist on disk
       end
 
     end

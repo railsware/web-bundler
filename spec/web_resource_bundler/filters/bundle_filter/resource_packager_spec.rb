@@ -22,9 +22,9 @@ describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
 
   describe "#bundle_files" do
     it "throws ResourceNotFoundError exception if one of imported files not found" do
-      pending
+      #creating file with content with imported unexistent files
       files = {'styles/base.css' => "@import 'import/first.css';\n@import 'import/second.css';"}
-      @file_packager.bundle_files(files).should raise_error(ResourceNotFoundError) 
+      lambda { @file_packager.bundle_files(files) }.should raise_error(Exceptions::ResourceNotFoundError) 
     end
   end
 
