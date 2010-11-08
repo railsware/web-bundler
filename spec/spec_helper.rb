@@ -6,6 +6,11 @@ require File.join(File.dirname(__FILE__), 'sample_block_helper')
 require 'logger'
 include WebResourceBundler 
 
+class WebResourceBundler::BlockData
+  def inspect
+    "BlockData " + @css.files.keys.inspect + @js.files.keys.inspect
+  end
+end
 def clean_cache_dir
   FileUtils.rm_rf(File.join(File.dirname(__FILE__), '/public/cache'))
 end
@@ -33,6 +38,6 @@ Spec::Runner.configure do |config|
   config.after(:all) do
     log_path = File.join(File.dirname(__FILE__), '/spec.log')
     File.delete(log_path) if File.exist?(log_path)
-    clean_cache_dir
+    #clean_cache_dir
   end
 end

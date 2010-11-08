@@ -15,8 +15,11 @@ module WebResourceBundler
     describe "#bundle_upto_date?" do
       it "returns true if block was already bundled and resulted files exist" do
         clean_cache_dir
-        @bundler.process(@sample_block_helper.sample_block)
-        @bundler.bundle_upto_date?(@bundler.build_filters, @sample_block_helper.sample_block_data)
+        block_text = @sample_block_helper.sample_block
+        block_data = BlockParser.new.parse(block_text.dup)
+        @bundler.bundle_upto_date?(@bundler.build_filters, block_data).should == false
+        @bundler.process(block_text)
+        @bundler.bundle_upto_date?(@bundler.build_filters, block_data).should == true
       end
     end
 

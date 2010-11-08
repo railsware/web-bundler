@@ -2,7 +2,6 @@ $:.unshift File.join(File.dirname(__FILE__), 'web_resource_bundler')
 require 'content_management/block_parser'
 require 'content_management/block_data'
 require 'content_management/css_url_rewriter'
-require 'content_management/resource_bundle'
 require 'content_management/bundled_content_constructor'
 
 require 'settings'
@@ -53,10 +52,9 @@ module WebResourceBundler
     end
 
     def bundle_upto_date?(filters, block_data)
-      #constructing a full copy of block_data to obtain resulted file names and do not modify original block_data
       files = block_data.get_resulted_files(filters)
-      files.each do |path|
-        return false unless @file_manager.exist?(path)
+      files.each do |name|
+        return false unless File.exist?(File.join(@settings.resource_dir, @settings.cache_dir, name))
       end
       true
     end
