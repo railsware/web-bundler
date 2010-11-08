@@ -24,29 +24,23 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
 
   describe "#get_md5" do
     it "returns md5 from filenames and another additional data" do
-      @filter.get_md5(@block_data.css.files.keys).should == @css_md5_value
+      @filter.get_md5(@block_data.css).should == @css_md5_value
     end
   end
 
   describe "#bundle_filename" do
     it "returns filename of bundle constructed from passed files" do
-      @filter.bundle_filename(@block_data.css.type, @block_data.css.files.keys).should == @css_bundle_file 
+      @filter.bundle_filename(@block_data.css).should == @css_bundle_file 
     end
   end
 
-  describe "#change_resulted_files" do
+  describe "#change_resulted_files!" do
     it "changes files paths in array to one bundle file name" do
-      result = {
-        :css => [@filter.bundle_filename(@block_data.css.type, @block_data.css.files.keys)],
-        :js => [@filter.bundle_filename(@block_data.js.type, @block_data.js.files.keys)],
-        :condition => @block_data.condition
-      }
-      original = {
-        :css => @block_data.css.files.keys,
-        :js => @block_data.js.files.keys,
-        :condition => @block_data.condition
-      }
-      @filter.change_resulted_files(original).should == result
+      sample = @sample_block_helper.sample_block_data
+      sample.child_blocks = []
+      @filter.change_resulted_files!(sample)
+      sample.css.files.keys.should == [@filter.bundle_filename(@block_data.css)]
+      sample.js.files.keys.should == [@filter.bundle_filename(@block_data.js)]
     end
   end
 end

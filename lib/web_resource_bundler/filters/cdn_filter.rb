@@ -38,13 +38,12 @@ module WebResourceBundler::Filters::CdnFilter
     end
 
     #resource is hash {:css => css_files_array, :js => js_files_array}
-    def change_resulted_files(resources)
-      resulted_files = [] 
-      resources[:css].each do |path|
-        resulted_files << new_filename(path)
+    def change_resulted_files!(block_data)
+      resulted_files = {} 
+      block_data.css.files.keys.each do |path|
+        resulted_files[new_filename(path)] = ""
       end
-      resources[:css] = resulted_files
-      resources
+      block_data.css.files = resulted_files
     end
 
   end

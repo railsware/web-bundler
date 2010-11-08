@@ -15,7 +15,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
       end
       it "encodes images in bundles by creating two files (for IE and others) if block_data without condition" do
         block_data = @sample_block_helper.sample_block_data
-        bundle_filename = @bundler_filter.bundle_filename(block_data.css.type, block_data.css.files.keys)
+        bundle_filename = @bundler_filter.bundle_filename(block_data.css)
         @bundler_filter.apply(block_data)
         @filter.apply(block_data)
         generated_files = block_data.css.files.keys
@@ -25,7 +25,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
 
       it "encodes images in bundles by creating one file for IE if block_data is conditional block" do
         block_data = @sample_block_helper.sample_block_data.child_blocks.first
-        bundle_filename = @bundler_filter.bundle_filename(block_data.css.type, block_data.css.files.keys)
+        bundle_filename = @bundler_filter.bundle_filename(block_data.css)
         @bundler_filter.apply(block_data)
         @filter.apply(block_data)
         generated_files = block_data.css.files.keys
@@ -44,26 +44,25 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         generated_files.include?('/foo.css').should be_true
       end
     end
-    describe "#change_resulted_files" do
+    describe "#change_resulted_files!" do
       before(:each) do
-        @resources = {
-          :css => ['styles/1.css', '/4.css'],
-          :js => ['file/that/shouldnt/change.js'],
-          :condition => ""
-        }
+        @block_data = @sample_block_helper.sample_block_data
+        @block_data.css.files = {'styles/1.css' => "", '/4.css' => ""}
+        @block_data.js.files = {'file/that/shouldnt/change.js' => ""}
+        @block_data.condition = ""
       end
       it "returns resource hash with css files path modified" do
-        result = @filter.change_resulted_files(@resources)
+        @filter.change_resulted_files!(@block_data)
         ['base64_1.css', 'base64_4.css', 'base64_ie_1.css', 'base64_ie_4.css'].each do |path|
-          result[:css].include?(path).should be_true(path)
+          @block_data.css.files.keys.include?(path).should be_true(path)
         end
-        result[:js].should == @resources[:js]
+        @block_data.js.files.keys.should == ['file/that/shouldnt/change.js']
       end
       it "returns resource hash with css files only for IE of condition isn't empty" do
-        @resources[:condition] = "if IE"
-        result = @filter.change_resulted_files(@resources)
+        @block_data.condition = "if IE"
+        @filter.change_resulted_files!(@block_data)
         ['base64_ie_1.css', 'base64_ie_4.css'].each do |path|
-          result[:css].include?(path).should be_true(path)
+          @block_data.css.files.keys.include?(path).should be_true(path)
         end
       end
     end

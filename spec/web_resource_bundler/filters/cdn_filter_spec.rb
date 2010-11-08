@@ -61,16 +61,15 @@ describe WebResourceBundler::Filters::CdnFilter do
     end
   end
 
-  describe "#change_resulted_files" do
+  describe "#change_resulted_files!" do
     it "returns hash with modified css files paths" do
-      resources = {
-        :css => ['styles/1.css', '/4.css'],
-        :js => ['file/that/shouldnt/change.js'],
-        :condition => ""
-      }
-      result = @filter.change_resulted_files(resources) 
-      result[:css].should == ['cdn_1.css', 'cdn_4.css']
-      result[:js].should == resources[:js] 
+      block_data = @sample_block_helper.sample_block_data
+      block_data.css.files = {'styles/1.css' => "", '/4.css' => ""}
+      block_data.js.files = {'file/that/shouldnt/change.js' => ""}
+      block_data.condition = ""
+      @filter.change_resulted_files!(block_data) 
+      block_data.css.files.keys.sort.should == ['cdn_1.css', 'cdn_4.css'].sort
+      block_data.js.files.keys.should == ['file/that/shouldnt/change.js']
     end
   end
 

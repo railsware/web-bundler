@@ -34,10 +34,11 @@ module WebResourceBundler
           read_resources!(block_data)
           block_data.apply_filters(filters)
           write_files_on_disk(block_data)
-          return BundledContentConstructor.construct_block(block_data)
+          return BundledContentConstructor.construct_block(block_data, @settings)
         end
         #bundle up to date, returning existing block 
-        return block
+        block_data.modify_resulted_files!(filters)
+        return BundledContentConstructor.construct_block(block_data, @settings)
       rescue Exception => e
         @logger.error(e.to_s)
         return block
@@ -53,8 +54,9 @@ module WebResourceBundler
     end
 
     def bundle_upto_date?(filters, block_data)
-      files = block_data.get_resulted_files(filters)
-      files.each do |name|
+      block_data_copy = block_data.clone
+      block_data_copy.modify_resulted_files!(filters)
+      block_data_copy.all_files.keys.each do |name|
         return false unless File.exist?(File.join(@settings.resource_dir, @settings.cache_dir, name))
       end
       true

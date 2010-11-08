@@ -24,16 +24,15 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       block_data.css.files = result_files
     end
 
-    def change_resulted_files(resources)
-      result_files = [] 
-      resources[:css].each do |path|
-        result_files << @generator.encoded_filename_for_ie(path)
-        if resources[:condition].empty?
-          result_files << @generator.encoded_filename(path)
+    def change_resulted_files!(block_data)
+      result_files = {} 
+      block_data.css.files.keys.each do |path|
+        result_files[@generator.encoded_filename_for_ie(path)] = ""
+        if block_data.condition.empty?
+          result_files[@generator.encoded_filename(path)] = ""
         end
       end
-      resources[:css] = result_files
-      resources
+      block_data.css.files = result_files
     end
 
   end

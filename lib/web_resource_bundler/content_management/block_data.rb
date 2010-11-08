@@ -10,6 +10,16 @@ module WebResourceBundler
       @child_blocks = []
     end
 
+    def clone
+      clon = self.dup 
+      clon.css = self.css.clone
+      clon.js = self.js.clone
+      clon.child_blocks = self.child_blocks.map do |block|
+        block.clone
+      end
+      clon
+    end
+
     def apply_filters(filters)
       unless filters.empty?
         filters.each do |filter|
@@ -21,18 +31,15 @@ module WebResourceBundler
       end
     end
 
-    def get_resulted_files(filters)
+    def modify_resulted_files!(filters)
       unless filters.empty?
-        resources = {:css => @css.files.keys, :js => @js.files.keys, :condition => @condition} 
         filters.each do |filter|
-          resources = filter.change_resulted_files(resources)
+          filter.change_resulted_files!(self)
         end
-        files = resources[:css] + resources[:js] 
         @child_blocks.each do |b|
-          files += b.get_resulted_files(filters)
+          b.modify_resulted_files!(filters)
         end
       end
-      files
     end
 
     def all_files
