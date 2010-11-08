@@ -6,11 +6,6 @@ require File.join(File.dirname(__FILE__), 'sample_block_helper')
 require 'logger'
 include WebResourceBundler 
 
-class WebResourceBundler::BlockData
-  def inspect
-    "BlockData " + @css.files.keys.inspect + @js.files.keys.inspect
-  end
-end
 def clean_cache_dir
   FileUtils.rm_rf(File.join(File.dirname(__FILE__), '/public/cache'))
 end

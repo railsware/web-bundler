@@ -40,7 +40,7 @@ module WebResourceBundler
         block_data.modify_resulted_files!(filters)
         return BundledContentConstructor.construct_block(block_data, @settings)
       rescue Exception => e
-        @logger.error(e.to_s)
+        @logger.error(e.backtrace.join("\n")+e.to_s)
         return block
       end
     end

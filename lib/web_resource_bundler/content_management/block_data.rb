@@ -14,8 +14,10 @@ module WebResourceBundler
       clon = self.dup 
       clon.css = self.css.clone
       clon.js = self.js.clone
-      clon.child_blocks = self.child_blocks.map do |block|
-        block.clone
+      if clon.child_blocks.size > 0
+        clon.child_blocks = self.child_blocks.map do |block|
+          block.clone
+        end
       end
       clon
     end

@@ -24,8 +24,12 @@ module WebResourceBundler::Filters::BundleFilter
     end
 
     def change_resulted_files!(block_data)
-      block_data.css.files = { bundle_filename(block_data.css) => "" }
-      block_data.js.files = { bundle_filename(block_data.js)=> "" }
+      if block_data.css.files.size > 0
+        block_data.css.files = { bundle_filename(block_data.css) => "" }
+      end
+      if block_data.js.files.size > 0
+        block_data.js.files = { bundle_filename(block_data.js)=> "" }
+      end
     end
 
     def get_md5(resource_data)
