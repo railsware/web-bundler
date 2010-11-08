@@ -13,12 +13,12 @@ module WebResourceBundler
       def construct_block(block_data, settings)
         result = ""
         block_data.css.files.each_key do |name|
-          url = File.join(settings.cache_dir, name)
+          url = File.join('/', settings.cache_dir, name)
           result += construct_css_link(url)
           result += "\n"
         end
         block_data.js.files.each_key do |name|
-          url = File.join(settings.cache_dir, name)
+          url = File.join('/', settings.cache_dir, name)
           result += construct_js_link(url)
           result += "\n"
         end

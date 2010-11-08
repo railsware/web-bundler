@@ -13,16 +13,6 @@ module WebResourceBundler
           @file_manager = file_manager 
         end
 
-        #get image url from string that matches tag
-        def get_value(str)
-          match = PATTERN.match(str)
-          if match
-            return match[2]
-          else
-            return nil
-          end		
-        end
-    
         #construct head of css file with definition of image data in base64
         def construct_header_for_ie(images)
           result = ""
@@ -58,14 +48,15 @@ module WebResourceBundler
         def encode_images_basic(content)
           images = {}
           new_content = content.gsub(PATTERN) do |s|
-            data = ImageData.new(get_value(s), @settings.resource_dir) 
+            tag, url = $1, $2
+            data = ImageData.new(url, @settings.resource_dir) 
             if data.exist and data.size <= @settings.max_image_size and block_given?
               #using image url as key to prevent one image be encoded many times
               images[data.url] = data unless images[data.path]
-              s.sub!(PATTERN, yield(data))
+              s.sub!(PATTERN, yield(data, tag))
             else
-              #if current image not found (html coder failed with url) we just leave this tag alone
-              s.sub!(PATTERN, s)
+              #returning the same string because user failed with image path - such image non existent
+              s
             end
           end
           {:images => images, :content => new_content}
@@ -74,8 +65,8 @@ module WebResourceBundler
         #generates css file for IE with encoded images using mhtml in cache dir
         def encode_images_for_ie(path, content)
           new_filename = encoded_filename_for_ie(path)
-          result = encode_images_basic(content) do |image_data|
-            "*#{TAGS[0]}:url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
+          result = encode_images_basic(content) do |image_data, tag|
+            "*#{tag}:url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
           end
           unless result[:images].empty?
             { new_filename => (construct_header_for_ie(result[:images]) + result[:content]) }
@@ -87,8 +78,8 @@ module WebResourceBundler
         #generates css file with encoded images in cache dir 
         def encode_images(path, content)
           new_filename = encoded_filename(path)
-          result = encode_images_basic(content) do |image_data|
-              "#{TAGS[0]}:url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
+          result = encode_images_basic(content) do |image_data, tag|
+              "#{tag}:url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
           end
           unless result[:images].empty?
             { new_filename => result[:content] }

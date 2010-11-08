@@ -20,7 +20,7 @@ describe WebResourceBundler::BundledContentConstructor do
       block_data.child_blocks = []
       sample_block = @sample_block_helper.sample_block
       result = BundledContentConstructor.construct_block(block_data, @settings)
-      result.should == "<link href = \"cache/sample.css\" media=\"screen\" rel=\"Stylesheet\" type=\"text/css\" />\n<script src = \"cache/set_cookies.js\" type=\"text/javascript\"></script>\nthis is inline block content<script>abracadabra</script><style>abracadabra</style>"
+      result.should == "<link href = \"/cache/sample.css\" media=\"screen\" rel=\"Stylesheet\" type=\"text/css\" />\n<script src = \"/cache/set_cookies.js\" type=\"text/javascript\"></script>\nthis is inline block content<script>abracadabra</script><style>abracadabra</style>"
     end  
   end
 
