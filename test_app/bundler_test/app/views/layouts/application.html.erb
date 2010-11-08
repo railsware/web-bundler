@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BundlerTest</title>
+  <% @content = capture do %>
+    <%= stylesheet_link_tag 'scaffold' %>
+    <%= javascript_include_tag :defaults %>
+    <!--[if IE]>
+      <%= stylesheet_link_tag 'ie_only' %>
+    <![endif]-->
+  <% end %>
+  <%=raw WebResourceBundler::Bundler.new(@settings).process(@content) %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+<%= yield %>
+<div class="image-div"></div>
+</body>
+</html>
