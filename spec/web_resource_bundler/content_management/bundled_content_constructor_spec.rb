@@ -15,14 +15,13 @@ describe WebResourceBundler::BundledContentConstructor do
   describe "#construct_block" do
     it "constructs html block using block data structure" do
       block_data = @sample_block_helper.sample_block_data
-      block_data.css.files = {'/sample.css' => ""}
-      block_data.js.files = {'/set_cookies.js' => ""} 
-      block_data.child_blocks[0].js.files = {'/set_cookies.js' => ""}
-      block_data.child_blocks[0].css.files = {'/sample.css' => ""}
+      block_data.css.files = {'sample.css' => ""}
+      block_data.js.files = {'set_cookies.js' => ""} 
+      block_data.child_blocks = []
       sample_block = @sample_block_helper.sample_block
-      result = BundledContentConstructor.construct_block(block_data)
-      result.should == "<link href = \"/sample.css\" media=\"screen\" rel=\"Stylesheet\" type=\"text/css\" />\n<script src = \"/set_cookies.js\" type=\"text/javascript\"></script>\nthis is inline block content<script>abracadabra</script><style>abracadabra</style><!--[if IE 7]><link href = \"/sample.css\" media=\"screen\" rel=\"Stylesheet\" type=\"text/css\" />\n<script src = \"/set_cookies.js\" type=\"text/javascript\"></script>\nthis is inline block content<script>abracadabra</script><style>abracadabra</style><![endif]-->"
-    end
+      result = BundledContentConstructor.construct_block(block_data, @settings)
+      result.should == "<link href = \"cache/sample.css\" media=\"screen\" rel=\"Stylesheet\" type=\"text/css\" />\n<script src = \"cache/set_cookies.js\" type=\"text/javascript\"></script>\nthis is inline block content<script>abracadabra</script><style>abracadabra</style>"
+    end  
   end
 
 end

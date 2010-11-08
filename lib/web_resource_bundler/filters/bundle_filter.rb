@@ -24,8 +24,8 @@ module WebResourceBundler::Filters::BundleFilter
     end
 
     def change_resulted_files(resources)
-      resources[:css] = [ bundle_filename(ResourceBundle::CSS, resources[:css]) ]
-      resources[:js] = [ bundle_filename(ResourceBundle::JS, resources[:js]) ]
+      resources[:css] = [ bundle_filename(WebResourceBundler::ResourceBundle::CSS, resources[:css]) ]
+      resources[:js] = [ bundle_filename(WebResourceBundler::ResourceBundle::JS, resources[:js]) ]
       resources
     end
 

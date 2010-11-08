@@ -14,7 +14,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       result_files = {} 
       resource = block_data.css
       resource.files.each_pair do |path, content|
-        CssUrlRewriter.rewrite_content_urls!(path, content)
+        WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(path, content)
         @generator.encode_images_for_ie(path, content)
         result_files.merge!(@generator.encode_images_for_ie(path, content))
         if block_data.condition.empty?

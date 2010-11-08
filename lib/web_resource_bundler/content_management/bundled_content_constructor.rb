@@ -10,19 +10,21 @@ module WebResourceBundler
         "<link href = \"#{path}\" media=\"screen\" rel=\"Stylesheet\" type=\"text/css\" />"
       end
 
-      def construct_block(block_data)
+      def construct_block(block_data, settings)
         result = ""
-        block_data.css.files.each_key do |url|
+        block_data.css.files.each_key do |name|
+          url = File.join(settings.cache_dir, name)
           result += construct_css_link(url)
           result += "\n"
         end
-        block_data.js.files.each_key do |url|
+        block_data.js.files.each_key do |name|
+          url = File.join(settings.cache_dir, name)
           result += construct_js_link(url)
           result += "\n"
         end
         result += block_data.inline_block
         block_data.child_blocks.each do |block|
-          result += construct_block(block)
+          result += construct_block(block, settings)
         end
         unless block_data.condition.empty?
           result = "<!--#{block_data.condition}>" + result + "<![endif]-->"

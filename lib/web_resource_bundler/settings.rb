@@ -8,8 +8,7 @@ module WebResourceBundler
       :encode_images => true,
       :use_cdn => true,
       :max_image_size => 23, #kbytes
-      :resource_dir => '/public',
-      :cache_dir => '/cache',
+      :cache_dir => 'cache',
       :http_hosts => ['http://booble.com'],
       :https_hosts => ['https://booble.com']
     }

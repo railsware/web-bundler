@@ -27,7 +27,7 @@ Spec::Runner.configure do |config|
         :max_image_size => 30,
         :resource_dir => File.join(File.dirname(__FILE__), '/public'),
         :bundle_files => true,
-        :cache_dir => '/cache',
+        :cache_dir => 'cache',
         :log_path => File.join(File.dirname(__FILE__), '/spec.log')
       }
     @settings = Settings.new @settings_hash
@@ -38,6 +38,6 @@ Spec::Runner.configure do |config|
   config.after(:all) do
     log_path = File.join(File.dirname(__FILE__), '/spec.log')
     File.delete(log_path) if File.exist?(log_path)
-    #clean_cache_dir
+    clean_cache_dir
   end
 end
