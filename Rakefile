@@ -2,6 +2,7 @@ require 'rake'
 require 'spec/rake/spectask'
 require 'rubygems'
 
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
