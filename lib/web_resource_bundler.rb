@@ -15,8 +15,12 @@ module WebResourceBundler
   class Bundler
     def initialize(settings = {})
       @settings = Settings.new settings
-      file = File.open(@settings.log_path, File::WRONLY | File::APPEND | File::CREAT)
-      @logger = Logger.new(file)
+      begin
+        file = File.open(@settings.log_path, File::WRONLY | File::APPEND | File::CREAT)
+        @logger = Logger.new(file)
+      rescue
+        @logger = Logger.new(STDOUT)
+      end
       @file_manager = FileManager.new @settings
       @parser = BlockParser.new
       @filters = {
