@@ -28,19 +28,13 @@ module WebResourceBundler
         @settings_hash[:encode_images] = true
         @settings_hash[:bundle_files] = true
         @settings_hash[:use_cdn] = false
+        @bundler = WebResourceBundler::Bundler.new @settings_hash
         @bundler.build_filters.size.should == 2
         @settings_hash[:encode_images] = false
         @settings_hash[:bundle_files] = false
         @settings_hash[:use_cdn] = false
         @bundler = WebResourceBundler::Bundler.new @settings_hash
         @bundler.build_filters.size.should == 0
-      end
-      it "if both cdn and base64 filters applied, only base64 should be used" do
-        @settings_hash[:encode_images] = true
-        @settings_hash[:bundle_files] = true
-        @settings_hash[:use_cdn] = true
-        @bundler = WebResourceBundler::Bundler.new @settings_hash
-        @bundler.build_filters.size.should == 2
       end
     end
 

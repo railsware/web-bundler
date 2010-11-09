@@ -39,6 +39,13 @@ describe WebResourceBundler::Filters::CdnFilter do
       content.should == "background: url('http://boogle.com/styles/images/1.png');"
     end
 
+    it "doesn't add hosts for images encoded in base64" do
+      content = "background:url('data:image/png;base64,iVBORw0KGg); *background:url(mhtml:http://domain.com/cache/base64_ie_style_9648c01be7e50284958eb07877c70e03.en.css!rails5804) no-repeat 0 100%;"
+      clon = content.dup
+      @filter.rewrite_content_urls!(@file_path, content.dup)
+      content.should == clon 
+    end
+
     it "binds image to one particular host" do
       @settings.http_hosts << 'http://froogle.com'
       @filter = Filters::CdnFilter::Filter.new(@settings, @file_manager)

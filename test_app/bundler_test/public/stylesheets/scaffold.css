@@ -17,6 +17,12 @@ pre {
   height : 100px;
 }
 
+.second_div {
+  background: url('../images/big_image.png') no-repeat 0 100%;
+  width : 500px;
+  height : 500px;
+}
+
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }

@@ -49,7 +49,7 @@ module WebResourceBundler
       filters = []
       filters << @filters[:bundler] if @settings.bundle_files
       filters << @filters[:base64] if @settings.encode_images
-      filters << @filters[:cdn] if @settings.use_cdn and not @settings.encode_images
+      filters << @filters[:cdn] if @settings.use_cdn
       return filters
     end
 

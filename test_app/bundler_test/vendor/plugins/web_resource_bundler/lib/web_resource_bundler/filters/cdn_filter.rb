@@ -27,13 +27,16 @@ module WebResourceBundler::Filters::CdnFilter
     end
 
     def rewrite_content_urls!(file_path, content)
-      content.gsub!(/url\s*\(['|"]?([^\)'"]+)['|"]?\)/) do
+      content.gsub!(/url\s*\(['|"]?([^\)'"]+)['|"]?\)/) do |s|
+        #we shouldn't change url value for base64 encoded images
         matched_url = $1
-        if matched_url.match(/\.(jpg|gif|png|jpeg|bmp)/)
-          url = CssUrlRewriter.rewrite_relative_path(file_path, matched_url)
+        if not (/base64/.match(s) or /mhtml/.match(s)) and matched_url.match(/\.(jpg|gif|png|jpeg|bmp)/)
+          url = WebResourceBundler::CssUrlRewriter.rewrite_relative_path(file_path, matched_url)
           host = host_for_image(url)
-          s = "url('#{host}#{url}')"
-        end 
+          s = "url('#{File.join(host, url)}')"
+        else
+          s
+        end
       end
     end
 
