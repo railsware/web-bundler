@@ -13,7 +13,13 @@ require 'exceptions'
 
 module WebResourceBundler
   class Bundler
-    def initialize(settings = {})
+
+    @@instance = nil
+    def self.instance
+      @@instance
+    end
+    attr_reader :settings
+    def initialize(settings)
       @settings = Settings.new settings
       begin
         file = File.open(@settings.log_path, File::WRONLY | File::APPEND | File::CREAT)
@@ -23,43 +29,45 @@ module WebResourceBundler
       end
       @file_manager = FileManager.new @settings
       @parser = BlockParser.new
-      @filters = {
-        :bundler => Filters::BundleFilter::Filter.new(@settings, @file_manager),
-        :base64 => Filters::ImageEncodeFilter::Filter.new(@settings, @file_manager),
-        :cdn => Filters::CdnFilter::Filter.new(@settings, @file_manager)
+      common_sets = { 
+        :resource_dir => @settings.resource_dir, 
+        :cache_dir => @settings.cache_dir
       }
+      @filters = [] 
+      @filters << Filters::BundleFilter::Filter.new(@settings.bundle_filter.merge(common_sets), @file_manager) if @settings.bundle_filter
+      @filters << Filters::ImageEncodeFilter::Filter.new(@settings.base64_filter.merge(common_sets), @file_manager) if @settings.base64_filter
+      @filters << Filters::CdnFilter::Filter.new(@settings.cdn_filter.merge(common_sets), @file_manager) if @settings.cdn_filter
+      @@instance = self
+    end
+
+    def set_settings(settings)
+      @settings.set(settings)
+      @filters.each_pair do |key, filter|
+        filter.set_settings(@settings[key]) if settings[:key]
+      end
     end
 
     def process(block)
       begin
         block_data = @parser.parse(block)
-        filters = build_filters 
-        unless filters.empty? or bundle_upto_date?(filters, block_data)
+        unless @filters.empty? or bundle_upto_date?(block_data)
           read_resources!(block_data)
-          block_data.apply_filters(filters)
+          block_data.apply_filters(@filters)
           write_files_on_disk(block_data)
           return BundledContentConstructor.construct_block(block_data, @settings)
         end
         #bundle up to date, returning existing block 
-        block_data.modify_resulted_files!(filters)
-        return BundledContentConstructor.construct_block(block_data, @settings)
+        block_data.modify_resulted_files!(@filters)
+        return block_data
       rescue Exception => e
         @logger.error(e.backtrace.join("\n")+e.to_s)
-        return block
+        return nil
       end
     end
 
-    def build_filters
-      filters = []
-      filters << @filters[:bundler] if @settings.bundle_files
-      filters << @filters[:base64] if @settings.encode_images
-      filters << @filters[:cdn] if @settings.use_cdn
-      return filters
-    end
-
-    def bundle_upto_date?(filters, block_data)
+    def bundle_upto_date?(block_data)
       block_data_copy = block_data.clone
-      block_data_copy.modify_resulted_files!(filters)
+      block_data_copy.modify_resulted_files!(@filters)
       block_data_copy.all_files.keys.each do |name|
         return false unless File.exist?(File.join(@settings.resource_dir, @settings.cache_dir, name))
       end

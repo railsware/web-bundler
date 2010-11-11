@@ -33,14 +33,17 @@ module WebResourceBundler::Filters::BundleFilter
     end
 
     def get_md5(resource_data)
-      items = [resource_data.files.keys, @settings.domain, @settings.protocol]
+      items = [resource_data.files.keys]
+      items += @settings.md5_additional_data if @settings.md5_additional_data
       Digest::MD5.hexdigest(items.flatten.join('|'))
     end
 
     def bundle_filename(resource_data)
       type = resource_data.type
       unless resource_data.files.keys.empty?
-        items = [type[:name] + '_' + get_md5(resource_data), @settings.language, type[:ext]]
+        items = [type[:name] + '_' + get_md5(resource_data)]
+        items += @settings.filename_additional_data if @settings.filename_additional_data
+        items << type[:ext]
         return items.join('.') 
       else
         return nil

@@ -10,6 +10,12 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       @generator = CssGenerator.new(@settings, @file_manager)
     end
 
+    def set_settings(settings)
+      p "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      super settings
+      @generator.set_settings(settings)
+    end
+
     def apply(block_data)
       result_files = {} 
       resource = block_data.css

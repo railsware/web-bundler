@@ -13,6 +13,10 @@ module WebResourceBundler
           @file_manager = file_manager 
         end
 
+        def set_settings(settings)
+          @settings.set(settings)
+        end
+
         #construct head of css file with definition of image data in base64
         def construct_header_for_ie(images)
           result = ""
@@ -28,7 +32,7 @@ module WebResourceBundler
         end
 
         def construct_mhtml_link(filename)
-          "http://#{File.join(@settings.domain, @settings.cache_dir, filename)}"
+          "#{@settings.protocol}://#{File.join(@settings.domain, @settings.cache_dir, filename)}"
         end
 
         #name of a new file with images encoded

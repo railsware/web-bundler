@@ -1,20 +1,23 @@
 module WebResourceBundler
   class Settings
     @@defaults = {
-      :domain => 'domain.com',
-      :protocol => 'http',
-      :language => 'en',
-      :bundle_files => true,
-      :encode_images => true,
-      :use_cdn => true,
-      :max_image_size => 23, #kbytes
       :cache_dir => 'cache',
-      :http_hosts => ['http://booble.com'],
-      :https_hosts => ['https://booble.com']
+      :base64_filter => {
+        :max_image_size => 23, #kbytes
+        :protocol => 'http',
+        :domain => 'localhost:3000'
+      },
+      :bundle_filter => {
+        :md5_additional_data => []
+      },
+      :cdn_filter => {
+        :http_hosts => ['http://localhost:3000'],
+        :https_hosts => ['https://localhost:3000']
+      }
     }
 
     def initialize(hash = {})
-      @settings = @@defaults.merge(hash)
+      @settings = hash
     end
 
     def set(hash)

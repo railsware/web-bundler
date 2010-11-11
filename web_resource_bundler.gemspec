@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
      "Gemfile",
      "Gemfile.lock",
      "README",
+     "Rakefile",
      "VERSION",
      "lib/web_resource_bundler.rb",
      "lib/web_resource_bundler/content_management/block_data.rb",
@@ -145,7 +146,8 @@ Gem::Specification.new do |s|
      "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/image_encode_filter.rb",
      "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/image_encode_filter/css_generator.rb",
      "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/image_encode_filter/image_data.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/settings.rb"
+     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/settings.rb",
+     "web_resource_bundler.gemspec"
   ]
   s.homepage = %q{http://github.com/gregolsen/web_resource_bundler}
   s.rdoc_options = ["--charset=UTF-8"]
