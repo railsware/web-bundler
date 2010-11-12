@@ -4,9 +4,9 @@ module WebResourceBundler::RailsAppHelpers
     block_text = capture(&block)
     block_data = WebResourceBundler::Bundler.instance.process(block_text)
     if block_data
-      return raw construct_block(block_data, WebResourceBundler::Bundler.instance.settings)
+      return raw(construct_block(block_data, WebResourceBundler::Bundler.instance.settings))
     else
-      return raw block_text
+      return raw(block_text)
     end
   end
 
