@@ -4,7 +4,7 @@ module WebResourceBundler
       class CssGenerator
         TAGS = ['background-image', 'background']
         SEPARATOR = 'A_SEPARATOR'
-        PATTERN = /(#{TAGS.join('|')})\s*:\s*url\(\s*['|"]([^\)]*)['|"]\s*\)/
+        PATTERN = /(#{TAGS.join('|')})\s*:[^\(]*url\(\s*['|"]([^\)]*)['|"]\s*\)/
         FILE_PREFIX = 'base64_'
         IE_FILE_PREFIX = 'base64_ie_'
 
