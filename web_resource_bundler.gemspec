@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
-  s.date = %q{2010-11-09}
+  s.date = %q{2010-11-12}
   s.description = %q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
   s.email = %q{anotheroneman@yahoo.com}
   s.extra_rdoc_files = [
@@ -39,7 +39,9 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/filters/image_encode_filter.rb",
      "lib/web_resource_bundler/filters/image_encode_filter/css_generator.rb",
      "lib/web_resource_bundler/filters/image_encode_filter/image_data.rb",
+     "lib/web_resource_bundler/rails_app_helpers.rb",
      "lib/web_resource_bundler/settings.rb",
+     "lib/web_resource_bundler/web_resource_bundler_init.rb",
      "spec/public/foo.css",
      "spec/public/images/good.jpg",
      "spec/public/images/logo.jpg",
@@ -55,6 +57,7 @@ Gem::Specification.new do |s|
      "spec/public/temp.css",
      "spec/public/test.css",
      "spec/sample_block_helper.rb",
+     "spec/spec.log",
      "spec/spec_helper.rb",
      "spec/web_resource_bundler/content_management/block_data_spec.rb",
      "spec/web_resource_bundler/content_management/block_parser_spec.rb",
@@ -98,6 +101,7 @@ Gem::Specification.new do |s|
      "test_app/bundler_test/config/initializers/mime_types.rb",
      "test_app/bundler_test/config/initializers/secret_token.rb",
      "test_app/bundler_test/config/initializers/session_store.rb",
+     "test_app/bundler_test/config/initializers/web_resource_bundler_init.rb",
      "test_app/bundler_test/config/locales/en.yml",
      "test_app/bundler_test/config/routes.rb",
      "test_app/bundler_test/db/migrate/20101107200125_create_items.rb",
@@ -108,6 +112,10 @@ Gem::Specification.new do |s|
      "test_app/bundler_test/public/404.html",
      "test_app/bundler_test/public/422.html",
      "test_app/bundler_test/public/500.html",
+     "test_app/bundler_test/public/cache/cdn_base64_ie_style_06f55406a810a7fd16baa55c2a79c7c4.css",
+     "test_app/bundler_test/public/cache/cdn_base64_ie_style_fc6e099576b80a76fa8fe7ec1c66de70.css",
+     "test_app/bundler_test/public/cache/cdn_base64_style_fc6e099576b80a76fa8fe7ec1c66de70.css",
+     "test_app/bundler_test/public/cache/script_0de85013d308b42f49ec53108ba81078.js",
      "test_app/bundler_test/public/favicon.ico",
      "test_app/bundler_test/public/images/big_image.png",
      "test_app/bundler_test/public/images/ie8-logo.png",
@@ -129,24 +137,6 @@ Gem::Specification.new do |s|
      "test_app/bundler_test/test/test_helper.rb",
      "test_app/bundler_test/test/unit/helpers/items_helper_test.rb",
      "test_app/bundler_test/test/unit/item_test.rb",
-     "test_app/bundler_test/vendor/plugins/.gitkeep",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/content_management/block_data.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/content_management/block_parser.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/content_management/bundled_content_constructor.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/content_management/css_url_rewriter.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/content_management/resource_bundle.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/exceptions.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/file_manager.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/base_filter.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/bundle_filter.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/bundle_filter/resource_packager.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/cdn_filter.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/image_encode_filter.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/image_encode_filter/css_generator.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/filters/image_encode_filter/image_data.rb",
-     "test_app/bundler_test/vendor/plugins/web_resource_bundler/lib/web_resource_bundler/settings.rb",
      "web_resource_bundler.gemspec"
   ]
   s.homepage = %q{http://github.com/gregolsen/web_resource_bundler}

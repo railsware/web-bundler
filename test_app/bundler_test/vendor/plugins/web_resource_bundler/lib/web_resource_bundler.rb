@@ -55,7 +55,7 @@ module WebResourceBundler
           read_resources!(block_data)
           block_data.apply_filters(@filters)
           write_files_on_disk(block_data)
-          return block_data
+          return BundledContentConstructor.construct_block(block_data, @settings)
         end
         #bundle up to date, returning existing block 
         block_data.modify_resulted_files!(@filters)
