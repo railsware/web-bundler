@@ -4,7 +4,7 @@ module WebResourceBundler
       class CssGenerator
         TAGS = ['background-image', 'background']
         SEPARATOR = 'A_SEPARATOR'
-        PATTERN = /(#{TAGS.join('|')})\s*:[^\(]*url\(\s*['|"]([^\)]*)['|"]\s*\)/
+        PATTERN = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/
         FILE_PREFIX = 'base64_'
         IE_FILE_PREFIX = 'base64_ie_'
 
@@ -52,12 +52,12 @@ module WebResourceBundler
         def encode_images_basic(content)
           images = {}
           new_content = content.gsub(PATTERN) do |s|
-            tag, url = $1, $2
+            tag, url = $1, $3
             data = ImageData.new(url, @settings.resource_dir) 
             if data.exist and data.size <= @settings.max_image_size and block_given?
               #using image url as key to prevent one image be encoded many times
               images[data.url] = data unless images[data.path]
-              s.sub!(PATTERN, yield(data, tag))
+              s = yield(data, tag)
             else
               #returning the same string because user failed with image path - such image non existent
               s
@@ -70,7 +70,7 @@ module WebResourceBundler
         def encode_images_for_ie(path, content)
           new_filename = encoded_filename_for_ie(path)
           result = encode_images_basic(content) do |image_data, tag|
-            "*#{tag}:url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
+            "*#{tag}url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
           end
           unless result[:images].empty?
             { new_filename => (construct_header_for_ie(result[:images]) + result[:content]) }
@@ -83,7 +83,7 @@ module WebResourceBundler
         def encode_images(path, content)
           new_filename = encoded_filename(path)
           result = encode_images_basic(content) do |image_data, tag|
-              "#{tag}:url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
+              "#{tag}url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
           end
           unless result[:images].empty?
             { new_filename => result[:content] }

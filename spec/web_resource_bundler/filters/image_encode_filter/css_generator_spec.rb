@@ -30,14 +30,14 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       before(:each) do
         @content = "background-image: url('images/logo.jpg'); background: url('images/logo.jpg'); background: url(\"non_existent.jpg\");"
         result = @generator.encode_images_basic(@content) do |image_data, tag|
-          tag + ' ' + image_data.extension
+          tag + image_data.extension
         end
         @images = result[:images]
         @content = result[:content]
       end
 
       it "substitute each image tag (image should exist and has proper size) with result of a yield" do
-        @content.should == "background-image jpg; background jpg; background: url(\"non_existent.jpg\");"
+        @content.should == "background-image: jpg; background: jpg; background: url(\"non_existent.jpg\");"
       end
 
       it "returns hash of images found and with proper size" do
@@ -88,7 +88,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
           result = @generator.encode_images(@path, @content)
           new_path = result.keys[0]
           new_path.should == 'base64_' + File.basename(@path)
-          result[new_path].include?(":url('data:image").should be_true
+          result[new_path].include?("url('data:image").should be_true
         end
       end
       describe "#encode_images_for_ie" do
@@ -96,7 +96,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
           result = @generator.encode_images_for_ie(@path, @content)
           new_path = result.keys[0]
           new_path.should == 'base64_ie_' + File.basename(@path)
-          result[new_path].include?(":url(mhtml:").should be_true
+          result[new_path].include?("url(mhtml:").should be_true
         end
       end
     end
