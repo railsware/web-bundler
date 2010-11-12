@@ -38,9 +38,10 @@ module WebResourceBundler
         data.js.files.should be_empty
       end
 
-
       def compare_block_datas(a,b)
+        a.css.files.keys.size.should == b.css.files.keys.size
         (a.css.files.keys - b.css.files.keys).should be_empty
+        a.js.files.keys.size.should == b.js.files.keys.size
         (a.js.files.keys - b.js.files.keys).should be_empty
         a.child_blocks.size.should == b.child_blocks.size
         a.condition.should == b.condition
@@ -61,6 +62,18 @@ module WebResourceBundler
         
         (result[:css].keys - @styles).should be_empty
         (result[:js].keys - @scripts).should be_empty
+      end
+
+      it "recognize only css and js files" do
+        block = "<link href='www.domain.com/rss.atom' /> <link href='valid.css' />"
+        result = @block_parser.find_files(block)
+        result[:css].keys.should == ['valid.css']
+      end
+
+      it "recognize files only on disk, not full urls" do
+        block = "<link href='http://glogle.com/web.css' /> <link href='valid.css' />"
+        result = @block_parser.find_files(block)
+        result[:css].keys.should == ['valid.css']
       end
 
     end

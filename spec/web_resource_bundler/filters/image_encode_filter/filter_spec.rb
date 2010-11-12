@@ -13,9 +13,10 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
       before(:each) do
         @bundler_filter = Filters::BundleFilter::Filter.new(@base64_settings, @file_manager)
       end
-      it "encodes images in bundles by creating two files (for IE and others) if block_data without condition" do
+      it "encodes images in two files (for IE and others) if block_data without condition" do
         block_data = @sample_block_helper.sample_block_data
         bundle_filename = @bundler_filter.bundle_filename(block_data.css)
+        
         @bundler_filter.apply(block_data)
         @filter.apply(block_data)
         generated_files = block_data.css.files.keys
@@ -23,9 +24,12 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         generated_files.include?(@ie_file_prefix + bundle_filename).should be_true
       end
 
-      it "encodes images in bundles by creating one file for IE if block_data is conditional block" do
+      it "encodes images in bundles in one file for IE if block_data is conditional block" do
         block_data = @sample_block_helper.sample_block_data.child_blocks.first
         bundle_filename = @bundler_filter.bundle_filename(block_data.css)
+        block_data.css.files.each_pair do |path, content|
+          WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(path, content) if File.extname(path) == '.css'
+        end
         @bundler_filter.apply(block_data)
         @filter.apply(block_data)
         generated_files = block_data.css.files.keys

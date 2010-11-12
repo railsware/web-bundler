@@ -44,7 +44,7 @@ Spec::Runner.configure do |config|
 
   config.after(:all) do
     log_path = File.join(File.dirname(__FILE__), '/spec.log')
-    #File.delete(log_path) if File.exist?(log_path)
-    #clean_cache_dir
+    File.delete(log_path) if File.exist?(log_path)
+    clean_cache_dir
   end
 end

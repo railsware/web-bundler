@@ -40,21 +40,21 @@ class SampleBlockHelper
 
   def sample_cond_block
     "<!-- [if IE 7] >" +
-    construct_links_block(@styles[(@styles.size / 2)..-1], @scripts[(@styles.size / 2)..-1]) +
+    construct_links_block(@styles[(@styles.size / 2)..-1], @scripts[(@scripts.size / 2)..-1]) +
     sample_inline_block +
     "<! [endif] -->"
   end
 
   def sample_block
-    block = construct_links_block(@styles[0..(@styles.size / 2 - 1)], @scripts[0..(@styles.size / 2 - 1)]) + "\n"
+    block = construct_links_block(@styles[0..(@styles.size / 2 - 1)], @scripts[0..(@scripts.size / 2 - 1)]) + "\n"
     block += sample_inline_block
     block += sample_cond_block
   end
 
   def sample_block_data
     data = BlockData.new
-    data.css = construct_resource_bundle(ResourceBundle::CSS, @styles[0..(@styles.size / 2)])
-    data.js = construct_resource_bundle(ResourceBundle::JS, @scripts[0..(@styles.size / 2)])
+    data.css = construct_resource_bundle(ResourceBundle::CSS, @styles[0..(@styles.size / 2 - 1)])
+    data.js = construct_resource_bundle(ResourceBundle::JS, @scripts[0..(@scripts.size / 2 - 1)])
     data.inline_block = sample_inline_block
     data.child_blocks << child_block_data
     data
@@ -62,8 +62,8 @@ class SampleBlockHelper
 
   def child_block_data
     child = BlockData.new("[if IE 7]")
-    child.css = construct_resource_bundle(ResourceBundle::CSS, @styles)
-    child.js = construct_resource_bundle(ResourceBundle::JS, @scripts)
+    child.css = construct_resource_bundle(ResourceBundle::CSS, @styles[(@styles.size / 2)..(@styles.size - 1)])
+    child.js = construct_resource_bundle(ResourceBundle::JS, @scripts[(@scripts.size / 2)..(@scripts.size - 1)])
     child.inline_block = sample_inline_block
     child
   end

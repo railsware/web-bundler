@@ -32,9 +32,11 @@ module WebResourceBundler
     def find_files(block)
       files = {:css => {}, :js => {}}
       block.scan(/(href|src) *= *["']([^"^'^\?]+)/i).each do |property, value|
-        case property
-          when "src" then files[:js][value] = "" 
-          when "href" then files[:css][value] = "" 
+        unless value.include?('://') 
+          case property
+            when "src" then files[:js][value] = "" if File.extname(value) == '.js'
+            when "href" then files[:css][value] = "" if File.extname(value) == '.css'
+          end
         end
       end
       files
