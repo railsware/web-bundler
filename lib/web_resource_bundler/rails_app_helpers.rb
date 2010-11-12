@@ -3,10 +3,18 @@ module WebResourceBundler::RailsAppHelpers
   def process(&block)
     block_text = capture(&block)
     block_data = WebResourceBundler::Bundler.instance.process(block_text)
+    result = ""
     if block_data
-      return raw(construct_block(block_data, WebResourceBundler::Bundler.instance.settings))
+      result = construct_block(block_data, WebResourceBundler::Bundler.instance.settings)
     else
-      return raw(block_text)
+      result = block_text
+    end
+    version = Rails::version
+    case
+      when version >= '3.0.0' then return raw(result) 
+      when (version >= '2.2.0' and version < '3.0.0') then concat(result)
+    else
+      concat(result, block.binding)
     end
   end
 

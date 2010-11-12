@@ -57,7 +57,6 @@ Gem::Specification.new do |s|
      "spec/public/temp.css",
      "spec/public/test.css",
      "spec/sample_block_helper.rb",
-     "spec/spec.log",
      "spec/spec_helper.rb",
      "spec/web_resource_bundler/content_management/block_data_spec.rb",
      "spec/web_resource_bundler/content_management/block_parser_spec.rb",
