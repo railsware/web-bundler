@@ -80,15 +80,16 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     end
     context "css files has images" do
       before(:each) do
-        @path = @styles[0]
-        @content = File.read(File.join(@settings.resource_dir, @path))
+        @path = 'style.css' 
+        @content = "background: #eeeeee url('images/logo.jpg') repeat-x 0 100%;" 
       end
       describe "#encode_images" do
         it "returns hash with new file path and images encoded in content" do
           result = @generator.encode_images(@path, @content)
           new_path = result.keys[0]
           new_path.should == 'base64_' + File.basename(@path)
-          result[new_path].include?("url('data:image").should be_true
+          result[new_path].include?("background: #eeeeee url('data:image").should be_true
+          result[new_path].include?("repeat-x 0 100%").should be_true
         end
       end
       describe "#encode_images_for_ie" do
@@ -96,7 +97,8 @@ module WebResourceBundler::Filters::ImageEncodeFilter
           result = @generator.encode_images_for_ie(@path, @content)
           new_path = result.keys[0]
           new_path.should == 'base64_ie_' + File.basename(@path)
-          result[new_path].include?("url(mhtml:").should be_true
+          result[new_path].include?("background: #eeeeee url(mhtml:").should be_true
+          result[new_path].include?("repeat-x 0 100%").should be_true
         end
       end
     end
