@@ -33,7 +33,7 @@ module WebResourceBundler::Filters::BundleFilter
     end
 
     def get_md5(resource_data)
-      items = [resource_data.files.keys]
+      items = [resource_data.files.keys.sort]
       items += @settings.md5_additional_data if @settings.md5_additional_data
       Digest::MD5.hexdigest(items.flatten.join('|'))
     end

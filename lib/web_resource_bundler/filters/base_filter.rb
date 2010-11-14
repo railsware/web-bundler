@@ -1,5 +1,6 @@
 module WebResourceBundler
   module Filters
+    #virtaul base class for filters
     class BaseFilter
       attr_reader :settings
 

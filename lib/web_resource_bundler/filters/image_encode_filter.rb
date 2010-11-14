@@ -11,7 +11,6 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     end
 
     def set_settings(settings)
-      p "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
       super settings
       @generator.set_settings(settings)
     end
@@ -20,9 +19,9 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       result_files = {} 
       resource = block_data.css
       resource.files.each_pair do |path, content|
-        WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(path, content)
         @generator.encode_images_for_ie(path, content)
         result_files.merge!(@generator.encode_images_for_ie(path, content))
+        #if it isn't conditional IE block then we should create file for other browsers
         if block_data.condition.empty?
           result_files.merge!(@generator.encode_images(path, content))
         end

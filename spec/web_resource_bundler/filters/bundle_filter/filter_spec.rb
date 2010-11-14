@@ -6,10 +6,10 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
     @block_data = @sample_block_helper.sample_block_data
     css_type = ResourceBundle::CSS
     js_type = ResourceBundle::JS
-    items = [@block_data.css.files.keys] + @bundle_settings[:md5_additional_data]
+    items = [@block_data.css.files.keys.sort] + @bundle_settings[:md5_additional_data]
     @css_md5_value = Digest::MD5.hexdigest(items.flatten.join('|'))
     @css_bundle_file = [css_type[:name] + '_' + @css_md5_value, 'en', css_type[:ext]].join('.')
-    items = [@block_data.js.files.keys]  + @bundle_settings[:md5_additional_data]
+    items = [@block_data.js.files.keys.sort]  + @bundle_settings[:md5_additional_data]
     js_md5_value = Digest::MD5.hexdigest(items.flatten.join('|'))
     @js_bundle_file = [js_type[:name] + '_' + js_md5_value, 'en', js_type[:ext]].join('.')
   end
@@ -23,7 +23,7 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
   end
 
   describe "#get_md5" do
-    it "returns md5 from filenames and another additional data" do
+    it "returns md5 from sorted filenames and another additional data" do
       @filter.get_md5(@block_data.css).should == @css_md5_value
     end
   end

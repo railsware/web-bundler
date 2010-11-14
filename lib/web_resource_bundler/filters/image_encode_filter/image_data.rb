@@ -1,6 +1,7 @@
 module WebResourceBundler
   module Filters
     module ImageEncodeFilter
+      #ImageData contains info about image found in css files
     	class ImageData
     		#maximum file size allowed to be encoded
     		MAX_SIZE = 1024*10 #10 kbytes
@@ -9,6 +10,7 @@ module WebResourceBundler
 
     		def initialize(url, folder)
           @url = url
+          #computing absolute file path using folder of css file
     			@path = File.join(folder, url) 
     			@exist = File.exist?(@path)
     			if @exist
