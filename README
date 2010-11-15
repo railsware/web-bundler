@@ -1,2 +1,70 @@
-See for more info:
-https://railsware.basecamphq.com/projects/5602924/posts
+=================== WebResourceBundler gem README ============================
+
+Content:
+1. Purpose
+2. Functional description
+3. Installation
+4. Usage
+
+=================== 1. Purpose ===============================================
+
+The main purpose of WebResourceBundler gem is to minimize request & response
+round-trips. This could be done by bundling particular resource (css or js) in 
+one file. Encoding images in base64 and putting then in css directly.
+
+=================== 2. Functional description ================================
+
+WebResourceBundler parse your head html block, finding all css and js resource 
+files.
+It can bundle resource of particular type in one single file. Base64 filter
+encodes images in base64 putting them in css directly. Separate files for IE
+and other browsers created. Conditional comments (like <!--[if IE 6]>) also
+supported. You can use external image hosts to server images in css: 
+cdn filter can rewrite image urls for you.
+
+=================== 3. Installation ==========================================
+
+gem install web_resource_bundle
+
+It's pretty easy, yeah?
+
+=================== 4. Usage ================================================= 
+
+To use bundler in rails app you should create initializer file in
+/path/to/your/rails_app/config/initializers/ directory
+Let's say it will be web_resource_bundler_init.rb
+Then you should put content like this in it.
+
+require 'web_resource_bundler'
+settings = {
+  :resource_dir => File.join(Rails.root, 'public'), #use RAILS_ROOT while using rails older than rails 3
+  :log_path => File.join(Rails.root, 'log/web_resource_bundler.log'), #path to your log file
+  :cache_dir => 'cache', #cache dir where to put bundle files
+  :base64_filter => {
+    :max_image_size => 23, #kbytes, bigger images won't be encoded in base64 in case of efficiency
+    :protocol => 'http',
+    :domain => 'localhost:3000'
+  },
+  :bundle_filter => {
+    :md5_additional_data => [] #additional data that will be used to compute md5
+  },
+  :cdn_filter => {
+    :http_hosts => ['http://localhost:3000'],
+    :https_hosts => ['https://localhost:3000']
+  }
+}
+WebResourceBundler::Bundler.new(settings)
+ApplicationHelper.send(:include, WebResourceBundler::RailsAppHelpers)
+
+Now in your view files you can call process helper like this:
+
+<head>
+<% process do %>
+  <%= stylesheet_link_tag :scaffold %>
+  <%= javascript_include_tag :defaults %>
+<% end %>
+</head>
+
+!!!
+Don't forget to clean your cache directory after deploy to clean old bundles
+
