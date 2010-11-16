@@ -12,7 +12,7 @@ begin
     gem.email = "anotheroneman@yahoo.com"
     gem.homepage = "http://github.com/gregolsen/web-bundler"
     gem.authors = ["gregolsen"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "rspec", "1.3.1"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
