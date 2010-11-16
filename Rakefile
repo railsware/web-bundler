@@ -26,16 +26,4 @@ namespace :spec do
       t.spec_files = FileList['spec/**/*_spec.rb' ]
       t.rcov = true
     end
-
-  #desc "Run specs on different ruby platforms using rvm"
-    #Spec::Rake::SpecTask.new('all') do |t|
-      #ruby_versions = ['system', '1.8.7', '1.8.6']
-      #ruby_versions.each do |v|
-      #  t.spec_files = FileList['spec/**/*_spec.rb' ]
-      #  system("rvm #{v}")
-      #  puts system('ruby -v')
-      #  Rake::Task['spec'].invoke
-      #end
-    #end
-
 end
