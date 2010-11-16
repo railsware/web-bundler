@@ -9,7 +9,7 @@ module WebResourceBundler::RailsAppHelpers
     else
       result = block_text
     end
-    version = Rails::version
+    version = Rails::VERSION::STRING
     case
       when version >= '3.0.0' then return raw(result) 
       when (version >= '2.2.0' and version < '3.0.0') then concat(result)
