@@ -1,6 +1,6 @@
 module WebResourceBundler::RailsAppHelpers
 
-  def process(&block)
+  def web_resource_bundler_process(&block)
     block_text = capture(&block)
     block_data = WebResourceBundler::Bundler.instance.process(block_text)
     result = ""

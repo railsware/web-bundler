@@ -6,12 +6,6 @@ module WebResourceBundler
       @bundler = WebResourceBundler::Bundler.new(@settings_hash)
     end
 
-    describe "#process" do
-      it "process block" do
-        @bundler.process @sample_block_helper.sample_block
-      end
-    end
-
     describe "#bundle_upto_date?" do
       it "returns true if block was already bundled and resulted files exist" do
         clean_cache_dir

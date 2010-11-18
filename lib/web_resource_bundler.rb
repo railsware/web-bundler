@@ -71,6 +71,7 @@ module WebResourceBundler
           block_data.apply_filters(@filters)
           #writing resulted files with filtered content on disk
           write_files_on_disk(block_data)
+          @logger.info("files written on disk")
           return block_data
         end
         #bundle up to date, returning existing block with modified file names 

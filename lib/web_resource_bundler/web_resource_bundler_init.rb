@@ -17,4 +17,4 @@ settings = {
   }
 }
 WebResourceBundler::Bundler.new(settings)
-ApplicationHelper.send(:include, WebResourceBundler::RailsAppHelpers)
+ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)

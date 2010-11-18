@@ -18,6 +18,8 @@ module WebResourceBundler
         clon.child_blocks = self.child_blocks.map do |block|
           block.clone
         end
+      else
+        clon.child_blocks = []
       end
       clon
     end

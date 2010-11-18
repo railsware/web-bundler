@@ -10,7 +10,7 @@ module WebResourceBundler::Filters::BundleFilter
     #recursively iterates through all files and imported files
     def bundle_files(files)
       output = ""
-      files.sort.each do |pair|
+      files.each do |pair|
         path, content = pair[0], pair[1]
         output << "/* --------- #{path} --------- */\n"
         if File.extname(path) == '.css'
