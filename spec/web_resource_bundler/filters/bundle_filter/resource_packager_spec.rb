@@ -28,7 +28,11 @@ describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
     end
     
     it 'should bundle files in original order' do
-      result = @file_packager.bundle_files({'files/jquery.js' => 'JQUERY_FILE', 'files/jquery.carousel.js' => 'JQUERY_CAROUSEL_FILE'})
+      hash = OrderedHash.new
+      hash['files/jquery.js'] = 'JQUERY_FILE'
+      hash['files/jquery.carousel.js'] = 'JQUERY_CAROUSEL_FILE'
+
+      result = @file_packager.bundle_files(hash)
       (result =~ /JQUERY_FILE/).should < (result =~ /JQUERY_CAROUSEL_FILE/)
     end
     

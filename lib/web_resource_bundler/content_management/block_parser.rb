@@ -30,7 +30,7 @@ module WebResourceBundler
 
     #looking for css and js files included and create BlockFiles with files paths
     def find_files(block)
-      files = {:css => {}, :js => {}}
+      files = {:css => OrderedHash.new, :js => OrderedHash.new}
       block.scan(/(href|src) *= *["']([^"^'^\?]+)/i).each do |property, value|
         unless value.include?('://') 
           case property
