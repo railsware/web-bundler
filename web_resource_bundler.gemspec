@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/content_management/resource_bundle.rb",
      "lib/web_resource_bundler/exceptions.rb",
      "lib/web_resource_bundler/file_manager.rb",
+     "lib/web_resource_bundler/ordered_hash.rb",
      "lib/web_resource_bundler/filters.rb",
      "lib/web_resource_bundler/filters/base_filter.rb",
      "lib/web_resource_bundler/filters/bundle_filter.rb",
@@ -160,7 +161,7 @@ Gem::Specification.new do |s|
      "spec/sample_block_helper.rb",
      "spec/spec_helper.rb"
   ]
-
+  
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3

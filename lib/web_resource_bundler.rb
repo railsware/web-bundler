@@ -1,4 +1,5 @@
 $:.unshift File.join(File.dirname(__FILE__), 'web_resource_bundler')
+require 'ordered_hash'
 require 'content_management/block_parser'
 require 'content_management/block_data'
 require 'content_management/css_url_rewriter'
