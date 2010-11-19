@@ -65,16 +65,17 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       before(:each) do
         @path = 'path'
         @content = 'margin: 10px;'
-        @result = {@path => @content}
       end
       describe "#encode_images" do
         it "returns original content if no images found" do
-          @generator.encode_images(@path, @content).should == @result
+          new_filename = @generator.encoded_filename(@path)
+          @generator.encode_images(@path, @content).should == {new_filename => @content}  
         end
       end
       describe "#encode_images_for_ie" do
         it "returns original content if no images found" do
-          @generator.encode_images_for_ie(@path, @content).should == @result 
+          new_filename = @generator.encoded_filename_for_ie(@path)
+          @generator.encode_images_for_ie(@path, @content).should == {new_filename => @content}
         end
       end
     end

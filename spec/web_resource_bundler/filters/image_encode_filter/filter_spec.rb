@@ -58,16 +58,17 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         @block_data.child_blocks.size.should == 1 
         @block_data.child_blocks[0].condition == "[if IE]"
         generated_files = @block_data.child_blocks.first.css.files.keys
-        generated_files.include?(@ie_file_prefix + File.basename('sample.css')).should be_true
-        generated_files.include?('/foo.css').should be_true
+        ['sample.css', 'foo.css'].each do |file|
+          generated_files.include?(@ie_file_prefix + File.basename(file)).should be_true
+        end
       end
 
       it "encodes separately all css files" do
         generated_files = @block_data.css.files.keys
         #sample.css has proper images and should be encoded
-        generated_files.include?(@file_prefix + File.basename('sample.css')).should be_true
-        #foo.css has no images in there, so it shouldn't be encoded
-        generated_files.include?('/foo.css').should be_true
+        ['sample.css', 'foo.css'].each do |file|
+          generated_files.include?(@file_prefix + File.basename(file)).should be_true
+        end
       end
     end
     describe "#change_resulted_files!" do

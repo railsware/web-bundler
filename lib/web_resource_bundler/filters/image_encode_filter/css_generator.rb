@@ -76,11 +76,7 @@ module WebResourceBundler
           result = encode_images_basic(content) do |image_data, tag|
             "*#{tag}url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
           end
-          unless result[:images].empty?
-            { new_filename => (construct_header_for_ie(result[:images]) + result[:content]) }
-          else
-            { path => content }
-          end
+          { new_filename => (construct_header_for_ie(result[:images]) + result[:content]) }
         end
     
         #generates css file with encoded images in cache dir 
@@ -90,11 +86,9 @@ module WebResourceBundler
           result = encode_images_basic(content) do |image_data, tag|
               "#{tag}url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
           end
-          unless result[:images].empty?
-            { new_filename => result[:content] }
-          else
-            { path => content }
-          end
+          #always returning new filename just to indicate that filter was applied
+          #even if no images where found in content
+          { new_filename => result[:content] }
         end
 
       end
