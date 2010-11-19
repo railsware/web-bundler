@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
-  s.date = %q{2010-11-18}
+  s.date = %q{2010-11-19}
   s.description = %q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
   s.email = %q{anotheroneman@yahoo.com}
   s.extra_rdoc_files = [
@@ -26,12 +26,10 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler.rb",
      "lib/web_resource_bundler/content_management/block_data.rb",
      "lib/web_resource_bundler/content_management/block_parser.rb",
-     "lib/web_resource_bundler/content_management/bundled_content_constructor.rb",
      "lib/web_resource_bundler/content_management/css_url_rewriter.rb",
      "lib/web_resource_bundler/content_management/resource_bundle.rb",
      "lib/web_resource_bundler/exceptions.rb",
      "lib/web_resource_bundler/file_manager.rb",
-     "lib/web_resource_bundler/ordered_hash.rb",
      "lib/web_resource_bundler/filters.rb",
      "lib/web_resource_bundler/filters/base_filter.rb",
      "lib/web_resource_bundler/filters/bundle_filter.rb",
@@ -40,6 +38,7 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/filters/image_encode_filter.rb",
      "lib/web_resource_bundler/filters/image_encode_filter/css_generator.rb",
      "lib/web_resource_bundler/filters/image_encode_filter/image_data.rb",
+     "lib/web_resource_bundler/ordered_hash.rb",
      "lib/web_resource_bundler/rails_app_helpers.rb",
      "lib/web_resource_bundler/settings.rb",
      "lib/web_resource_bundler/web_resource_bundler_init.rb",
@@ -61,7 +60,6 @@ Gem::Specification.new do |s|
      "spec/spec_helper.rb",
      "spec/web_resource_bundler/content_management/block_data_spec.rb",
      "spec/web_resource_bundler/content_management/block_parser_spec.rb",
-     "spec/web_resource_bundler/content_management/bundled_content_constructor_spec.rb",
      "spec/web_resource_bundler/content_management/css_url_rewriter_spec.rb",
      "spec/web_resource_bundler/file_manager_spec.rb",
      "spec/web_resource_bundler/filters/bundle_filter/filter_spec.rb",
@@ -156,12 +154,11 @@ Gem::Specification.new do |s|
      "spec/web_resource_bundler/settings_spec.rb",
      "spec/web_resource_bundler/content_management/css_url_rewriter_spec.rb",
      "spec/web_resource_bundler/content_management/block_data_spec.rb",
-     "spec/web_resource_bundler/content_management/bundled_content_constructor_spec.rb",
      "spec/web_resource_bundler/content_management/block_parser_spec.rb",
      "spec/sample_block_helper.rb",
      "spec/spec_helper.rb"
   ]
-  
+
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3

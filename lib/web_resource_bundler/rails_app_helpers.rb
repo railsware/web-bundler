@@ -30,13 +30,15 @@ module WebResourceBundler::RailsAppHelpers
       result += javascript_include_tag(url) 
       result += "\n"
     end
-    result += block_data.inline_block
+    result += block_data.inline_block unless block_data.inline_block.blank?
     block_data.child_blocks.each do |block|
       result += construct_block(block, settings)
     end
     unless block_data.condition.empty?
-      result = "<!--#{block_data.condition}>" + result + "<![endif]-->"
+      result = "<!--#{block_data.condition}>\n" + result + "<![endif]-->\n"
     end
+    #removing unnecessary new line symbols
+    result.gsub!(/\n(\s)+/, "\n")
     result
   end
 
