@@ -26,6 +26,12 @@ describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
       files = {'styles/base.css' => "@import 'import/first.css';\n@import 'import/second.css';"}
       lambda { @file_packager.bundle_files(files) }.should raise_error(Exceptions::ResourceNotFoundError) 
     end
+    
+    it 'should bundle files in original order' do
+      result = @file_packager.bundle_files({'files/jquery.js' => 'JQUERY_FILE', 'files/jquery.carousel.js' => 'JQUERY_CAROUSEL_FILE'})
+      (result =~ /JQUERY_FILE/).should < (result =~ /JQUERY_CAROUSEL_FILE/)
+    end
+    
   end
 
 end
