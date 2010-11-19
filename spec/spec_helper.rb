@@ -7,7 +7,8 @@ require 'logger'
 include WebResourceBundler 
 
 def clean_cache_dir
-  FileUtils.rm_rf(File.join(File.dirname(__FILE__), '/public/cache'))
+  cache_dir_path = File.join(File.dirname(__FILE__), '/public/cache')
+  FileUtils.rm_rf(cache_dir_path) if File.exist?(cache_dir_path)
 end
 
 Spec::Runner.configure do |config|

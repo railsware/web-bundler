@@ -7,12 +7,20 @@ module WebResourceBundler
       @block_parser = BlockParser.new
     end
 
-    #pattern testing
+    #conditional comment spec
     it "matches with different conditional comments" do
       tests = ['<!--[if lte IE 7]>...<![endif]-->','<!--[if !(IE 7)]>...<![endif]-->',
         '<!--[if IE]>...<![endif]-->']
       tests.each do |test|
-        BlockParser::CONDITIONAL_BLOCK_PATTERN.match(test).should be_true
+        BlockParser::CONDITIONAL_BLOCK_PATTERN.should match(test)
+      end
+    end
+
+    #links pattern spec
+    it "matches with css or js link" do
+      tests = ["\<link href='\/cache\/style.css' \/\>","\<script src='\/cache\/script.js' \/script\>"]
+      tests.each do |link|
+        BlockParser::LINK_PATTERN.should match(link)
       end
     end
 
@@ -30,6 +38,12 @@ module WebResourceBundler
 
       it "returns BlockData object" do
         @block_parser.parse("").is_a?(BlockData).should be_true
+      end
+
+      it "doesn't touch remote resources" do
+        block = "<link href='http://google.com/1.css' type='text/css' rel='stylesheet' />"
+        block_data = @block_parser.parse(block)
+        block_data.inline_block.include?(block).should be_true
       end
 
       it "returns empty BlockData when block is empty" do

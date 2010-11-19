@@ -25,7 +25,15 @@ module WebResourceBundler
     #removing resource links from block
     #example: "<link href="bla"><script src="bla"></script>my inline content" => "my inline content"
     def remove_links(block)
-      block.gsub(LINK_PATTERN, "")
+      block.gsub!(LINK_PATTERN, "") do |s|
+        unless s.include?('://')
+          #we should delete link to local resource
+          '' 
+        else
+          #link to remote resource should be kept
+          s
+        end
+      end
     end
 
     #looking for css and js files included and create BlockFiles with files paths
