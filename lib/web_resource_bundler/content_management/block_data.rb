@@ -24,14 +24,23 @@ module WebResourceBundler
       clon
     end
 
+    def self.all_childs(block_data)
+      result = []
+      result << block_data
+      block_data.child_blocks.each do |child|
+        result += BlockData.all_childs(child)
+      end
+      return result
+    end
+
     def apply_filters(filters)
       unless filters.empty?
         filters.each do |filter|
-          filter.apply(self)
+          items = BlockData.all_childs(self)
+          items.each do |block_data|
+            filter.apply(block_data)
+          end
         end      
-        @child_blocks.each do |b|
-          b.apply_filters(filters)  
-        end
       end
     end
 

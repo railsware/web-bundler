@@ -11,6 +11,13 @@ describe WebResourceBundler::BlockData do
     end
   end
 
+  describe "#all_childs" do
+    it "creates array of block data and all its childs recursively" do
+      block_data = @sample_block_helper.sample_block_data
+      BlockData.all_childs(block_data).size.should == 2
+    end
+  end
+
   describe "#clone" do
     it "creates deep clone of block data" do
       block_data = @sample_block_helper.sample_block_data
