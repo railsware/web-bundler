@@ -64,7 +64,7 @@ GEM
     treetop (1.4.8)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
-    web_resource_bundler (0.0.6)
+    web_resource_bundler (0.0.7)
 
 PLATFORMS
   ruby
@@ -72,4 +72,4 @@ PLATFORMS
 DEPENDENCIES
   rails (= 3.0.3)
   sqlite3-ruby
-  web_resource_bundler (= 0.0.6)
+  web_resource_bundler (= 0.0.7)

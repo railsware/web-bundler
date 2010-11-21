@@ -42,6 +42,7 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
       sample.css.files.keys.should == [@filter.bundle_filename(@block_data.css)]
       sample.js.files.keys.should == [@filter.bundle_filename(@block_data.js)]
     end
+
   end
 end
 

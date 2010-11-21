@@ -79,6 +79,7 @@ module WebResourceBundler
         return block_data
       rescue Exceptions::WebResourceBundlerError => e
         @logger.error(e.to_s)
+        return nil
       rescue Exception => e
         @logger.error("Unknown error occured: " + e.to_s)
         return nil

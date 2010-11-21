@@ -32,6 +32,16 @@ module WebResourceBundler
         block += @sample_block_helper.sample_inline_block
         @block_parser.remove_links(block).should == @sample_block_helper.sample_inline_block + @sample_block_helper.sample_inline_block
       end
+
+      it "doesn't delete links to non js or css resource, like favicon for example" do
+        text = "<link href='1.css' /><link rel='shortcut icon' href='/favicon.ico' />"
+        @block_parser.remove_links(text).should == "<link rel='shortcut icon' href='/favicon.ico' />"
+      end
+
+      it "doesn't touch remote resources" do
+        text = "<link href='http://google.com/1.css' type='text/css' rel='stylesheet' />"
+        @block_parser.remove_links(text).include?(text).should be_true
+      end
     end
 
     describe "#parse" do
@@ -40,11 +50,7 @@ module WebResourceBundler
         @block_parser.parse("").is_a?(BlockData).should be_true
       end
 
-      it "doesn't touch remote resources" do
-        block = "<link href='http://google.com/1.css' type='text/css' rel='stylesheet' />"
-        block_data = @block_parser.parse(block)
-        block_data.inline_block.include?(block).should be_true
-      end
+      
 
       it "returns empty BlockData when block is empty" do
         data = @block_parser.parse("")

@@ -3,6 +3,7 @@ module WebResourceBundler
     CONDITIONAL_BLOCK_PATTERN = /\<\!\-\-\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*\>(.*?)\<\!\s*\[\s*endif\s*\]\s*\-\-\>/xmi
     CONDITION_PATTERN = /\<\!\-\-\s*(\[[^<]*\])\s*\>/
     LINK_PATTERN = /(\<(link|script[^>]*?src\s*=).*?(\>\<\/script\>|\>))/ 
+    URL_PATTERN = /(href|src) *= *["']([^"^'^\?]+)/i
 
     #parsing block content recursively
     #nested comments NOT supported
@@ -26,8 +27,9 @@ module WebResourceBundler
     #example: "<link href="bla"><script src="bla"></script>my inline content" => "my inline content"
     def remove_links(block)
       inline_block = block.gsub(LINK_PATTERN) do |s|
-        unless s.include?('://')
-          #we should delete link to local resource
+        extension = File.extname(URL_PATTERN.match(s)[2])
+        if /\.js|\.css/.match(extension) and not s.include?('://')
+          #we should delete link to local css or js resource
           '' 
         else
           #link to remote resource should be kept
@@ -40,7 +42,7 @@ module WebResourceBundler
     #looking for css and js files included and create BlockFiles with files paths
     def find_files(block)
       files = {:css => OrderedHash.new, :js => OrderedHash.new}
-      block.scan(/(href|src) *= *["']([^"^'^\?]+)/i).each do |property, value|
+      block.scan(URL_PATTERN).each do |property, value|
         unless value.include?('://') 
           case property
             when "src" then files[:js][value] = "" if File.extname(value) == '.js'

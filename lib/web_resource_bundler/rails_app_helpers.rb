@@ -1,18 +1,22 @@
 module WebResourceBundler::RailsAppHelpers
 
   def web_resource_bundler_process(&block)
-    block_text = capture(&block)
-    block_data = WebResourceBundler::Bundler.instance.process(block_text)
+    #getting ActionView::NonConcattingString
+    block_content = capture(&block)
+    #but we want simple string to escape problems
+    block_text = String.new(block_content)
+    #we want to keep original string unchanged so we can return same content on error
+    block_data = WebResourceBundler::Bundler.instance.process(block_text.dup)
+    version = Rails::VERSION::STRING
     result = ""
     if block_data
-      result = construct_block(block_data, WebResourceBundler::Bundler.instance.settings)
+      result = construct_block(block_data, WebResourceBundler::Bundler.instance.settings)  
     else
       result = block_text
     end
-    version = Rails::VERSION::STRING
     case
       when version >= '3.0.0' then return raw(result) 
-      when (version >= '2.2.0' and version < '3.0.0') then concat(result)
+      when (version >= '2.2.0' and version < '2.4.0') then concat(result)
     else
       concat(result, block.binding)
     end

@@ -47,10 +47,10 @@ module WebResourceBundler
     def modify_resulted_files!(filters)
       unless filters.empty?
         filters.each do |filter|
-          filter.change_resulted_files!(self)
-        end
-        @child_blocks.each do |b|
-          b.modify_resulted_files!(filters)
+          items = BlockData.all_childs(self)
+          items.each do |block_data|
+            filter.change_resulted_files!(block_data)
+          end
         end
       end
     end

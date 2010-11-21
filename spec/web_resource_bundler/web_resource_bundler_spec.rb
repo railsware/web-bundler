@@ -6,6 +6,19 @@ module WebResourceBundler
       @bundler = WebResourceBundler::Bundler.new(@settings_hash)
     end
 
+    describe "#process" do
+      it "reuturns the same filenames when bundling or just computing resulted files" do
+        clean_cache_dir
+        block_text = @sample_block_helper.sample_block
+        block_data = @bundler.process(block_text)
+        files1 = BlockData.all_childs(block_data).map {|c| c.all_files.keys }
+        block_text = @sample_block_helper.sample_block
+        block_data = @bundler.process(block_text)
+        files2 = BlockData.all_childs(block_data).map {|c| c.all_files.keys }
+        (files1.flatten - files2.flatten).should be_empty
+      end
+    end
+
     describe "#bundle_upto_date?" do
       it "returns true if block was already bundled and resulted files exist" do
         clean_cache_dir
