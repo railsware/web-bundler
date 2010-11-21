@@ -43,7 +43,7 @@ settings = {
   :base64_filter => {
     :max_image_size => 23, #kbytes, bigger images won't be encoded in base64 for efficiency
     :protocol => 'http',
-    :domain => 'localhost:3000'
+    :domain => 'localhost:3000' #!be sure to set only domain, not http://domain
   },
   :bundle_filter => {
     :md5_additional_data => [] #additional data that will be used to compute md5
