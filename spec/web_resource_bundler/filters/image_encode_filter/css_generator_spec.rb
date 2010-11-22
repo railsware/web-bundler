@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../../../spec_helper
 module WebResourceBundler::Filters::ImageEncodeFilter
   describe CssGenerator do
     before(:each) do
-      @settings = Settings.new @base64_settings
+      @settings = Settings.new base64_settings
       @generator = CssGenerator.new(@settings, FileManager.new(@settings))
     end
     

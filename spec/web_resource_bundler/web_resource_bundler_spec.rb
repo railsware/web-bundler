@@ -3,7 +3,8 @@ module WebResourceBundler
   describe Bundler do
 
     before(:each) do
-      @bundler = WebResourceBundler::Bundler.new(@settings_hash)
+      @s = Settings.new settings_hash
+      @bundler = WebResourceBundler::Bundler.new(settings_hash)
     end
 
     describe "#process" do
@@ -37,7 +38,7 @@ module WebResourceBundler
         @bundler.read_resources!(block_data)
         all_files = block_data.css.files.merge(block_data.js.files).merge(block_data.child_blocks[0].css.files).merge(block_data.child_blocks[0].js.files)
         all_files.each_pair do |path, content|
-          CssUrlRewriter::rewrite_content_urls!(path, File.read(File.join(@settings.resource_dir, path))).should == content
+          CssUrlRewriter::rewrite_content_urls!(path, File.read(File.join(@s.resource_dir, path))).should == content
         end
       end
     end

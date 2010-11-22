@@ -1,5 +1,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "../spec_helper"))
 describe WebResourceBundler::FileManager do
+  before(:each) do
+    @settings = settings
+  end
 
   def create_stub_file(name)
     File.open(File.join(@settings.resource_dir, name), "w") do |file|

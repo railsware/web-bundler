@@ -2,6 +2,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../../../spec_helper
 describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
 
   before(:each) do
+    @settings = settings
+    @base64_settings = base64_settings
     @file_prefix = Filters::ImageEncodeFilter::CssGenerator::FILE_PREFIX
     @ie_file_prefix = Filters::ImageEncodeFilter::CssGenerator::IE_FILE_PREFIX
     @file_manager = FileManager.new @settings
