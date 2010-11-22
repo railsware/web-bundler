@@ -5,6 +5,7 @@ require 'image_encode_filter/css_generator'
 module WebResourceBundler::Filters::ImageEncodeFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
 
+    CONDITION_FOR_IE = "[if lte IE 7]"
     def initialize(settings, file_manager)
       super settings, file_manager
       @generator = CssGenerator.new(@settings, @file_manager)
@@ -27,7 +28,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         end
       end
       if block_data.condition.empty? and ie_result_files.size > 0
-        ie_block_data = WebResourceBundler::BlockData.new("[if IE]")
+        ie_block_data = WebResourceBundler::BlockData.new(CONDITION_FOR_IE)
         ie_block_data.css.files = ie_result_files
         block_data.child_blocks << ie_block_data
       else
@@ -46,7 +47,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         end
       end
       if block_data.condition.empty? and ie_result_files.size > 0
-        ie_block_data = WebResourceBundler::BlockData.new("[if IE]")
+        ie_block_data = WebResourceBundler::BlockData.new(CONDITION_FOR_IE)
         ie_block_data.css.files = ie_result_files
         block_data.child_blocks << ie_block_data
       else

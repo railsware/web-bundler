@@ -24,14 +24,14 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         generated_files.include?(@file_prefix + bundle_filename).should be_true
       end
 
-      it "puts files for IE in separate child block_data with condition [if IE]" do
+      it "puts files for IE in separate child block_data with condition [if lte IE 7]" do
         block_data = @sample_block_helper.sample_block_data
         block_data.child_blocks = []
         bundle_filename = @bundler_filter.bundle_filename(block_data.css)
         @bundler_filter.apply(block_data)
         @filter.apply(block_data)
         block_data.child_blocks.size.should == 1
-        block_data.child_blocks[0].condition == "[if IE]"
+        block_data.child_blocks[0].condition == '[if IE]' 
         generated_files = block_data.child_blocks[0].css.files.keys
         generated_files.include?(@ie_file_prefix + bundle_filename).should be_true
       end
@@ -84,7 +84,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
       it "returns resource hash with css files path modified" do
         @filter.change_resulted_files!(@block_data)
         @block_data.child_blocks.size.should == 1
-        @block_data.child_blocks.first.condition.should == "[if IE]"
+        @block_data.child_blocks.first.condition.should == "[if lte IE 7]"
         ['base64_1.css', 'base64_4.css'].each do |path|
           @block_data.css.files.keys.include?(path).should be_true(path)
         end
