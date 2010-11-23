@@ -51,11 +51,11 @@ module WebResourceBundler::Filters::ImageEncodeFilter
 
 			describe "#construct_mthml_image_data" do
 				it "should return proper data" do
-					result = CssGenerator::SEPARATOR + "\n" +
+					result = '--' + CssGenerator::SEPARATOR + "\n" +
 					"Content-Location:" + @data.id  + "\n" + 
-					"Content-Transfer-Encoding:base64" + "\n" +
+					"Content-Transfer-Encoding:base64" + "\n\n" +
 					@data.encoded + "\n\n"
-					@data.construct_mhtml_image_data(CssGenerator::SEPARATOR).should == result
+					@data.construct_mhtml_image_data('--' + CssGenerator::SEPARATOR).should == result
 				end
 			end
 				
