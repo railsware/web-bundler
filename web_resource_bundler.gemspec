@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{web_resource_bundler}
-  s.version = "0.0.10"
+  s.version = "0.0.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
@@ -111,6 +111,7 @@ Gem::Specification.new do |s|
      "test_app/bundler_test/public/422.html",
      "test_app/bundler_test/public/500.html",
      "test_app/bundler_test/public/cache/cdn_base64_ie_style_06f55406a810a7fd16baa55c2a79c7c4.css",
+     "test_app/bundler_test/public/cache/cdn_base64_ie_style_af92dea364fc3316d5413befd8773371.css",
      "test_app/bundler_test/public/cache/cdn_base64_ie_style_fc6e099576b80a76fa8fe7ec1c66de70.css",
      "test_app/bundler_test/public/cache/cdn_base64_style_fc6e099576b80a76fa8fe7ec1c66de70.css",
      "test_app/bundler_test/public/cache/script_57543183e2f40a60205eedb9dab1c7a4.js",
@@ -126,6 +127,7 @@ Gem::Specification.new do |s|
      "test_app/bundler_test/public/javascripts/rails.js",
      "test_app/bundler_test/public/robots.txt",
      "test_app/bundler_test/public/stylesheets/.gitkeep",
+     "test_app/bundler_test/public/stylesheets/colorbox.css",
      "test_app/bundler_test/public/stylesheets/ie_only.css",
      "test_app/bundler_test/public/stylesheets/scaffold.css",
      "test_app/bundler_test/script/rails",
