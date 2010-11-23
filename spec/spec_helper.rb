@@ -27,7 +27,7 @@ def settings_hash
   {
     :resource_dir => File.join(File.dirname(__FILE__), '/public'),
     :cache_dir => 'cache',
-    :log_path => File.join(File.dirname(__FILE__), '/spec.log'),
+    :log_path => File.join(File.dirname(__FILE__), '/bundler.log'),
     :base64_filter => {
       :max_image_size => 23, #kbytes
       :protocol => 'http',
@@ -71,7 +71,7 @@ Spec::Runner.configure do |config|
   end
 
   config.after(:all) do
-    log_path = File.join(File.dirname(__FILE__), '/spec.log')
+    log_path = File.join(File.dirname(__FILE__), '/bundler.log')
     File.delete(log_path) if File.exist?(log_path)
     clean_cache_dir
   end

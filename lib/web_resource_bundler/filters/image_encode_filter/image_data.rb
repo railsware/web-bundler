@@ -30,7 +30,7 @@ module WebResourceBundler
     			if @exist
     				result = separator + "\n"
     				result += "Content-Location:" + @id + "\n"
-    				result +=	"Content-Transfer-Encoding:base64" + "\n"
+    				result +=	"Content-Transfer-Encoding:base64" + "\n\n"
     				result += encoded + "\n\n"
     			end
     		end
