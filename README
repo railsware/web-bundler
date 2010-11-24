@@ -59,7 +59,7 @@ ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)
 Now in your view files you can call web_resource_bundler_process helper like this:
 
 <head>
-<%= web_resource_bundler_process do %>
+<% web_resource_bundler_process do %>
   <%= stylesheet_link_tag :scaffold %>
   <%= javascript_include_tag :defaults %>
   <link type="text/css" rel="stylesheet" href="/stylesheets/somestyle.css"/>

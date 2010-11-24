@@ -3,8 +3,6 @@ module WebResourceBundler
     module ImageEncodeFilter
       #ImageData contains info about image found in css files
     	class ImageData
-    		#maximum file size allowed to be encoded
-    		MAX_SIZE = 1024*10 #10 kbytes
     		MAX_RAND_FOR_ID = 10000
     		attr_reader :extension, :id, :path, :exist, :url
 
