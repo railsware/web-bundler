@@ -20,7 +20,7 @@ It can bundle resource of particular type in one single file. Base64 filter
 encodes images in base64 putting them in css directly. Separate files for IE
 and other browsers created. Conditional comments (like <!--[if IE 6]>) also
 supported. You can use external image hosts to server images in css: 
-cdn filter can rewrite image urls for you.
+cdn filter can rewrite image urls for you. Resulted filename is a md5(filenames.sort)
 
 =================== 3. Installation ==========================================
 
@@ -59,11 +59,32 @@ ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)
 Now in your view files you can call web_resource_bundler_process helper like this:
 
 <head>
-<% web_resource_bundler_process do %>
+<%= web_resource_bundler_process do %>
   <%= stylesheet_link_tag :scaffold %>
   <%= javascript_include_tag :defaults %>
+  <link type="text/css" rel="stylesheet" href="/stylesheets/somestyle.css"/>
+  <%=yield :head %>
+	<!--[if lte IE 7]>
+	   <link type="text/css" rel="stylesheet" href="/stylesheets/ie7fix.css"/>
+	   <link type="text/css" rel="stylesheet" href="/stylesheets/pngfix.css"/>
+	<![endif]-->
+
 <% end %>
 </head>
+
+And as result you'll have
+
+
+<link href="/cache/base64_style_d880a502addaa493b889c0970616430b.css?1290594873" media="screen" rel="stylesheet" type="text/css" />
+<script src="/cache/script_275d311037da40e9c9b8c919a8c08b55.js?1290594873" type="text/javascript"></script>
+
+<!--[if lte IE 7]>
+   <link href="/cache/base64_ie_style_d880a502addaa493b889c0970616430b.css?1290594873" media="screen" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!--[if lte IE 7]>
+   <link type="text/css" rel="stylesheet" href="/cache/base64_style_ad801w02addaa493b889c0970616430b"/>
+<![endif]-->
 
 !!!
 Don't forget to clean your cache directory after deploy to clean old bundles
