@@ -23,16 +23,12 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       resource.files.each_pair do |path, content|
         @generator.encode_images_for_ie(path, content)
         ie_result_files.merge!(@generator.encode_images_for_ie(path, content))
-        if block_data.condition.empty?
-          result_files.merge!(@generator.encode_images(path, content))
-        end
+        result_files.merge!(@generator.encode_images(path, content))
       end
-      if block_data.condition.empty? and ie_result_files.size > 0
+      if ie_result_files.size > 0
         ie_block_data = WebResourceBundler::BlockData.new(CONDITION_FOR_IE)
         ie_block_data.css.files = ie_result_files
         block_data.child_blocks << ie_block_data
-      else
-        result_files.merge!(ie_result_files)
       end
       block_data.css.files = result_files
     end
@@ -42,16 +38,12 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       ie_result_files = {}
       block_data.css.files.keys.each do |path|
         ie_result_files[@generator.encoded_filename_for_ie(path)] = ""
-        if block_data.condition.empty?
-          result_files[@generator.encoded_filename(path)] = ""
-        end
+        result_files[@generator.encoded_filename(path)] = ""
       end
-      if block_data.condition.empty? and ie_result_files.size > 0
+      if ie_result_files.size > 0
         ie_block_data = WebResourceBundler::BlockData.new(CONDITION_FOR_IE)
         ie_block_data.css.files = ie_result_files
         block_data.child_blocks << ie_block_data
-      else
-        result_files.merge!(ie_result_files)
       end
       block_data.css.files = result_files
     end

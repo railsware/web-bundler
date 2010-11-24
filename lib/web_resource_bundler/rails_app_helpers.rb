@@ -24,6 +24,11 @@ module WebResourceBundler::RailsAppHelpers
 
   def construct_block(block_data, settings)
     result = ""
+    #we shouldn't include this block data in result if browser doesn't support mhtml
+    if block_data.condition == "[if lte IE 7]" and not mhtml_should_be_added?
+      return ""
+    end
+
     block_data.css.files.each_key do |name|
       url = File.join('/', settings.cache_dir, name)
       result += stylesheet_link_tag(url) 
@@ -44,6 +49,17 @@ module WebResourceBundler::RailsAppHelpers
     #removing unnecessary new line symbols
     result.gsub!(/\n(\s)+/, "\n")
     result
+  end
+
+  def mhtml_should_be_added?
+    result = false
+    pattern = /MSIE (.*?);/
+    header = request.headers['HTTP_USER_AGENT']
+    match = pattern.match(header)
+    if match and match[1] <= '7.0'  
+        result = true
+    end
+    return result
   end
 
 end
