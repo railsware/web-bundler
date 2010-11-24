@@ -1,7 +1,12 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "../../spec_helper"))
 describe WebResourceBundler::Filters::CdnFilter do
   before(:each) do
+    @settings = settings
+    @cdn_settings = cdn_settings
     @cdn_settings[:http_hosts] = ['http://boogle.com']
+    @cdn_settings[:https_hosts] = ['http://froogle.com']
+    @settings[:cdn_filter][:http_hosts] = @cdn_settings[:http_hosts] 
+    @settings[:cdn_filter][:https_hosts] = @cdn_settings[:https_hosts]
     @file_manager = FileManager.new @settings
     @filter = Filters::CdnFilter::Filter.new(@cdn_settings, @file_manager)
   end

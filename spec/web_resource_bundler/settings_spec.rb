@@ -3,6 +3,7 @@ module WebResourceBundler
   describe Settings do
     
     before(:each) do
+      @settings_hash = settings_hash
       @s = Settings.new(@settings_hash)
     end
 

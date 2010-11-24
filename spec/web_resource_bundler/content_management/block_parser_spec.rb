@@ -3,7 +3,7 @@ module WebResourceBundler
   describe BlockParser do
 
     before(:each) do
-      @file_manager = FileManager.new @settings
+      @file_manager = FileManager.new settings
       @block_parser = BlockParser.new
     end
 
@@ -26,9 +26,9 @@ module WebResourceBundler
 
     describe "#remove_links" do
       it "deletes all links to resources (js, css) from block" do
-        block = @sample_block_helper.construct_links_block(@styles, @scripts)
+        block = @sample_block_helper.construct_links_block(styles, scripts)
         block += @sample_block_helper.sample_inline_block
-        block += @sample_block_helper.construct_links_block(@styles, @scripts)
+        block += @sample_block_helper.construct_links_block(styles, scripts)
         block += @sample_block_helper.sample_inline_block
         @block_parser.remove_links(block).should == @sample_block_helper.sample_inline_block + @sample_block_helper.sample_inline_block
       end
@@ -78,10 +78,10 @@ module WebResourceBundler
     describe "#find_files" do
     
       it "returns list of css and js files linked in block" do
-        result = @block_parser.find_files(@sample_block_helper.construct_links_block(@styles, @scripts))
+        result = @block_parser.find_files(@sample_block_helper.construct_links_block(styles, scripts))
         
-        (result[:css].keys - @styles).should be_empty
-        (result[:js].keys - @scripts).should be_empty
+        (result[:css].keys - styles).should be_empty
+        (result[:js].keys - scripts).should be_empty
       end
 
       it "recognize only css and js files" do

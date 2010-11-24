@@ -2,13 +2,12 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../../../spec_helper
 require 'digest/md5'
 describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
   before(:each) do
-    clean_public_folder
+    @settings = settings
     file_manager = FileManager.new @settings
     @file_packager = Filters::BundleFilter::ResourcePackager.new(@settings, file_manager)
-    @file_paths = @styles.map do |url|
+    @file_paths = styles.map do |url|
       File.join(@settings.resource_dir, url)
     end
-    
   end
 
   describe "#extract_imported_files!" do

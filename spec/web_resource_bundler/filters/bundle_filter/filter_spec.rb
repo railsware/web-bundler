@@ -2,6 +2,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../../../spec_helper
 describe WebResourceBundler::Filters::BundleFilter::Filter do
   before(:each) do
     clean_cache_dir
+    @settings = settings
+    @bundle_settings = bundle_settings
     @filter = Filters::BundleFilter::Filter.new(@bundle_settings, FileManager.new(@settings))
     @block_data = @sample_block_helper.sample_block_data
     css_type = ResourceBundle::CSS
