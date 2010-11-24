@@ -1,9 +1,9 @@
 module WebResourceBundler
   class BlockParser
-    CONDITIONAL_BLOCK_PATTERN = /\<\!\-\-\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*\>(.*?)\<\!\s*\[\s*endif\s*\]\s*\-\-\>/xmi
-    CONDITION_PATTERN = /\<\!\-\-\s*(\[[^<]*\])\s*\>/
-    LINK_PATTERN = /(\<(link|script[^>]*?src\s*=).*?(\>\<\/script\>|\>))/ 
-    URL_PATTERN = /(href|src) *= *["']([^"^'^\?]+)/i
+    CONDITIONAL_BLOCK_PATTERN = /<!--\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*>(.*?)<!\s*\[\s*endif\s*\]\s*-->/xmi
+    CONDITION_PATTERN = /<!--\s*(\[[^<]*\])\s*>/
+    LINK_PATTERN = /(<(link|script[^>]*?src\s*=).*?(><\/script>|>))/
+    URL_PATTERN = /(href|src) *= *["']([^"'?]+)/i
 
     #parsing block content recursively
     #nested comments NOT supported
