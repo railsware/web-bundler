@@ -4,12 +4,12 @@ module WebResourceBundler::Filters::CdnFilter
       super(settings, file_manager)
     end
 
-    def apply(block_data)
-      resulted_files = {}
-      block_data.css.files.each_pair do |path, content| 
-        resulted_files[new_filename(path)] = rewrite_content_urls!(path, content)
+    def apply!(block_data)
+      block_data.styles.each do |file| 
+        rewrite_content_urls!(file.name, file.content) 
+        file.name = new_filename(file.name)
       end
-      block_data.css.files = resulted_files
+      block_data
     end
 
     def new_filename(path)
@@ -44,13 +44,11 @@ module WebResourceBundler::Filters::CdnFilter
       end
     end
 
-    #resource is hash {:css => css_files_array, :js => js_files_array}
     def change_resulted_files!(block_data)
-      resulted_files = {} 
-      block_data.css.files.keys.each do |path|
-        resulted_files[new_filename(path)] = ""
+      block_data.styles.each do |file|
+        file.name = new_filename(file.name)
       end
-      block_data.css.files = resulted_files
+      block_data
     end
 
   end

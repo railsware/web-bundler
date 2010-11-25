@@ -22,16 +22,16 @@ describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
   describe "#bundle_files" do
     it "throws ResourceNotFoundError exception if one of imported files not found" do
       #creating file with content with imported unexistent files
-      files = {'styles/base.css' => "@import 'import/first.css';\n@import 'import/second.css';"}
+      files = [WebResourceBundler::ResourceFile.new_css_file('styles/base.css', "@import 'import/first.css';\n@import 'import/second.css';")]
       lambda { @file_packager.bundle_files(files) }.should raise_error(Exceptions::ResourceNotFoundError) 
     end
     
     it 'should bundle files in original order' do
-      hash = OrderedHash.new
-      hash['files/jquery.js'] = 'JQUERY_FILE'
-      hash['files/jquery.carousel.js'] = 'JQUERY_CAROUSEL_FILE'
-
-      result = @file_packager.bundle_files(hash)
+      files = [
+        WebResourceBundler::ResourceFile.new_js_file('files/jquery.js', 'JQUERY_FILE'),
+        WebResourceBundler::ResourceFile.new_js_file('files/jquery.carousel.js','JQUERY_CAROUSEL_FILE')
+      ]
+      result = @file_packager.bundle_files(files)
       (result =~ /JQUERY_FILE/).should < (result =~ /JQUERY_CAROUSEL_FILE/)
     end
     

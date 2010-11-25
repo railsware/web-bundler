@@ -64,24 +64,26 @@ describe WebResourceBundler::Filters::CdnFilter do
 
   describe "#apply" do
     it "rewrites urls properly in all css file of given block_data" do
-      resource = @sample_block_helper.construct_resource_bundle(ResourceBundle::CSS, [])
-      resource.files = {'/temp.css' => "background: url('./images/1.png');background-image: url('./images/1.png');"}
+      file = WebResourceBundler::ResourceFile.new_css_file('/temp.css', "background: url('./images/1.png');background-image: url('./images/1.png');")
       block_data = BlockData.new
-      block_data.css = resource
-      @filter.apply(block_data)
-      block_data.css.files['cdn_temp.css'].should == "background: url('http://boogle.com/images/1.png');background-image: url('http://boogle.com/images/1.png');"
+      block_data.files = [file]
+      @filter.apply!(block_data)
+      block_data.files.first.name.should == 'cdn_temp.css'
+      block_data.files.first.content.should == "background: url('http://boogle.com/images/1.png');background-image: url('http://boogle.com/images/1.png');"
     end
   end
 
   describe "#change_resulted_files!" do
-    it "returns hash with modified css files paths" do
+    it "modifies block_data files" do
       block_data = @sample_block_helper.sample_block_data
-      block_data.css.files = {'styles/1.css' => "", '/4.css' => ""}
-      block_data.js.files = {'file/that/shouldnt/change.js' => ""}
+      css_files = [WebResourceBundler::ResourceFile.new_css_file('styles/1.css'),
+                    WebResourceBundler::ResourceFile.new_css_file('/4.css')]
+      js_files = [WebResourceBundler::ResourceFile.new_js_file('file/that/shouldnt/change.js')]
+      block_data.files = css_files + js_files 
       block_data.condition = ""
       @filter.change_resulted_files!(block_data) 
-      block_data.css.files.keys.sort.should == ['cdn_1.css', 'cdn_4.css'].sort
-      block_data.js.files.keys.should == ['file/that/shouldnt/change.js']
+      block_data.styles.map {|f| f.name }.sort.should == ['cdn_1.css', 'cdn_4.css'].sort
+      block_data.scripts.first.name.should == 'file/that/shouldnt/change.js'
     end
   end
 

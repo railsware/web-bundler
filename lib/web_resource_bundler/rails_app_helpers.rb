@@ -24,18 +24,20 @@ module WebResourceBundler::RailsAppHelpers
 
   def construct_block(block_data, settings)
     result = ""
-    #we shouldn't include this block data in result if browser doesn't support mhtml
-    if block_data.condition == "[if lte IE 7]" and not mhtml_should_be_added?
-      return ""
+    #we should include only mhtml files if browser IE 7 or 6
+    if mhtml_should_be_added?
+      styles = block_data.files.select {|f| f.type == WebResourceBundler::ResourceFileType::MHTML}
+    else
+    #it normal browser - so just including base64 css
+      styles = block_data.files.select {|f| f.type == WebResourceBundler::ResourceFileType::CSS}
     end
-
-    block_data.css.files.each_key do |name|
-      url = File.join('/', settings.cache_dir, name)
+    styles.each do |file|
+      url = File.join('/', settings.cache_dir, file.name)
       result += stylesheet_link_tag(url) 
       result += "\n"
     end
-    block_data.js.files.each_key do |name|
-      url = File.join('/', settings.cache_dir, name)
+    block_data.scripts.each do |file|
+      url = File.join('/', settings.cache_dir, file.name)
       result += javascript_include_tag(url) 
       result += "\n"
     end

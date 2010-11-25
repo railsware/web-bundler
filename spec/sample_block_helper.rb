@@ -29,13 +29,14 @@ class SampleBlockHelper
     block
   end
 
-  def construct_resource_bundle(type, files)
-    files_hash = {}
-    files.each do |file|
-      content = File.read(File.join(@settings.resource_dir, file))
-      files_hash[file] = content
+  def construct_resource_file(type, file, content = nil)
+    resource_file = WebResourceBundler::ResourceFile.new(type, file)
+    if content
+      resource_file.content = content
+    else
+      resource_file.content = File.read(File.join(@settings.resource_dir, file))
     end
-    ResourceBundle::Data.new(type, files_hash)
+    resource_file
   end
 
   def sample_cond_block
@@ -53,8 +54,12 @@ class SampleBlockHelper
 
   def sample_block_data
     data = BlockData.new
-    data.css = construct_resource_bundle(ResourceBundle::CSS, @styles[0..(@styles.size / 2 - 1)])
-    data.js = construct_resource_bundle(ResourceBundle::JS, @scripts[0..(@scripts.size / 2 - 1)])
+    @styles[0..(@styles.size / 2 - 1)].each do |file|
+      data.files << construct_resource_file(ResourceFileType::CSS, file)
+    end
+    @scripts[0..(@scripts.size / 2 - 1)].each do |file|
+      data.files << construct_resource_file(ResourceFileType::JS, file)
+    end
     data.inline_block = sample_inline_block
     data.child_blocks << child_block_data
     data
@@ -62,8 +67,12 @@ class SampleBlockHelper
 
   def child_block_data
     child = BlockData.new("[if IE 7]")
-    child.css = construct_resource_bundle(ResourceBundle::CSS, @styles[(@styles.size / 2)..(@styles.size - 1)])
-    child.js = construct_resource_bundle(ResourceBundle::JS, @scripts[(@scripts.size / 2)..(@scripts.size - 1)])
+    @styles[(@styles.size / 2)..(@styles.size - 1)].each do |file|
+      child.files << construct_resource_file(ResourceFileType::CSS, file)
+    end
+    @scripts[(@scripts.size / 2)..(@scripts.size - 1)].each do |file|
+      child.files << construct_resource_file(ResourceFileType::JS, file)
+    end
     child.inline_block = sample_inline_block
     child
   end

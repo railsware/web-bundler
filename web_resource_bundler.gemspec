@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
-  s.date = %q{2010-11-23}
+  s.date = %q{2010-11-25}
   s.description = %q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
   s.email = %q{anotheroneman@yahoo.com}
   s.extra_rdoc_files = [
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/content_management/block_parser.rb",
      "lib/web_resource_bundler/content_management/css_url_rewriter.rb",
      "lib/web_resource_bundler/content_management/resource_bundle.rb",
+     "lib/web_resource_bundler/content_management/resource_file.rb",
      "lib/web_resource_bundler/exceptions.rb",
      "lib/web_resource_bundler/file_manager.rb",
      "lib/web_resource_bundler/filters.rb",
@@ -42,6 +43,7 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/rails_app_helpers.rb",
      "lib/web_resource_bundler/settings.rb",
      "lib/web_resource_bundler/web_resource_bundler_init.rb",
+     "spec/bundler.log",
      "spec/public/foo.css",
      "spec/public/images/good.jpg",
      "spec/public/images/logo.jpg",
@@ -61,6 +63,7 @@ Gem::Specification.new do |s|
      "spec/web_resource_bundler/content_management/block_data_spec.rb",
      "spec/web_resource_bundler/content_management/block_parser_spec.rb",
      "spec/web_resource_bundler/content_management/css_url_rewriter_spec.rb",
+     "spec/web_resource_bundler/content_management/resource_file_spec.rb",
      "spec/web_resource_bundler/file_manager_spec.rb",
      "spec/web_resource_bundler/filters/bundle_filter/filter_spec.rb",
      "spec/web_resource_bundler/filters/bundle_filter/resource_packager_spec.rb",
@@ -110,11 +113,6 @@ Gem::Specification.new do |s|
      "test_app/bundler_test/public/404.html",
      "test_app/bundler_test/public/422.html",
      "test_app/bundler_test/public/500.html",
-     "test_app/bundler_test/public/cache/cdn_base64_ie_style_06f55406a810a7fd16baa55c2a79c7c4.css",
-     "test_app/bundler_test/public/cache/cdn_base64_ie_style_af92dea364fc3316d5413befd8773371.css",
-     "test_app/bundler_test/public/cache/cdn_base64_ie_style_fc6e099576b80a76fa8fe7ec1c66de70.css",
-     "test_app/bundler_test/public/cache/cdn_base64_style_fc6e099576b80a76fa8fe7ec1c66de70.css",
-     "test_app/bundler_test/public/cache/script_57543183e2f40a60205eedb9dab1c7a4.js",
      "test_app/bundler_test/public/favicon.ico",
      "test_app/bundler_test/public/images/big_image.png",
      "test_app/bundler_test/public/images/ie8-logo.png",
@@ -156,6 +154,7 @@ Gem::Specification.new do |s|
      "spec/web_resource_bundler/settings_spec.rb",
      "spec/web_resource_bundler/content_management/css_url_rewriter_spec.rb",
      "spec/web_resource_bundler/content_management/block_data_spec.rb",
+     "spec/web_resource_bundler/content_management/resource_file_spec.rb",
      "spec/web_resource_bundler/content_management/block_parser_spec.rb",
      "spec/sample_block_helper.rb",
      "spec/spec_helper.rb"

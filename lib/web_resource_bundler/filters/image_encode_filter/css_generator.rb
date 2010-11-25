@@ -52,9 +52,9 @@ module WebResourceBundler
         #if image exist and has proper size - it should be encoded
         #each tag with this kind of an image is replaced with new one (mhtml link for IE and base64 code for another browser
         #returns images hash - in case generator can build proper IE css header with base64 images encoded
-        def encode_images_basic(content)
+        def encode_images_basic!(content)
           images = {}
-          new_content = content.gsub(PATTERN) do |s|
+          new_content = content.gsub!(PATTERN) do |s|
             tag, url = $1, $3
             data = ImageData.new(url, @settings.resource_dir) 
             if data.exist and data.size <= @settings.max_image_size and block_given?
@@ -67,29 +67,28 @@ module WebResourceBundler
               s
             end
           end
-          {:images => images, :content => new_content}
+          images
         end
 
         #generates css file for IE with encoded images using mhtml in cache dir
-        def encode_images_for_ie(path, content)
-          new_filename = encoded_filename_for_ie(path)
+        def encode_images_for_ie!(file)
+          file.name = encoded_filename_for_ie(file.name)
           #creating new css content with images encoded in base64
-          result = encode_images_basic(content) do |image_data, tag|
-            "*#{tag}url(mhtml:#{construct_mhtml_link(new_filename)}!#{image_data.id})"
+          images = encode_images_basic!(file.content) do |image_data, tag|
+            "*#{tag}url(mhtml:#{construct_mhtml_link(file.name)}!#{image_data.id})"
           end
-          { new_filename => (construct_header_for_ie(result[:images]) + result[:content]) }
+          file.content = construct_header_for_ie(images) + file.content 
+          file
         end
     
         #generates css file with encoded images in cache dir 
-        def encode_images(path, content)
-          new_filename = encoded_filename(path)
+        def encode_images!(file)
+          file.name = encoded_filename(file.name)
           #creating new css content with images encoded in base64
-          result = encode_images_basic(content) do |image_data, tag|
+          encode_images_basic!(file.content) do |image_data, tag|
               "#{tag}url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
           end
-          #always returning new filename just to indicate that filter was applied
-          #even if no images where found in content
-          { new_filename => result[:content] }
+          file
         end
 
       end

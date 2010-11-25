@@ -17,8 +17,7 @@ module WebResourceBundler
         s = ""
       end
       files = find_files(block)
-      block_data.css.files = files[:css]
-      block_data.js.files = files[:js]
+      block_data.files = files
       block_data.inline_block = remove_links(block)
       block_data
     end
@@ -41,12 +40,14 @@ module WebResourceBundler
 
     #looking for css and js files included and create BlockFiles with files paths
     def find_files(block)
-      files = {:css => OrderedHash.new, :js => OrderedHash.new}
+      files = []
       block.scan(URL_PATTERN).each do |property, value|
         unless value.include?('://') 
           case property
-            when "src" then files[:js][value] = "" if File.extname(value) == '.js'
-            when "href" then files[:css][value] = "" if File.extname(value) == '.css'
+            when "src" 
+              then files << WebResourceBundler::ResourceFile.new(WebResourceBundler::ResourceFileType::JS, value) if File.extname(value) == '.js'
+            when "href" 
+              then files << WebResourceBundler::ResourceFile.new(WebResourceBundler::ResourceFileType::CSS, value) if File.extname(value) == '.css'
           end
         end
       end

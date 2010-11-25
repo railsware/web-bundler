@@ -54,15 +54,12 @@ module WebResourceBundler
 
       it "returns empty BlockData when block is empty" do
         data = @block_parser.parse("")
-        data.css.files.should be_empty
-        data.js.files.should be_empty
+        data.files.should be_empty
       end
 
       def compare_block_datas(a,b)
-        a.css.files.keys.size.should == b.css.files.keys.size
-        (a.css.files.keys - b.css.files.keys).should be_empty
-        a.js.files.keys.size.should == b.js.files.keys.size
-        (a.js.files.keys - b.js.files.keys).should be_empty
+        a.files.size.should == b.files.size
+        (a.files.map {|f| f.name} - b.files.map{|f| f.name}).should be_empty
         a.child_blocks.size.should == b.child_blocks.size
         a.condition.should == b.condition
       end
@@ -77,23 +74,24 @@ module WebResourceBundler
 
     describe "#find_files" do
     
-      it "returns list of css and js files linked in block" do
+      it "returns array of css and js files linked in block" do
         result = @block_parser.find_files(@sample_block_helper.construct_links_block(styles, scripts))
-        
-        (result[:css].keys - styles).should be_empty
-        (result[:js].keys - scripts).should be_empty
+        files = styles + scripts
+        result.each do |f|
+          files.include?(f.name).should be_true
+        end
       end
 
       it "recognize only css and js files" do
-        block = "<link href='www.domain.com/rss.atom' /> <link href='valid.css' />"
+        block = "<link href='/rss.atom' /> <link href='valid.css' />"
         result = @block_parser.find_files(block)
-        result[:css].keys.should == ['valid.css']
+        result.first.name.should == 'valid.css'
       end
 
       it "recognize files only on disk, not full urls" do
         block = "<link href='http://glogle.com/web.css' /> <link href='valid.css' />"
         result = @block_parser.find_files(block)
-        result[:css].keys.should == ['valid.css']
+        result.first.name.should == 'valid.css'
       end
 
     end

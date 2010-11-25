@@ -29,11 +29,9 @@ module WebResourceBundler::Filters::ImageEncodeFilter
 
       before(:each) do
         @content = "background-image: url('images/logo.jpg'); background: url('images/logo.jpg'); background: url(\"non_existent.jpg\");"
-        result = @generator.encode_images_basic(@content) do |image_data, tag|
+        @images = @generator.encode_images_basic!(@content) do |image_data, tag|
           tag + image_data.extension
         end
-        @images = result[:images]
-        @content = result[:content]
       end
 
       it "substitute each image tag (image should exist and has proper size) with result of a yield" do
@@ -65,17 +63,21 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       before(:each) do
         @path = 'path'
         @content = 'margin: 10px;'
+        @file = WebResourceBundler::ResourceFile.new_css_file(@path, @content)
       end
       describe "#encode_images" do
         it "returns original content if no images found" do
           new_filename = @generator.encoded_filename(@path)
-          @generator.encode_images(@path, @content).should == {new_filename => @content}  
+          @generator.encode_images!(@file)
+          @file.content.should == @content
         end
       end
       describe "#encode_images_for_ie" do
         it "returns original content if no images found" do
-          new_filename = @generator.encoded_filename_for_ie(@path)
-          @generator.encode_images_for_ie(@path, @content).should == {new_filename => @content}
+          new_filename = @generator.encoded_filename_for_ie(@file.name)
+          @generator.encode_images_for_ie!(@file)
+          @file.name.should == new_filename
+          @file.content.should == @content
         end
       end
     end
@@ -83,23 +85,22 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       before(:each) do
         @path = 'style.css' 
         @content = "background: #eeeeee url('images/logo.jpg') repeat-x 0 100%;" 
+        @file = WebResourceBundler::ResourceFile.new_css_file(@path, @content)
       end
       describe "#encode_images" do
         it "returns hash with new file path and images encoded in content" do
-          result = @generator.encode_images(@path, @content)
-          new_path = result.keys[0]
-          new_path.should == 'base64_' + File.basename(@path)
-          result[new_path].include?("background: #eeeeee url('data:image").should be_true
-          result[new_path].include?("repeat-x 0 100%").should be_true
+          @generator.encode_images!(@file)
+          @file.name.should == 'base64_' + File.basename(@path)
+          @file.content.include?("background: #eeeeee url('data:image").should be_true
+          @file.content.include?("repeat-x 0 100%").should be_true
         end
       end
       describe "#encode_images_for_ie" do
         it "returns hash with new file path and images encoded in content" do
-          result = @generator.encode_images_for_ie(@path, @content)
-          new_path = result.keys[0]
-          new_path.should == 'base64_ie_' + File.basename(@path)
-          result[new_path].include?("background: #eeeeee url(mhtml:").should be_true
-          result[new_path].include?("repeat-x 0 100%").should be_true
+          @generator.encode_images_for_ie!(@file)
+          @file.name.should == 'base64_ie_' + File.basename(@path)
+          @file.content.include?("background: #eeeeee url(mhtml:").should be_true
+          @file.content.include?("repeat-x 0 100%").should be_true
         end
       end
     end

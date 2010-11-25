@@ -10,17 +10,19 @@ module WebResourceBundler::Filters::BundleFilter
     #recursively iterates through all files and imported files
     def bundle_files(files)
       output = ""
-      files.each do |path, content|
+      files.each do |file|
+        path = file.name
+        content = file.content
         output << "/* --------- #{path} --------- */\n"
-        if File.extname(path) == '.css'
+        if file.type[:ext] == 'css'
           imported_files = extract_imported_files!(content, path)
           #getting imported (@import ...) files contents
-          imported_files_hash = {}
-          imported_files.each do |file|
-            imported_files_hash[file] = @file_manager.get_content(file)
+          imported_resource_files = [] 
+          imported_files.each do |imported_file|
+            imported_resource_files << WebResourceBundler::ResourceFile.new_css_file(imported_file, @file_manager.get_content(imported_file))
           end
           #bundling imported files
-          output << bundle_files(imported_files_hash) unless imported_files_hash.empty?
+          output << bundle_files(imported_resource_files) unless imported_resource_files.empty?
         end
         #adding ';' symbol in case javascript developer forget to do this
         content += ';' if File.extname(path) == '.js'

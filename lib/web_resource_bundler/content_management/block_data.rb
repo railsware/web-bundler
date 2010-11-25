@@ -1,19 +1,28 @@
 module WebResourceBundler
   class BlockData
-    attr_accessor :css, :js, :inline_block, :condition, :child_blocks
+    attr_accessor :files, :inline_block, :condition, :child_blocks
 
     def initialize(condition = "")
       @inline_block = ""
-      @css = ResourceBundle::Data.new ResourceBundle::CSS
-      @js = ResourceBundle::Data.new ResourceBundle::JS
+      @files = []
       @condition = condition
       @child_blocks = []
     end
 
+    def styles
+      @files.select do |f|
+        [WebResourceBundler::ResourceFileType::CSS, 
+          WebResourceBundler::ResourceFileType::MHTML].include?(f.type)
+      end
+    end
+
+    def scripts
+      @files.select {|f| f.type == WebResourceBundler::ResourceFileType::JS}
+    end
+
     def clone
       clon = self.dup 
-      clon.css = self.css.clone
-      clon.js = self.js.clone
+      clon.files = self.files.map {|f| f.clone}
       if clon.child_blocks.size > 0
         clon.child_blocks = self.child_blocks.map do |block|
           block.clone
@@ -38,7 +47,7 @@ module WebResourceBundler
         filters.each do |filter|
           items = BlockData.all_childs(self)
           items.each do |block_data|
-            filter.apply(block_data)
+            filter.apply!(block_data)
           end
         end      
       end
@@ -53,10 +62,6 @@ module WebResourceBundler
           end
         end
       end
-    end
-
-    def all_files
-      @css.files.merge(@js.files)
     end
 
   end

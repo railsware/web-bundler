@@ -3,7 +3,7 @@ require 'ordered_hash'
 require 'content_management/block_parser'
 require 'content_management/block_data'
 require 'content_management/css_url_rewriter'
-require 'content_management/resource_bundle'
+require 'content_management/resource_file'
 
 require 'settings'
 require 'file_manager'
@@ -81,7 +81,7 @@ module WebResourceBundler
         @logger.error(e.to_s)
         return nil
       rescue Exception => e
-        @logger.error("Unknown error occured: " + e.to_s)
+        @logger.error(e.backtrace.join("\n") + "Unknown error occured: " + e.to_s)
         return nil
       end
     end
@@ -94,8 +94,8 @@ module WebResourceBundler
       #modifying clone to obtain resulted files
       block_data_copy.modify_resulted_files!(@filters)
       #cheking if resulted files exist on disk in cache folder
-      block_data_copy.all_files.keys.each do |name|
-        return false unless File.exist?(File.join(@settings.resource_dir, @settings.cache_dir, name))
+      block_data_copy.files.each do |file|
+        return false unless File.exist?(File.join(@settings.resource_dir, @settings.cache_dir, file.name))
       end
       true
     end
@@ -103,13 +103,11 @@ module WebResourceBundler
     #reads block data resource files content from disk and populating block_data
     def read_resources!(block_data)
       #iterating through each resource files
-      [block_data.css, block_data.js].each do |data|
-        data.files.each_key do |path|
-          content = @file_manager.get_content(path)
-          #rewriting url to absolute if content is css
-          WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(path, content) if File.extname(path) == '.css'  
-          data.files[path] = content
-        end
+      block_data.files.each do |file|
+        content = @file_manager.get_content(file.name)
+        #rewriting url to absolute if content is css
+        WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(file.name, content) if file.type[:ext] == 'css'  
+        file.content = content
       end
       #making the same for each child blocks, recursively
       block_data.child_blocks.each do |block|
@@ -120,9 +118,9 @@ module WebResourceBundler
     #recursive method to write all resulted files on disk
     def write_files_on_disk(block_data)
       @file_manager.create_cache_dir
-      block_data.all_files.each_pair do |name, content|
-        File.open(File.join(@settings.resource_dir, @settings.cache_dir, name), "w") do |f|
-          f.print(content)
+      block_data.files.each do |file|
+        File.open(File.join(@settings.resource_dir, @settings.cache_dir, file.name), "w") do |f|
+          f.print(file.content)
         end
       end
       block_data.child_blocks.each do |block|

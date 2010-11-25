@@ -12,10 +12,10 @@ module WebResourceBundler
         clean_cache_dir
         block_text = @sample_block_helper.sample_block
         block_data = @bundler.process(block_text)
-        files1 = BlockData.all_childs(block_data).map {|c| c.all_files.keys }
+        files1 = BlockData.all_childs(block_data).inject([]) {|files, c| files += c.files.map {|f| f.name} }
         block_text = @sample_block_helper.sample_block
         block_data = @bundler.process(block_text)
-        files2 = BlockData.all_childs(block_data).map {|c| c.all_files.keys }
+        files2 = BlockData.all_childs(block_data).inject([]) {|files, c| files += c.files.map {|f| f.name} }
         (files1.flatten - files2.flatten).should be_empty
       end
     end
@@ -36,9 +36,9 @@ module WebResourceBundler
       it "populates block_data resource files structure with files content" do
         block_data = @sample_block_helper.sample_block_data
         @bundler.read_resources!(block_data)
-        all_files = block_data.css.files.merge(block_data.js.files).merge(block_data.child_blocks[0].css.files).merge(block_data.child_blocks[0].js.files)
-        all_files.each_pair do |path, content|
-          CssUrlRewriter::rewrite_content_urls!(path, File.read(File.join(@s.resource_dir, path))).should == content
+        all_files = block_data.styles + block_data.scripts + block_data.child_blocks[0].styles + block_data.child_blocks[0].scripts
+        all_files.each do |file|
+          CssUrlRewriter::rewrite_content_urls!(file.name, File.read(File.join(@s.resource_dir, file.name))).should == file.content
         end
       end
     end
