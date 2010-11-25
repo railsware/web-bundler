@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{web_resource_bundler}
-  s.version = "0.0.11"
+  s.version = "0.0.12"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/content_management/block_data.rb",
      "lib/web_resource_bundler/content_management/block_parser.rb",
      "lib/web_resource_bundler/content_management/css_url_rewriter.rb",
-     "lib/web_resource_bundler/content_management/resource_bundle.rb",
      "lib/web_resource_bundler/content_management/resource_file.rb",
      "lib/web_resource_bundler/exceptions.rb",
      "lib/web_resource_bundler/file_manager.rb",
@@ -43,7 +42,6 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/rails_app_helpers.rb",
      "lib/web_resource_bundler/settings.rb",
      "lib/web_resource_bundler/web_resource_bundler_init.rb",
-     "spec/bundler.log",
      "spec/public/foo.css",
      "spec/public/images/good.jpg",
      "spec/public/images/logo.jpg",
@@ -113,6 +111,13 @@ Gem::Specification.new do |s|
      "test_app/bundler_test/public/404.html",
      "test_app/bundler_test/public/422.html",
      "test_app/bundler_test/public/500.html",
+     "test_app/bundler_test/public/cache/cdn_base64_ie_style_06f55406a810a7fd16baa55c2a79c7c4.css",
+     "test_app/bundler_test/public/cache/cdn_base64_ie_style_af92dea364fc3316d5413befd8773371.css",
+     "test_app/bundler_test/public/cache/cdn_base64_ie_style_fc6e099576b80a76fa8fe7ec1c66de70.css",
+     "test_app/bundler_test/public/cache/cdn_base64_style_06f55406a810a7fd16baa55c2a79c7c4.css",
+     "test_app/bundler_test/public/cache/cdn_base64_style_af92dea364fc3316d5413befd8773371.css",
+     "test_app/bundler_test/public/cache/cdn_base64_style_fc6e099576b80a76fa8fe7ec1c66de70.css",
+     "test_app/bundler_test/public/cache/script_57543183e2f40a60205eedb9dab1c7a4.js",
      "test_app/bundler_test/public/favicon.ico",
      "test_app/bundler_test/public/images/big_image.png",
      "test_app/bundler_test/public/images/ie8-logo.png",
