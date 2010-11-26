@@ -1,0 +1,799 @@
+.company_logo div div {
+	bottom: expression(parentNode.offsetHeight%2?-1:0);
+}
+div.blue_corner_tr {
+	right: expression(parentNode.offsetWidth%2?-1:0);
+}
+div.blue_corner_bl {
+	bottom: expression(parentNode.offsetHeight%2?-11:-10);
+}
+div.blue_corner_br {
+	bottom: expression(parentNode.offsetHeight%2?-11:-10);
+	right: expression(parentNode.offsetWidth%2?-1:0);
+}
+div#survey div.cloud_arrow {
+	margin-top: -5px;
+}
+div.corner_tr {
+	right: expression(parentNode.offsetWidth%2?-1:0);
+}
+div.corner_bl {
+	bottom: expression(parentNode.offsetHeight%2?-1:0);
+}
+div.corner_br {
+	bottom: expression(parentNode.offsetHeight%2?-1:0);
+	right: expression(parentNode.offsetWidth%2?-1:0);
+}
+
+div.questions_from_template {
+	width: 100%;
+	text-align: right;
+}
+
+div#survey {
+	position: relative;
+}
+
+div#survey.thankyou {
+	width: auto;
+}
+
+ul.actions li div.wrapper {
+	height: 1%;
+	zoom: 1;
+	position: relative;
+}
+
+ul.actions li {
+	position: relative;
+	height: 1%;
+}
+
+div.blue-wrap {
+	height: 1%;
+}
+
+div.add-answer {
+	height: 1%;
+	clear: both;
+	position: relative;
+}
+
+.contacts_info table.subnav {
+	width: 99%;
+}
+
+.address_menu {
+	height: 1%;
+	margin-left: -3px;
+}
+
+.address_menu ul li li {
+	width: 100%;
+}
+
+.company_logo {
+	height: 1%;
+}
+
+span.down {
+	top: -12px;
+}
+
+div.survey-template, .button_cancel {
+	height: 1%;
+}
+
+li.survey-list {
+/*	height: 1%;
+	position: relative; */
+	top: 0px;
+}
+
+ul.sliding.sections {
+	margin-top: 2px;
+}
+
+div.survey-wrap {
+	height: 1%;
+/*	position: relative;*/
+	top: 0px;
+/*	overflow: visible;*/
+
+}
+
+#survey_table {
+	width: 754px;
+}
+#footer.footer_ie {
+	position: relative;
+}
+#col_mid_console, #col_mid_console #sidebar_right div.block  {
+	zoom: 1;
+}
+
+#col_mid_console #sidebar_right .block {
+	margin-right: -8px;
+}
+
+div.widget div.bottom, div.widget div.title h3, div.widget.tabs div.nav, div.widget.tabs div.nav ul, div.widget.rounded-tabs div.nav {
+	height: 1%;
+}
+div.widget.rounded-tab div.bottom div.more a {
+	padding: 9px 12px;
+}
+div.widget div.bottom {
+	margin-left: 2px;
+}
+.wrapper div.rounded-tab div.bottom {
+	margin-left: 0px;
+}
+div.widget.rounded div.bottom {
+	margin-left: 0px;
+}
+
+div.theme {
+	margin-right: 5%;
+	width: 167px;
+}
+
+
+div.themes {
+	height: 1%;
+}
+
+table.thank-you-custom {
+	width: 95%;
+}
+
+div.widget-install div.form {
+	height: 1%;
+}
+
+div.widget-install div.info-column div.button {
+	height: 1%;
+	clear: both;
+}
+
+div.widget-install div.info-column span.down {
+	top: 50px;
+	left: 25px;
+}
+
+div.widgets div.row, fieldset.widgets div.row {
+	height: 1%;
+}
+
+div.widgets div.row div.column, fieldset.widgets div.row div.column {
+	margin: 0px 4px;
+	height: 1%;
+}
+div.corner.rt, div.corner.rb {right:-2px;}
+div.widget div.title h3 {
+	height: 1%;
+}
+div.rounded div.corner.lt {top:expression(parentNode.offsetHeight%2?0:-2);}
+div.rounded div.corner.rt {top:expression(parentNode.offsetHeight%2?0:-2);}
+
+div.widget-install div.form div.info-column table {
+	width: 367px;
+}
+
+div.widget-console div.widgets div.button span.down, div#testimonials_builder div.button span.down,
+div.widget-console fieldset.widgets div.button span.down {
+	top: -10px;
+	left: 0px;
+}
+
+div.testimonial_wrapper, div.testimonial_wrapper div.title h3 {
+	height: 1%;
+}
+
+div.testimonial_wrapper div.bottom {
+  clear: both;
+}
+div.testimonial_wrapper div.title h3 span img.star {
+	position: relative;
+	top: -3px;
+}
+
+div.testimonial div.widgets div.row div.column, div.testimonial fieldset.widgets div.row div.column {
+	width: 43%;
+}
+
+div.widget-install div.form div.info-column td table {
+	margin-left: 51px;
+}
+
+div.email-campaign.builder {
+	height:1%;
+}
+
+div.email-campaign.builder div.top.header-container {
+	position: relative;
+	margin: 0px;
+}
+
+div.email-campaign.builder div.block div.title{
+	height:1%;
+}
+
+div.email-campaign.builder div.content_container div.block div.title{
+	height: 13px;
+}
+
+div.email-campaign.builder {
+	width: 670px;
+}
+
+#email_blue div.corner.lb, #email_blue div.corner.rb {bottom:-4px;}
+
+div.wrapper.email-campaign {
+	padding: 20px 40px;
+}
+
+div.wrapper.email-campaign.step0 {
+	padding: 0px 0px 20px;
+}
+
+div.wrapper.email-campaign.step2 {
+	padding: 20px 0px;
+}
+
+div.wrapper.email-campaign.step1 {
+	padding: 0px 0px 20px;
+}
+
+div.wrapper.email-campaign.builder div.content {
+	margin-top: 20px;
+	height: 1%;
+}
+
+div.wrapper.email-campaign.builder div.top {
+	margin-bottom: -20px;
+}
+
+div.wrapper.email-campaign.builder div.main-container {
+	height: 1%;
+}
+
+div.wrapper.email-campaign.step3 div.layout {
+	clear: both;
+}
+
+div.wrapper.email-campaign.step3 div.block div.columns div.column.one{
+	margin-left: 4px;
+}
+	
+div.wrapper.email-campaign.step3 div.block div.columns div.column.two{
+	clear: both;
+	margin-left: 5px;
+}
+
+p.fieldset_text.button.export, .contacts_list ul li {
+	zoom:1;
+}
+
+div.fieldset_block.pad_buttons, div.fieldset_block.block_buttons{
+	zoom:1;
+	padding-bottom: 15px;
+}
+
+div.fieldset_block.pad_buttons p, div.fieldset_block.block_buttons p{
+	clear: none;
+}
+
+div.fieldset_block.block_buttons p.text_with_button{
+	padding:10px 5px 0px;
+}
+
+#col_mid_console div.address_menu ul li a {
+	color: #ffffff;
+}
+#col_mid_console div.address_menu ul li a:hover {
+	color: #00b7e5;
+}
+div.upload_photos.float_left {
+	float: none;
+	zoom: 1;
+	clear: none;
+}
+
+div.upload_photos.float_left input.upload_image_file_name {
+	width: 282px;
+}
+div.fieldset_block.pictures_padd div.big_photo_directory {
+	position: relative;
+}
+#email_blue .img_border .img_corner span.corner.lb {left:-11px; bottom:-8px; background-image:url(/images/email/img_corner_lb.gif);}
+#email_blue .img_border .img_corner span.corner.rb {right:-10px;bottom:-8px; background-image:url(/images/email/img_corner_rb.gif);}
+
+div.flash{
+	height: 1%;
+}
+
+table td.button {
+	width: 1% !important;
+}
+#book_list ul li, .row, .faq ul li {
+	zoom: 1;
+}
+#claim ul li p {
+	width: 200px;
+	margin-top: -15px;
+}
+
+.first_to_review div.package div.column-content {
+	height: 410px;
+}
+
+#search_page .merchant_search_example input {
+	right: 30px;
+}
+
+.merchant_details {
+	margin-left: 0px;
+}
+
+div#survey div.blue-wrap div.lead span.text {
+	left: 20px;
+}
+
+ul.directory-icons {
+	float: none;
+	clear: both;
+	height: 1%;
+}
+
+div.merchant_logo img {
+	margin-right: 15px;
+}
+
+div.wrapper.reports div.title h2 {
+	margin-top: 0px;
+}
+
+div.wrapper.reports.campaign div.block {
+	height: 1%;
+}
+
+div.wrapper.reports.campaign div.block div.info table tr td{
+	border-bottom: 1px solid #d9d9d9;
+}
+
+div.wrapper.reports.campaign div.block div.info table tr.no-border td{
+	border-bottom: 0px;
+}
+
+div.wrapper.reports.campaign div.block div.info p.subject span,
+div.wrapper.reports.campaign div.block div.info p.send-to span {
+	height: 1%;
+}
+
+div.wrapper.reports div.block table tr td div.drop-down {
+	overflow-x: hidden;
+}
+
+div.wrapper.reports div.block table tr td,
+div.wrapper.reports div.block table tr td.drop-container table td {
+	border-bottom: 1px solid #d9d9d9;
+}
+
+div.wrapper.reports div.block table tr.no-border td,
+div.wrapper.reports div.block table tr td.drop-container table tr.no-border td {
+	border-bottom: 0px;
+}
+
+div.wrapper.reports.link-details div.block div.clicks,
+div.wrapper.reports.opens-details div.block div.clicks {
+	float: right;
+	clear: both;
+}
+
+div.wrapper.reports.link-details div.block div.content,
+div.wrapper.reports.opens-details div.block div.content {
+	padding: 20px 0px 20px 20px;
+}
+
+div.wrapper.reports div.block div.content p.dates label,
+div.wrapper.reports div.block div.content p.dates img,
+div.wrapper.reports div.block div.content p.search label {
+	position: relative;
+	top: -5px;
+}
+
+div.wrapper.reports div.block table tr td {
+	vertical-align: middle;
+}
+
+#survey .actions input {
+	vertical-align: middle;
+	margin-top: 0px;
+}
+
+div.wrapper.reports.opens-details div.block table tr td div.drop-down {
+	width: 400px;
+}
+
+div.wrapper.reports.opens-details div.block div.content {
+	width: 432px;
+}
+
+div.wrapper.reports.opens-details div.block div.content p.dates span {
+	margin-right: 10px;
+}
+
+.block-content span {
+	display: block;
+	overflow: hidden;
+	width: 580px;
+}
+
+div.wrapper.reports {
+	padding: 0px;
+	margin: 0px;
+	width: 750px;
+}
+
+div.wrapper.reports div.block {
+	width: 748px !important;
+}
+
+div.matrix-container table.matrix tr td {
+	padding: 2px;
+}
+
+div.matrix-container input.radio {
+	margin: 0px 23px;
+}
+.horizontal-widget .no_bar {
+	margin-top: 14px;
+}
+.review fieldset.review_completed {
+	margin-top: -10px;
+}
+
+div.wrapper.reports div.title {
+	height: 1%;
+}
+
+div.block div.block-content {
+	position: fixed;
+}
+
+div.wrapper.reports div.block div.content p.dates * {
+	vertical-align: bottom;
+}
+
+div.wrapper.reports div.block div.content p.dates .datepicker_trigger {
+	padding-left: 3px;
+	padding-top: 3px;
+}
+
+.new-survey .static input, table.recipients_table td input {
+	margin-top: -2px;
+}
+
+div.wrapper.reports.recipients div.block form.form p.search input {
+	color:black;
+}
+
+div.wrapper.reports div.title h2 {
+	margin-top: -2px;
+}
+
+
+div.opens-chart div.vertical-bar dl.bars {
+  margin-left: 0px;
+	vertical-align: top;
+}
+
+div.opens-chart div.vertical-bar dl.bars dd.bar {
+  height: 0px;
+}
+
+div.opens-chart div.vertical-bar ul.labels {
+  margin: 0px;
+}
+
+div.wrapper.reports.opens-details div.block div.clicks {
+	margin-right: 0px;
+	border-right: 1px solid #f1f1f1;
+}
+
+div.wrapper.reports div.block div.content p.dates span {
+	margin-right:5px;
+}
+
+div.wrapper.reports.opens-details div.block table tr td div.drop-down {
+	height: 1%;
+}
+
+.settings_input {
+	left: 8px;
+	bottom: 0px;
+}
+
+div.settings_checkbox {
+	height: 1%;
+}
+#email_campaign .meta_info {
+	height: 1%;
+}
+
+div.wrapper.email-campaign.builder div.top, div.wrapper.email-campaign.builder div.bottom {
+	width: 652px;
+}
+
+div.wrapper.email-campaign.builder div.email-title {
+	margin-top: 5px;
+}
+
+div.wrapper.email-campaign.builder p.campaign_description {
+	width: 616px;
+}
+
+div.wrapper.reports.recipients div.block div.opened div.diagram {
+	padding-top: 92px;
+	width: 230px;
+}
+
+.account-margin legend {
+	margin-bottom: 10px;
+}
+
+p.settings_checkbox {
+	margin-bottom: 2px;
+}
+
+.settings_row {
+	margin: 0px;
+}
+
+div#survey table.question-type ul.question_types input.radio,
+div#add_form ul.question_types li span.new {
+	position: fixed;
+}
+
+div.wrapper.reports div.block table tr td div.email-container {
+	width: 140px;
+}
+
+div.chart dl.bar {
+  padding: 5px 0px 5px;
+}
+div.description {
+	zoom: 1;
+}
+.column .hor-widget-builder {
+	width: 680px;
+}
+
+.surveys .add .filter p{
+	height: 1%;
+}
+.surveys .add span.company {
+	margin-right: 45px;
+}
+
+p.posted {
+	top:7px;
+}
+
+p.posted select,
+span.company select{
+	position: relative;
+	top: 3px;
+}
+
+
+.surveys .add span.closed {
+	margin-top: 3px;
+	margin-left: 0px;
+}
+
+.surveys .add span.company select{
+	margin-right: 0px;
+}
+
+.reset span.right select {
+	width: 170px;
+}
+
+.reset span.right select.select-open {
+	width: 150px;
+}
+
+.reset select {
+	position: relative;
+	top: 3px;
+}
+
+.form .search label {
+	top: 11px;
+}
+
+div.new-business select.type {
+	width: 245px;
+}
+
+div.new-business select.us {
+	width: 155px;
+}
+
+.reset span.sub-filter {
+	margin-left: 205px;
+}
+div.messages table.messages {
+	width: 95%;
+}
+
+div.help div.main, div.help div.main div.text, div.help div.main div.title {
+	height: 1%;
+}
+
+.disputes .form span.dates {
+	margin-top: 4px;
+}
+.user-info div.bottom-bg {
+	bottom: -1px;
+}
+.add .contacts-limit-info a img {
+	vertical-align: middle;
+}
+
+div.fieldset_block {
+	height: 1%;
+}
+
+div.adr_book_opened.non-popup {
+	height: 1%;
+}
+
+.adr_book_opened .heading {
+	height: 1%;
+}
+
+.adr_book_opened div.add-all {
+	height: 1%;
+}
+
+.adr_book_opened #book_list ul li:hover .del a {
+	background-image: url("/images/arrow_book_red.gif");
+}
+
+div.added-recipients {
+	height: 1%;
+}
+
+div.added-recipients span.name {
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.address-book-left span.tip {
+	bottom: 150px;
+}
+
+div.ie-fix {
+	display: block;
+	clear: both;
+	height: 1px;
+	font-size: 1px;
+	line-height: 1px;
+}
+
+div.added-recipients span.contact span.inner {
+	padding: 2px 3px;
+}
+
+.choose_recipients {
+	height: 1%;
+	background-color: #eee;
+}
+.links div.content-box div.info-column .get_code {
+	width: 388px;
+}
+.import_file li.congratulations {
+	height: 1%;
+}
+.tools_ul li a {
+	height: 1%;
+}
+.header .menu .corner-black-r {
+	right: expression(parentNode.offsetWidth%2?-1:0);
+}
+li.survey-list div {
+	zoom: 1;
+}
+div.step2 div.check div.enter-text {
+	padding-left: 24px;
+}
+
+div.wrapper.reports.campaign div.block div.info {
+	width: 407px;
+}
+div.wrapper.email-campaign div.email-format {
+	zoom: 1;
+}
+.dashboard .container .item .head {
+	position: relative;
+	z-index: 200;
+	zoom:1;
+}
+
+/* Super New mini Flexible button */
+
+.mini-button {
+	background: url(/images/buttons/mini_l.gif) no-repeat left;
+}
+
+.mini-button span {
+	background: url(/images/buttons/mini_r.gif) no-repeat right;
+}
+
+.mini-button span span {
+	background: url(/images/buttons/mini_middle.gif) repeat-x center;
+}
+
+/* Super New mini Flexible button end*/
+
+/* Super New mini red Flexible button */
+
+.mini-button.red-small {
+	background: url("/images/buttons/mini_l-red.gif") no-repeat left;
+	padding-left: 4px;
+}
+
+.mini-button.red-small span {
+	background: url("/images/buttons/mini_r-red.gif") no-repeat right;
+	padding-right: 4px;
+}
+
+.mini-button.red-small span span {
+	background: url("/images/buttons/mini_middle-red.gif") repeat-x center;
+}
+
+/* Super New mini Flexible button end*/
+
+/*Contacts import page*/
+ul.import_types {
+/*	zoom: 1;*/
+}
+.design .additional.text .scroll-area {
+	height: 1%;
+}
+/*---Disputes page---*/
+.rounded-layout .enterprise {
+	zoom: 1;
+}
+.group-list.show-rows {
+	bottom: -60px;
+}
+.links .test-link {
+	zoom: 1;
+}
+div.wrapper.reports.campaign div.block div.info p.send-to {
+	zoom: 1;
+}
+
+table.links-edit td.input {
+	padding-top: 3px;
+}
+
+.product-view-content {
+	zoom: 1;
+}
+
+.product-info .rating {
+	zoom: 1;
+}
+
+div.wrapper.email-campaign.steps.step2 div.block.switch_builder ul li {
+	zoom: 1;
+}
+
+div.wrapper.email-campaign.steps.step2 div.block.switch_builder .switch_version p span.type, div.wrapper.email-campaign.steps.step2 div.block.switch_builder .switch_version p span.beta {
+	float: left;
+	padding-top: 3px;
+}
