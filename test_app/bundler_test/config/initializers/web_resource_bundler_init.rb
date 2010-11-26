@@ -4,7 +4,7 @@ settings = {
   :log_path => File.join(Rails.root, 'log/web_resource_bundler.log'),
   :cache_dir => 'cache',
   :base64_filter => {
-    :max_image_size => 23, #kbytes
+    :max_image_size => 30, #kbytes
     :protocol => 'http',
     :domain => 'localhost:3000'
   },

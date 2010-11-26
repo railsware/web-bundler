@@ -3,8 +3,29 @@
 <head>
   <title>BundlerTest</title>
   <% web_resource_bundler_process do %>
-    <%= stylesheet_link_tag 'scaffold' %>
+    <%= stylesheet_link_tag 'scaffold', 'screen_rw', 'reset', 'console', 'business_tools', 'navigation', 'dashboard', 'calendar', 'digit_loading_bar' %>
     <%= javascript_include_tag :defaults %>
+
+		<!--[if IE 6]>
+	  	<link rel="stylesheet" type="text/css" href="/stylesheets/ie6.css">
+	  <![endif]-->
+		<script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/ui-datepicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/calendars.js" type="text/javascript" charset="utf-8"></script>
+	  <script>
+	    $(function(){
+	      $('.standard-button').hover(
+	        function(){
+	          $(this).addClass('button-hover');
+	        },
+	        function(){
+	          $(this).removeClass('button-hover');
+	        });
+	    });
+	  </script>
+		
+
+
     <link href="http://google.com/1.css" type="text/css" rel="stylesheet" />
     <!--[if IE]>
       <%= stylesheet_link_tag 'ie_only' %>
@@ -19,5 +40,400 @@
 <%= yield %>
 <div class="image-div"></div>
 <div class="second_div"></div>
+
+<div class="ui-elements">
+	
+	<table>
+	  <tr>
+	    <td class="ui-cell">Big green button</td>
+	    <td class="ui-cell">
+	      <div class="button-block">
+	        <a href="#" class="green-big-button"><span><span>Retry payment</span></span></a>
+	        <span class="additional-text">
+	         or <a href="#">Cancel</a> <span t9n:p="1">(submit another)</span>          
+	        </span>
+	      </div>
+	    </td>
+	  </tr>
+	  <tr>
+	     <td class="ui-cell">Red button</td>
+	     <td class="ui-cell">
+	       <a class="color-button red" href="/business/tools/account/info"><span><span>Renew Your Account</span></span></a>
+	      </td>
+	   </tr>
+	   <tr>
+	      <td class="ui-cell">Small orange button</td>
+	      <td class="ui-cell">
+	        <a class="color-button orange" href="/business/tools/account/info"><span><span>Renew Your Account</span></span></a>     
+	       </td>
+	    </tr>
+	    <tr>
+	       <td class="ui-cell">Small green button</td>
+	       <td class="ui-cell">
+	         <a class="color-button green" href="/business/tools/account/info"><span><span>Renew Your Account</span></span></a>     
+	        </td>
+	     </tr>
+	     <tr>
+	        <td class="ui-cell">Very small blue button</td>
+	        <td class="ui-cell">
+	          <div class="action-links"><a class="bg_link" href="#">Save</a> or <a href="#">Cancel</a></div>
+	         </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Final standart blue button</td>
+	          <td class="ui-cell">
+	              <a class="standard-button" href="#"><span><span>Get Code</span></span></a>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Final standart blue button with image</td>
+	          <td class="ui-cell">
+	              <a class="standard-button twitter-button" href="#"><span><span><img src="/images/icons/twitter-button.gif" alt="" />Get Code</span></span></a>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Disabled standart button</td>
+	          <td class="ui-cell">
+	              <a class="standard-button disabled-button" href="#"><span><span>Get Code</span></span></a>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Final standart blue button with "Cancel" text</td>
+	          <td class="ui-cell">
+	            <div class="button-block">
+	                <a class="standard-button" href="#"><span><span>Upgrade</span></span></a><span class="additional-link">or <a href="#">Cancel</a></span>
+	            </div>
+	            <br/>Word "Cancel" always have red color
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Final standart blue button with action text</td>
+	          <td class="ui-cell">
+	            <div class="button-block">
+	                <a class="standard-button" href="#"><span><span>Get Code</span></span></a><span class="additional-link">or <a href="#" class="action-link">Some action</a></span>
+	            </div>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Mini blue button</td>
+	          <td class="ui-cell">
+	              <a class="mini-button" href="#"><span><span>Get Code</span></span></a>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Mini input button</td>
+	          <td class="ui-cell">
+	              <span class="mini-input-button"><span><input type='submit' value='Get Code' /></span></span>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Mini red button</td>
+	          <td class="ui-cell">
+	              <a class="mini-button red-small" href="#"><span><span>Get Code</span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Mini grey button</td>
+	          <td class="ui-cell">
+	              <a class="mini-grey-button" href="#"><span><span>Get Code</span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Mini navigational button</td>
+	          <td class="ui-cell">
+	              <a class="m-button" href="#"><span><span>Get Code</span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Mini blue button with "Cancel" text</td>
+	          <td class="ui-cell">
+	              <a class="mini-button" href="#"><span><span>Get Code</span></span></a>
+	              or
+	              <a href="#">Cancel</a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Grey button Plus</td>
+	          <td class="ui-cell">
+	              <a class="grey-button add-button" href="#"><span><span><span>Get Code</span></span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Grey button Check</td>
+	          <td class="ui-cell">
+	              <a class="grey-button check" href="#"><span><span><span>Get Code</span></span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Grey button Group</td>
+	          <td class="ui-cell">
+	              <a class="grey-button group" href="#"><span><span><span>Get Code</span></span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Grey button Export</td>
+	          <td class="ui-cell">
+	              <a class="grey-button export" href="#"><span><span><span>Get Code</span></span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Grey button Delete</td>
+	          <td class="ui-cell">
+	              <a class="grey-button delete" href="#"><span><span><span>Get Code</span></span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Grey button Assign Category</td>
+	          <td class="ui-cell">
+	              <a class="grey-button assign-category" href="#"><span><span><span>Get Code</span></span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Grey button Merge</td>
+	          <td class="ui-cell">
+	              <a class="grey-button merge" href="#"><span><span><span>Get Code</span></span></span></a>
+	          </td>
+	      </tr>
+
+	      <tr>
+	          <td class="ui-cell">Message with blue gradient background</td>
+	          <td class="ui-cell">
+	            <div class="tools_text">We’ve created some easy to use and highly effective tools to help you get the most out of your RatePoint membership.  By proactively asking for feedback and sharing it, you’ll promote your commitment to quality and take advantage of all the benefits of user-generated content, including improved customer retention and loyalty, better communication with 	customers, increased sales and conversion rates, and even better search engine marketing.</div>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Message with yellow gradient and exclamation mark</td>
+	          <td class="ui-cell">
+	            <div class="limit-message"><p class="message">We’ve created some easy to use and highly effective tools to help you get the most out of your RatePoint membership.  By proactively asking for feedback and sharing it, you’ll promote your commitment to quality</p></div>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Notice message</td>
+	          <td class="ui-cell">
+	            <div id="flash" class="flash notice">Logged in successfully</div>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Error message</td>
+	          <td class="ui-cell">
+	            <div id="flash" class="flash error">Logged in unsuccessfully</div>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Campaigns message</td>
+	          <td class="ui-cell">
+	            <p class="campaign_description">Active email campaign can not be edited. To change campaign status.</p>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Update Message</td>
+	          <td class="ui-cell">
+	            <div class="update-message"><p t9n:i="1" class="message notification">We are currently updating your campaign results and this update will be completed shortly.  We appologize for any inconvenience this may cause.</p></div>
+	          </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Account Notification</td>
+	          <td class="ui-cell">
+				      <div class="account_notification" id="expiration_notice">
+					      <strong>Upgrade Today!</strong> <span>Your RatePoint account</span> <span>expired 73 days ago. Renew Today and reach out to more contacts, collect more customers and build more surveys.</span>Please contact [stage] Consistent Direct Reseller to renew your business account.
+					    </div>
+				    </td>
+	      </tr>
+	      <tr>
+	          <td class="ui-cell">Third Level Menu<br />navigation.css</td>
+	          <td class="ui-cell">
+	            <!-- temporary div!!! only for ui.html!!! do not copy it!!! --><div style="position: relative;height: 50px"><!-- temporary div!!! only for ui.html!!! do not copy it!!! -->
+
+
+	            <div class="third_level_submenu">
+	                <ul>
+	                  <li><a href="/business/overview" class="active">Overview</a></li>
+	                  <li><a href="/disputes">Disputes</a></li>
+	                  <li><a href="/business/reviews">Reviews</a></li>
+	                </ul>
+	            </div>
+
+
+
+
+	              </div>
+				    </td>
+	      </tr>
+
+	      <tr>
+	        <td class="ui-cell">digit loading bar</td>
+	        <td class="ui-cell">
+
+	          <div class="digit-loading-bar">
+	            <div class="diagram">
+	              <div id="green">&nbsp;</div>
+	            </div>
+	            <span class="digit">2 </span>
+	            <a href="#" class="mini-button"><span><span>upgrade</span></span></a><br />
+	            <span class="used">10 </span><t9n>contacts used</t9n>
+	          </div>
+
+	        </td>
+	      </tr>
+
+
+	      <tr>
+	          <td class="ui-cell">Dashboard<br />dashboard.css<br />calendar.css<br />ui-datepicker.js<br />calendars.js</td>
+	          <td class="ui-cell">
+	            <!-- temporary div!!! only for ui.html!!! do not copy it!!! --><div style="width: 754px"><!-- temporary div!!! only for ui.html!!! do not copy it!!! -->
+
+
+	            <div class="dashboard">
+	              <div class="main-title">
+	                <table>
+	                  <tr>
+	                    <td class="hover"><a href="#"><span class="t_green">1</span>Reviews To Be Approved</a></td>
+	            	      <td class="hover"><a href="#"><span class='t_red'>2</span>Disputes That Need Response</a></td>
+	                    <td><span class="t_item">
+	                      <span class="t_blue">1.11</span>
+	                      <t9n>Raw Average</t9n>
+	                      <span class="grey" t9n:p>Your score without RatePoint</span>
+	                    </span></td>
+	                    <td><span class="t_item t_item_wide">
+	                      <span class="t_brown">0.00</span>
+	                      <t9n>RatePoint Average</t9n>
+	                      <span class="grey" t9n:p>Your score with RatePoint</span>
+	                    </span></td>
+	            	      <td class="hover"><a href="#"><span>0</span>Negative Reviews Resolved</a></td>
+	            	      <td class="hover"><a href="#"><span>0%</span>of Negative Reviews Resolved</a></td>
+	            	    </tr>
+	            	  </table>
+	               <div class="datepicker form">
+	                 <form id="date_range_form" action="/business/manage">
+	                   <table class="dates">
+	                     <tr>
+	                         <td><label for="date_from">From </label></td>
+	                         <td><input type="text" name="date_from" id="date_from" value="09/09/2009"/></td>
+	                       </tr>
+	                       <tr>
+	                         <td><label for="date_to">To </label></td>
+	                         <td><input type="text" id="date_to" name="date_to" value="10/09/2009" /></td>
+	                       </tr>
+	                       <tr>
+	                         <td></td>
+	                         <td class="apply"><a href="#" onClick="">Apply</a></td>
+	                       </tr>
+	                   </table>
+	                 </form>
+	               </div>
+
+	              </div>
+
+	              <div class="dashboard-area">
+	                <div class="container">
+	                  <div class="item top left">
+	                    	<div class="head">Review Score</div>
+	                      <div class="textbar"></div>          
+	                      <div class="install">
+	                        <div class="top">&nbsp;</div>
+	                        <div class="text"><a href="#">Collect Feedback</a> start collecting reviews</div>
+	                        <div class="bottom">&nbsp;</div>
+	                      </div>
+	                      <span id="reviews_scores_line"><img src="/images/dashboard/disabled-diagram1.jpg.en" alt="Review score line" /></span>
+
+	                    <div class="lt">&nbsp;</div>
+	                    <div class="rt">&nbsp;</div>
+	                    <div class="lb">&nbsp;</div>
+	                    <div class="rb">&nbsp;</div>
+	                  </div>
+
+	                  <div class="item top">
+	                      <div class="head">Site Seal Stats</div>
+	                      <div class="textbar"></div>          
+	                      <div class="install">
+	                        <div class="top">&nbsp;</div>
+	                        <div class="text"><a href="/business/tools/seals" t9n:s="1">Install Your Site Seal</a> to start receiving statistics</div>
+	                        <div class="bottom">&nbsp;</div>
+	                      </div>
+	                      <img class="disabled" src="/images/dashboard/disabled-diagram2.jpg.en" alt="Disabled" />
+	                    <div class="lt">&nbsp;</div>
+	                    <div class="rt">&nbsp;</div>
+	                    <div class="lb">&nbsp;</div>
+	                    <div class="rb">&nbsp;</div>
+	                  </div>
+	                  <div class="item bot average left">
+	            	      	<div class="head">Raw Average</div>
+	            	        <div class="textbar"></div>          
+	                    	<div class="install">
+	            	          <div class="top">&nbsp;</div>
+	            	          <div class="text"><a href="#">Collect Feedback</a> start collecting reviews</div>
+	            	          <div class="bottom">&nbsp;</div>
+	            					</div>
+	                      <span id="raw_review_rates_bar"><img src="/images/dashboard/disabled-diagram3.jpg.en" alt="Raw Average bar" /></span>
+
+	                    <div class="lt">&nbsp;</div>
+	                    <div class="rt">&nbsp;</div>
+	                    <div class="lb">&nbsp;</div>
+	                    <div class="rb">&nbsp;</div>
+	                  </div>
+	                  <div class="item bot average">
+	            	      	<div class="head">RatePoint Average</div>
+	            	        <div class="textbar"></div>          
+	                  		<div class="install">
+	            	          <div class="top">&nbsp;</div>
+	            	          <div class="text"><a href="#">Collect Feedback</a> start collecting reviews</div>
+	            	          <div class="bottom">&nbsp;</div>
+	            					</div>
+	                      <span id="ratepoint_review_rates_pie"><img src="/images/dashboard/disabled-diagram4.jpg.en" alt="RatePoint Average pie" /></span>
+
+
+	                    <div class="lt">&nbsp;</div>
+	                    <div class="rt">&nbsp;</div>
+	                    <div class="lb">&nbsp;</div>
+	                    <div class="rb">&nbsp;</div>
+	                  </div>
+	                </div>
+	                <div class="get-started">
+	                  <div class="get-started-line">&nbsp;</div>
+	                  <a href="#" class="closed">Getting Started</a>
+	                  <div class="rb">&nbsp;</div>
+	                  <div class="rt">&nbsp;</div>
+	                  <div class="lb">&nbsp;</div>
+	                  <div class="lt">&nbsp;</div>
+	                </div>
+	                <div class="news">
+	                  <div class="head">Featured News</div>
+	                  <div id="ratepoint_blog" class="blog">
+	                    Loading...
+	                  </div>
+	                  <div class="lt">&nbsp;</div>
+	                  <div class="rt">&nbsp;</div>
+	                  <div class="lb">&nbsp;</div>
+	                  <div class="rb">&nbsp;</div>
+	                </div>
+	                <div class="lb">&nbsp;</div>
+	                <div class="rb">&nbsp;</div>
+	              </div>
+	              <div class="lt">&nbsp;</div>
+	              <div class="rt">&nbsp;</div>
+	            </div>
+
+
+	            </div>
+				    </td>
+	      </tr>
+	</table>
+	
+	
+	
+</div>
+
+
 </body>
 </html>
