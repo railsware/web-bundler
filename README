@@ -71,6 +71,14 @@ Now in your view files you can call web_resource_bundler_process helper like thi
 
 <% end %>
 </head>
+Notice:
+
+For Rails < 3
+you should use <% web_resource_bundler_process do %>
+
+And For Rails >= 3
+use <%= web_resource_bundler_process do %>
+
 
 And as result you'll have
 
