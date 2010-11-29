@@ -97,3 +97,6 @@ And as result you'll have
 !!!
 Don't forget to clean your cache directory after deploy to clean old bundles
 
+
+To disable bundling and see raw results add no_bundler param
+mysite.com/?no_bundler=1
