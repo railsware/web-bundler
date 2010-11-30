@@ -48,6 +48,7 @@ module WebResourceBundler::RailsAppHelpers
     end
     #removing unnecessary new line symbols
     result.gsub!(/\n(\s)+/, "\n")
+    result
   end
 
   def mhtml_should_be_added?
