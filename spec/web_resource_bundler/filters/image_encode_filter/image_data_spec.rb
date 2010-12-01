@@ -8,7 +8,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
 		context "with non existent file" do
 
 		  it "raises NonExistentCssImage exception" do
-        lambda { ImageData.new("NonExistentFile", "some_folder") }.should raise_error WebResourceBundler::Exceptions::NonExistentCssImage
+        lambda { ImageData.new("NonExistentFile", "some_folder") }.should raise_error(WebResourceBundler::Exceptions::NonExistentCssImage)
       end
 
       it "doesn't raise exception if image url is absolute but exist should be false" do

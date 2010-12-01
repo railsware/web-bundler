@@ -54,7 +54,7 @@ module WebResourceBundler
     #main method to process html text block
     def process(block)
       begin
-        filters = @filters.values
+        filters = filters_array
         #parsing html text block, creating BlockData instance
         block_data = @parser.parse(block)
         #if filters set and no bundle files exists we should process block data
@@ -81,6 +81,14 @@ module WebResourceBundler
     end
 
     private
+
+    def filters_array
+      filters = []
+      %w{bundle_filter base64_filter cdn_filter}.each do |key|
+        filters << @filters[key.to_sym]
+      end
+      filters
+    end
 
     def set_filters(settings, file_manager)
       #common settings same for all filters
@@ -131,7 +139,7 @@ module WebResourceBundler
       #so just making a clone, using overriden clone method in BlockData
       block_data_copy = block_data.clone
       #modifying clone to obtain resulted files
-      block_data_copy.apply_filters(@filters.values)
+      block_data_copy.apply_filters(filters_array)
       #cheking if resulted files exist on disk in cache folder
       block_data_copy.files.each do |file|
         return false unless File.exist?(File.join(@settings.resource_dir, file.path))
