@@ -11,7 +11,13 @@ module WebResourceBundler
           @url = url
           #computing absolute file path using folder of css file
     			@path = File.join(folder, url) 
-    			@exist = File.exist?(@path)
+          if File.file?(@path)
+    			  @exist = true 
+          elsif @path.include?('://')
+            @exist = false
+          else
+            raise WebResourceBundler::Exceptions::NonExistentCssImage.new(@path)
+          end
     			if @exist
     				@size = File.size(@path)
     				name, @extension = File.basename(@path).split('.')

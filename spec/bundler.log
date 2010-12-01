@@ -1,71 +1,12 @@
-E, [2010-12-01T16:59:19.316442 #12759] ERROR -- : /home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:161:in `initialize'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:161:in `open'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:161:in `block in write_files_on_disk'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:160:in `each'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:160:in `write_files_on_disk'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:67:in `process'
-/home/gregolsen/projects/web-bundler/spec/web_resource_bundler/web_resource_bundler_spec.rb:56:in `block (3 levels) in <module:WebResourceBundler>'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_methods.rb:40:in `instance_eval'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_methods.rb:40:in `block in execute'
-/usr/local/lib/ruby/1.9.1/timeout.rb:44:in `timeout'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_methods.rb:37:in `execute'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_group_methods.rb:219:in `block in run_examples'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_group_methods.rb:217:in `each'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_group_methods.rb:217:in `run_examples'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_group_methods.rb:103:in `run'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/example_group_runner.rb:23:in `block in run'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/example_group_runner.rb:22:in `each'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/example_group_runner.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/options.rb:153:in `run_examples'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/command_line.rb:9:in `run'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/bin/spec:5:in `<top (required)>'
-/usr/local/bin/spec:19:in `load'
-/usr/local/bin/spec:19:in `<main>'Unknown error occured: No such file or directory - /home/gregolsen/projects/web-bundler/spec/public/cache/cache/cdn_base64_style_b873632a5ba36d586db6e6f7764a6e52.en.css
-E, [2010-12-01T16:59:19.320380 #12759] ERROR -- : /home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:161:in `initialize'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:161:in `open'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:161:in `block in write_files_on_disk'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:160:in `each'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:160:in `write_files_on_disk'
-/home/gregolsen/projects/web-bundler/lib/web_resource_bundler.rb:67:in `process'
-/home/gregolsen/projects/web-bundler/spec/web_resource_bundler/web_resource_bundler_spec.rb:72:in `block (3 levels) in <module:WebResourceBundler>'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_methods.rb:40:in `instance_eval'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_methods.rb:40:in `block in execute'
-/usr/local/lib/ruby/1.9.1/timeout.rb:44:in `timeout'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_methods.rb:37:in `execute'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_group_methods.rb:219:in `block in run_examples'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_group_methods.rb:217:in `each'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_group_methods.rb:217:in `run_examples'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/example/example_group_methods.rb:103:in `run'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/example_group_runner.rb:23:in `block in run'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/example_group_runner.rb:22:in `each'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/example_group_runner.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/options.rb:153:in `run_examples'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/lib/spec/runner/command_line.rb:9:in `run'
-/usr/local/lib/ruby/gems/1.9.1/gems/rspec-1.3.1/bin/spec:5:in `<top (required)>'
-/usr/local/bin/spec:19:in `load'
-/usr/local/bin/spec:19:in `<main>'Unknown error occured: No such file or directory - /home/gregolsen/projects/web-bundler/spec/public/cache/cache/cdn_base64_style_b873632a5ba36d586db6e6f7764a6e52.en.css
-I, [2010-12-01T17:00:04.955975 #12775]  INFO -- : files written on disk
-I, [2010-12-01T17:00:04.958586 #12775]  INFO -- : files written on disk
-I, [2010-12-01T17:00:04.962941 #12775]  INFO -- : files written on disk
-I, [2010-12-01T17:00:30.442783 #12786]  INFO -- : files written on disk
-I, [2010-12-01T17:00:30.447473 #12786]  INFO -- : files written on disk
-I, [2010-12-01T17:00:34.164341 #12823]  INFO -- : files written on disk
-I, [2010-12-01T17:00:34.169083 #12823]  INFO -- : files written on disk
-I, [2010-12-01T17:00:35.348773 #12916]  INFO -- : files written on disk
-I, [2010-12-01T17:00:35.342075 #12916]  INFO -- : files written on disk
-I, [2010-12-01T17:00:36.148154 #13007]  INFO -- : files written on disk
-I, [2010-12-01T17:00:36.141710 #13007]  INFO -- : files written on disk
-I, [2010-12-01T18:00:31.087116 #14548]  INFO -- : files written on disk
-I, [2010-12-01T18:00:31.091791 #14548]  INFO -- : files written on disk
-I, [2010-12-01T18:05:03.402549 #14600]  INFO -- : files written on disk
-I, [2010-12-01T18:05:03.407299 #14600]  INFO -- : files written on disk
-I, [2010-12-01T18:05:04.600183 #14693]  INFO -- : files written on disk
-I, [2010-12-01T18:05:04.593416 #14693]  INFO -- : files written on disk
-I, [2010-12-01T18:05:05.382022 #14784]  INFO -- : files written on disk
-I, [2010-12-01T18:05:05.375461 #14784]  INFO -- : files written on disk
-I, [2010-12-01T18:20:53.496948 #15804]  INFO -- : files written on disk
-I, [2010-12-01T18:20:53.501669 #15804]  INFO -- : files written on disk
-I, [2010-12-01T18:20:54.703281 #15897]  INFO -- : files written on disk
-I, [2010-12-01T18:20:54.696673 #15897]  INFO -- : files written on disk
-I, [2010-12-01T18:20:55.515739 #15988]  INFO -- : files written on disk
-I, [2010-12-01T18:20:55.509169 #15988]  INFO -- : files written on disk
+E, [2010-12-01T18:50:05.560619 #16628] ERROR -- : Css has url to incorrect image path: /home/gregolsen/projects/web-bundler/spec/public/http://boogle.com/images/1.png
+E, [2010-12-01T18:50:05.563865 #16628] ERROR -- : Css has url to incorrect image path: /home/gregolsen/projects/web-bundler/spec/public/http://boogle.com/images/1.png
+E, [2010-12-01T18:55:55.021480 #16676] ERROR -- : Css has url to incorrect image path: /home/gregolsen/projects/web-bundler/spec/public/http://boogle.com/images/1.png
+E, [2010-12-01T18:55:55.024703 #16676] ERROR -- : Css has url to incorrect image path: /home/gregolsen/projects/web-bundler/spec/public/http://boogle.com/images/1.png
+E, [2010-12-01T18:57:43.460873 #16731] ERROR -- : Css has url to incorrect image path: /home/gregolsen/projects/web-bundler/spec/public/http://boogle.com/images/1.png
+E, [2010-12-01T18:57:43.464122 #16731] ERROR -- : Css has url to incorrect image path: /home/gregolsen/projects/web-bundler/spec/public/http://boogle.com/images/1.png
+I, [2010-12-01T19:01:05.027096 #16823]  INFO -- : files written on disk
+I, [2010-12-01T19:01:05.031946 #16823]  INFO -- : files written on disk
+I, [2010-12-01T19:01:06.244503 #16916]  INFO -- : files written on disk
+I, [2010-12-01T19:01:06.237451 #16916]  INFO -- : files written on disk
+I, [2010-12-01T19:01:07.052628 #17007]  INFO -- : files written on disk
+I, [2010-12-01T19:01:07.045248 #17007]  INFO -- : files written on disk

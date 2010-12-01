@@ -28,14 +28,14 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     describe "#encode_images_basic" do
 
       before(:each) do
-        @content = "background-image: url('images/logo.jpg'); background: url('images/logo.jpg'); background: url(\"non_existent.jpg\");"
+        @content = "background-image: url('images/logo.jpg'); background: url('images/logo.jpg');"
         @images = @generator.encode_images_basic!(@content) do |image_data, tag|
           tag + image_data.extension
         end
       end
 
       it "substitute each image tag (image should exist and has proper size) with result of a yield" do
-        @content.should == "background-image: jpg; background: jpg; background: url(\"non_existent.jpg\");"
+        @content.should == "background-image: jpg; background: jpg;"
       end
 
       it "returns hash of images found and with proper size" do

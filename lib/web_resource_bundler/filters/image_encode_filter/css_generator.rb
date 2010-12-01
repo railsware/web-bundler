@@ -57,7 +57,7 @@ module WebResourceBundler
           new_content = content.gsub!(PATTERN) do |s|
             tag, url = $1, $3
             data = ImageData.new(url, @settings.resource_dir) 
-            if data.exist and data.size <= @settings.max_image_size and block_given?
+            if !url.empty? and data.exist and data.size <= @settings.max_image_size and block_given?
               #using image url as key to prevent one image be encoded many times
               images[data.url] = data unless images[data.path]
               #changing string using provided block

@@ -4,24 +4,16 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     def image_path(filename)
       File.join("/images", filename)
     end
+
 		context "with non existent file" do
 
-			before(:each) do
-				@data = ImageData.new("NonExistentFile", "some_folder")		
-			end
+		  it "raises NonExistentCssImage exception" do
+        lambda { ImageData.new("NonExistentFile", "some_folder") }.should raise_error WebResourceBundler::Exceptions::NonExistentCssImage
+      end
 
-			it "should have exist property false" do
-				@data.exist.should be_false	
-			end 
-			
-			it "should return nil when encoded" do
-				@data.encoded.should be_nil
-			end
-			
-			it "should not have id and extension" do
-				@data.id.should be_nil
-				@data.extension.should be_nil
-			end
+      it "doesn't raise exception if image url is absolute but exist should be false" do
+        ImageData.new("http://google.com/1.png", "some_folder").exist.should == false
+      end
 
 		end
 

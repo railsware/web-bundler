@@ -17,4 +17,10 @@ module WebResourceBundler::Exceptions
     end
   end
 
+  class NonExistentCssImage < WebResourceBundlerError
+    def initialize(image_path)
+      super "Css has url to incorrect image path: #{image_path}"
+    end
+  end
+
 end
