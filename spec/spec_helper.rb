@@ -74,8 +74,9 @@ Spec::Runner.configure do |config|
   end
 
   config.after(:all) do
-    #File.delete(settings.log_path) if File.exist?(settings.log_path)
-    #FileUtils.rm_rf(File.join(settings.resource_dir, 'log')) if File.exist?(File.join(settings.resource_dir, 'log'))
+    File.delete(settings.log_path) if File.exist?(settings.log_path)
+    log_path = File.expand_path('../log', settings.resource_dir)
+    FileUtils.rm_rf(log_path) if File.exist?(log_path)
     clean_cache_dir
   end
 end
