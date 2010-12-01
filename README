@@ -64,7 +64,7 @@ if File.exist?(settings_file_path)
   all_settings = YAML::load(settings_file)
   if all_settings[environment]
     settings = all_settings[environment]
-    settings[:resource_dir] = root_dir
+    settings[:resource_dir] = File.join(root_dir, 'public')
   end
 end
 
