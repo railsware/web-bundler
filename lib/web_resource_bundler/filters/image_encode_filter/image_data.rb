@@ -1,3 +1,4 @@
+require 'base64'
 module WebResourceBundler
   module Filters
     module ImageEncodeFilter

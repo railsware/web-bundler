@@ -29,15 +29,18 @@ def settings_hash
     :cache_dir => 'cache',
     :log_path => File.join(File.dirname(__FILE__), '/bundler.log'),
     :base64_filter => {
+      :use => true,
       :max_image_size => 23, #kbytes
       :protocol => 'http',
       :domain => 'localhost:3000'
     },
     :bundle_filter => {
+      :use => true,
       :md5_additional_data => ['localhost:3000', 'http'],
       :filename_additional_data => ['en']
     },
     :cdn_filter => {
+      :use => true,
       :http_hosts => ['http://localhost:3000'],
       :https_hosts => ['https://localhost:3000']
     }
@@ -71,8 +74,8 @@ Spec::Runner.configure do |config|
   end
 
   config.after(:all) do
-    log_path = File.join(File.dirname(__FILE__), '/bundler.log')
-    File.delete(log_path) if File.exist?(log_path)
+    #File.delete(settings.log_path) if File.exist?(settings.log_path)
+    #FileUtils.rm_rf(File.join(settings.resource_dir, 'log')) if File.exist?(File.join(settings.resource_dir, 'log'))
     clean_cache_dir
   end
 end

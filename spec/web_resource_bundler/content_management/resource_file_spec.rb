@@ -3,7 +3,7 @@ describe WebResourceBundler::ResourceFile do
   describe "#new_css_file" do
     it "creates new resource file of css type" do
       f = WebResourceBundler::ResourceFile.new_css_file('a', 'b')
-      f.name.should == 'a'
+      f.path.should == 'a'
       f.content.should == 'b'
       f.type.should == WebResourceBundler::ResourceFileType::CSS
     end
@@ -11,7 +11,7 @@ describe WebResourceBundler::ResourceFile do
   describe "#new_js_file" do
     it "creates new resource file of css type" do
       f = WebResourceBundler::ResourceFile.new_js_file('a', 'b')
-      f.name.should == 'a'
+      f.path.should == 'a'
       f.content.should == 'b'
       f.type.should == WebResourceBundler::ResourceFileType::JS
     end
@@ -19,7 +19,7 @@ describe WebResourceBundler::ResourceFile do
   describe "#new_mhtml_file" do
     it "creates new resource file of mhtml type" do
       f = WebResourceBundler::ResourceFile.new_mhtml_file('a', 'b')
-      f.name.should == 'a'
+      f.path.should == 'a'
       f.content.should == 'b'
       f.type.should == WebResourceBundler::ResourceFileType::MHTML
     end
@@ -29,7 +29,7 @@ describe WebResourceBundler::ResourceFile do
       f = WebResourceBundler::ResourceFile.new_css_file('a', 'b')
       clon = f.clone
       f.object_id.should_not == clon.object_id
-      f.name.object_id.should_not == clon.name.object_id
+      f.path.object_id.should_not == clon.path.object_id
       f.content.object_id.should_not == clon.content.object_id
     end
   end

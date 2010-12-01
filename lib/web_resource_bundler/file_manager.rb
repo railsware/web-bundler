@@ -1,12 +1,13 @@
 module WebResourceBundler
   class FileManager
+    attr_accessor :resource_dir, :cache_dir
 
-    def initialize(settings)
-      @settings = settings
+    def initialize(resource_dir, cache_dir)
+      @resource_dir, @cache_dir = resource_dir, cache_dir
     end
 
     def full_path(relative_path)
-      File.join(@settings.resource_dir, relative_path)
+      File.join(@resource_dir, relative_path)
     end
 
     def exist?(relative_path)
@@ -19,7 +20,7 @@ module WebResourceBundler
     end
 
     def create_cache_dir
-      path = File.join(@settings.resource_dir, @settings.cache_dir)
+      path = File.join(@resource_dir, @cache_dir)
       unless File.exist?(path)
         Dir.mkdir(path)
       end

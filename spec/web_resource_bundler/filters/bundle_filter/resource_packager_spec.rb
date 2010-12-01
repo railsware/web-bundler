@@ -3,7 +3,7 @@ require 'digest/md5'
 describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
   before(:each) do
     @settings = settings
-    file_manager = FileManager.new @settings
+    file_manager = FileManager.new(@settings.resource_dir, @settings.cache_dir)
     @file_packager = Filters::BundleFilter::ResourcePackager.new(@settings, file_manager)
     @file_paths = styles.map do |url|
       File.join(@settings.resource_dir, url)

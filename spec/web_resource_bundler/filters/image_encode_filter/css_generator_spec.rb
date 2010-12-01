@@ -3,7 +3,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
   describe CssGenerator do
     before(:each) do
       @settings = Settings.new base64_settings
-      @generator = CssGenerator.new(@settings, FileManager.new(@settings))
+      @generator = CssGenerator.new(@settings, FileManager.new(@settings.resource_dir, @settings.cache_dir))
     end
     
     describe "#pattern" do
@@ -48,14 +48,14 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     describe "#new_filename" do
       it "should return new filename for css for all browsers except IE" do
         filename = "mycss.css"
-        @generator.encoded_filename(filename).should == CssGenerator::FILE_PREFIX + filename
+        @generator.encoded_filepath(filename).should == File.join(@settings.cache_dir, CssGenerator::FILE_PREFIX + filename)
       end
     end
 
     describe "#new_filename_for_ie" do
       it "should return new filename for css for IE" do
         filename = "2.css"
-        @generator.encoded_filename_for_ie(filename).should == CssGenerator::IE_FILE_PREFIX + filename
+        @generator.encoded_filepath_for_ie(filename).should == File.join(@settings.cache_dir, CssGenerator::IE_FILE_PREFIX + filename)
       end
     end
 
@@ -67,16 +67,15 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       end
       describe "#encode_images" do
         it "returns original content if no images found" do
-          new_filename = @generator.encoded_filename(@path)
           @generator.encode_images!(@file)
           @file.content.should == @content
         end
       end
       describe "#encode_images_for_ie" do
         it "returns original content if no images found" do
-          new_filename = @generator.encoded_filename_for_ie(@file.name)
+          new_filepath = @generator.encoded_filepath_for_ie(@file.path)
           @generator.encode_images_for_ie!(@file)
-          @file.name.should == new_filename
+          @file.path.should == new_filepath
           @file.content.should == @content
         end
       end
@@ -90,7 +89,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       describe "#encode_images" do
         it "returns hash with new file path and images encoded in content" do
           @generator.encode_images!(@file)
-          @file.name.should == 'base64_' + File.basename(@path)
+          @file.path.should == File.join(@settings.cache_dir, 'base64_' + File.basename(@path))
           @file.content.include?("background: #eeeeee url('data:image").should be_true
           @file.content.include?("repeat-x 0 100%").should be_true
         end
@@ -98,7 +97,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       describe "#encode_images_for_ie" do
         it "returns hash with new file path and images encoded in content" do
           @generator.encode_images_for_ie!(@file)
-          @file.name.should == 'base64_ie_' + File.basename(@path)
+          @file.path.should == File.join(@settings.cache_dir, 'base64_ie_' + File.basename(@path))
           @file.content.include?("background: #eeeeee url(mhtml:").should be_true
           @file.content.include?("repeat-x 0 100%").should be_true
         end

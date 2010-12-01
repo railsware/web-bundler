@@ -8,7 +8,7 @@ module WebResourceBundler::RailsAppHelpers
     #result is original block content by default
     result = block_text 
     version = Rails::VERSION::STRING
-    unless params['no_bundler']
+    if !params['no_bundler'] and WebResourceBundler::Bundler.instance.settings_correct
       #we want to keep original string unchanged so we can return same content on error
       block_data = WebResourceBundler::Bundler.instance.process(block_text.dup)
       #if everything ok with bundling we should construct resulted html content and change result
@@ -34,12 +34,12 @@ module WebResourceBundler::RailsAppHelpers
       styles = block_data.files.select {|f| f.type == WebResourceBundler::ResourceFileType::CSS}
     end
     styles.each do |file|
-      url = File.join('/', settings.cache_dir, file.name)
+      url = File.join('/', file.path)
       result += stylesheet_link_tag(url) 
       result += "\n"
     end
     block_data.scripts.each do |file|
-      url = File.join('/', settings.cache_dir, file.name)
+      url = File.join('/', file.path)
       result += javascript_include_tag(url) 
       result += "\n"
     end

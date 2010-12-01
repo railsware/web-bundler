@@ -38,14 +38,14 @@ module WebResourceBundler
           "#{@settings.protocol}://#{File.join(@settings.domain, @settings.cache_dir, filename)}"
         end
 
-        #name of a new file with images encoded
-        def encoded_filename(base_file_path)
-          FILE_PREFIX + File.basename(base_file_path)
+        #path of a new file with images encoded
+        def encoded_filepath(base_file_path)
+          File.join(@settings.cache_dir, FILE_PREFIX + File.basename(base_file_path))
         end
 
-        #name of a new file for IE with images encoded
-        def encoded_filename_for_ie(base_file_path)
-          IE_FILE_PREFIX + File.basename(base_file_path)
+        #path of a new file for IE with images encoded
+        def encoded_filepath_for_ie(base_file_path)
+          File.join(@settings.cache_dir, IE_FILE_PREFIX + File.basename(base_file_path))
         end
         
         #iterates through all tags found in css
@@ -72,10 +72,10 @@ module WebResourceBundler
 
         #generates css file for IE with encoded images using mhtml in cache dir
         def encode_images_for_ie!(file)
-          file.name = encoded_filename_for_ie(file.name)
+          file.path = encoded_filepath_for_ie(file.path)
           #creating new css content with images encoded in base64
           images = encode_images_basic!(file.content) do |image_data, tag|
-            "*#{tag}url(mhtml:#{construct_mhtml_link(file.name)}!#{image_data.id})"
+            "*#{tag}url(mhtml:#{construct_mhtml_link(file.path)}!#{image_data.id})"
           end
           file.content = construct_header_for_ie(images) + file.content 
           file
@@ -83,7 +83,7 @@ module WebResourceBundler
     
         #generates css file with encoded images in cache dir 
         def encode_images!(file)
-          file.name = encoded_filename(file.name)
+          file.path = encoded_filepath(file.path)
           #creating new css content with images encoded in base64
           encode_images_basic!(file.content) do |image_data, tag|
               "#{tag}url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"

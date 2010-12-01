@@ -16,7 +16,7 @@ describe WebResourceBundler::FileManager do
     @bundle_url = 'temp/bundle.dat'
     @bundle_path = File.join(@settings.resource_dir, @bundle_url)
     create_stub_file(@bundle_url)
-    @manager = FileManager.new @settings
+    @manager = FileManager.new(@settings.resource_dir, @settings.cache_dir)
   end
 
   after(:each) do

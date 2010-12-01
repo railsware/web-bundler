@@ -3,7 +3,7 @@ module WebResourceBundler
   describe BlockParser do
 
     before(:each) do
-      @file_manager = FileManager.new settings
+      @file_manager = FileManager.new(settings.resource_dir, settings.cache_dir)
       @block_parser = BlockParser.new
     end
 
@@ -59,7 +59,7 @@ module WebResourceBundler
 
       def compare_block_datas(a,b)
         a.files.size.should == b.files.size
-        (a.files.map {|f| f.name} - b.files.map{|f| f.name}).should be_empty
+        (a.files.map {|f| f.path} - b.files.map{|f| f.path}).should be_empty
         a.child_blocks.size.should == b.child_blocks.size
         a.condition.should == b.condition
       end
@@ -78,20 +78,20 @@ module WebResourceBundler
         result = @block_parser.find_files(@sample_block_helper.construct_links_block(styles, scripts))
         files = styles + scripts
         result.each do |f|
-          files.include?(f.name).should be_true
+          files.include?(f.path).should be_true
         end
       end
 
       it "recognize only css and js files" do
         block = "<link href='/rss.atom' /> <link href='valid.css' />"
         result = @block_parser.find_files(block)
-        result.first.name.should == 'valid.css'
+        result.first.path.should == 'valid.css'
       end
 
       it "recognize files only on disk, not full urls" do
         block = "<link href='http://glogle.com/web.css' /> <link href='valid.css' />"
         result = @block_parser.find_files(block)
-        result.first.name.should == 'valid.css'
+        result.first.path.should == 'valid.css'
       end
 
     end

@@ -6,14 +6,14 @@ module WebResourceBundler::Filters::CdnFilter
 
     def apply!(block_data)
       block_data.styles.each do |file| 
-        rewrite_content_urls!(file.name, file.content) 
-        file.name = new_filename(file.name)
+        rewrite_content_urls!(file.path, file.content) unless file.content.empty? 
+        file.path = new_filepath(file.path)
       end
       block_data
     end
 
-    def new_filename(path)
-      'cdn_' + File.basename(path)
+    def new_filepath(path)
+      File.join(@settings.cache_dir, 'cdn_' + File.basename(path))
     end
 
     #insures that image linked to one particular host  
@@ -43,13 +43,6 @@ module WebResourceBundler::Filters::CdnFilter
         end
       end
     end
-
-    def change_resulted_files!(block_data)
-      block_data.styles.each do |file|
-        file.name = new_filename(file.name)
-      end
-      block_data
-    end
-
+    
   end
 end

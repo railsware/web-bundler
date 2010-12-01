@@ -7,7 +7,7 @@ describe WebResourceBundler::Filters::CdnFilter do
     @cdn_settings[:https_hosts] = ['http://froogle.com']
     @settings[:cdn_filter][:http_hosts] = @cdn_settings[:http_hosts] 
     @settings[:cdn_filter][:https_hosts] = @cdn_settings[:https_hosts]
-    @file_manager = FileManager.new @settings
+    @file_manager = FileManager.new(@settings.resource_dir, @settings.cache_dir) 
     @filter = Filters::CdnFilter::Filter.new(@cdn_settings, @file_manager)
   end
 
@@ -29,7 +29,7 @@ describe WebResourceBundler::Filters::CdnFilter do
   describe "#new_filename" do
     it "adds cdn_ prefix to original file name" do
       path = 'styles/1.css'
-      @filter.new_filename(path).should == 'cdn_1.css'
+      @filter.new_filepath(path).should == 'cache/cdn_1.css'
     end
   end
 
@@ -68,22 +68,8 @@ describe WebResourceBundler::Filters::CdnFilter do
       block_data = BlockData.new
       block_data.files = [file]
       @filter.apply!(block_data)
-      block_data.files.first.name.should == 'cdn_temp.css'
+      block_data.files.first.path.should == File.join(@settings.cache_dir, 'cdn_temp.css')
       block_data.files.first.content.should == "background: url('http://boogle.com/images/1.png');background-image: url('http://boogle.com/images/1.png');"
-    end
-  end
-
-  describe "#change_resulted_files!" do
-    it "modifies block_data files" do
-      block_data = @sample_block_helper.sample_block_data
-      css_files = [WebResourceBundler::ResourceFile.new_css_file('styles/1.css'),
-                    WebResourceBundler::ResourceFile.new_css_file('/4.css')]
-      js_files = [WebResourceBundler::ResourceFile.new_js_file('file/that/shouldnt/change.js')]
-      block_data.files = css_files + js_files 
-      block_data.condition = ""
-      @filter.change_resulted_files!(block_data) 
-      block_data.styles.map {|f| f.name }.sort.should == ['cdn_1.css', 'cdn_4.css'].sort
-      block_data.scripts.first.name.should == 'file/that/shouldnt/change.js'
     end
   end
 

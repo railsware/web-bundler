@@ -1,6 +1,5 @@
 $:.unshift File.dirname(__FILE__)
 require 'image_encode_filter/image_data'
-require 'base64'
 require 'image_encode_filter/css_generator'
 module WebResourceBundler::Filters::ImageEncodeFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
@@ -18,23 +17,15 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     def apply!(block_data)
       mhtml_files = [] 
       block_data.styles.each do |file|
-        path, content = file.name, file.content
-        new_mhtml_file = WebResourceBundler::ResourceFile.new_mhtml_file(file.name.dup, file.content.dup)
-        @generator.encode_images!(file)
-        @generator.encode_images_for_ie!(new_mhtml_file)
+        new_mhtml_file = WebResourceBundler::ResourceFile.new_mhtml_file(file.path.dup, file.content.dup)
+        unless file.content.empty?
+          @generator.encode_images!(file)
+          @generator.encode_images_for_ie!(new_mhtml_file)
+        else
+          new_mhtml_file.path = @generator.encoded_filepath_for_ie(new_mhtml_file.path)
+          file.path = @generator.encoded_filepath(file.path)
+        end
         mhtml_files << new_mhtml_file
-      end
-      block_data.files += mhtml_files 
-      block_data
-    end
-
-    def change_resulted_files!(block_data)
-      mhtml_files = []
-      block_data.styles.each do |file|
-        new_mhtml_file = WebResourceBundler::ResourceFile.new_mhtml_file(file.name.dup, file.content.dup)
-        new_mhtml_file.name = @generator.encoded_filename_for_ie(new_mhtml_file.name)
-        mhtml_files << new_mhtml_file
-        file.name = @generator.encoded_filename(file.name)
       end
       block_data.files += mhtml_files 
       block_data

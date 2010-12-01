@@ -16,4 +16,5 @@ module WebResourceBundler::Exceptions
       super "Resource #{path} not found"
     end
   end
+
 end

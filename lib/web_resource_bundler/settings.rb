@@ -41,5 +41,6 @@ module WebResourceBundler
       end
     end
 
+
   end
 end
