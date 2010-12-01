@@ -34,8 +34,8 @@ module WebResourceBundler
         end
 
         #creates mhtml link to use in css tags instead of image url
-        def construct_mhtml_link(filename)
-          "#{@settings.protocol}://#{File.join(@settings.domain, @settings.cache_dir, filename)}"
+        def construct_mhtml_link(filepath)
+          "#{@settings.protocol}://#{File.join(@settings.domain, filepath)}"
         end
 
         #path of a new file with images encoded

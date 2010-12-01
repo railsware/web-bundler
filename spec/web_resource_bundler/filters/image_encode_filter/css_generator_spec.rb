@@ -106,7 +106,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     
     describe "#construct_mhtml_link" do
       it "should create link without public folder" do
-        @generator.construct_mhtml_link("temp.css").should == "http://#{@settings.domain}/cache/temp.css"
+        @generator.construct_mhtml_link("temp.css").should == "http://#{@settings.domain}/temp.css"
       end
     end
   end
