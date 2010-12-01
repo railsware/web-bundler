@@ -29,32 +29,48 @@ gem install web_resource_bundler
 It's pretty easy, yeah?
 
 =================== 4. Usage ================================================= 
+Firstly you should create your settings file in config dir.
+You can set separate settings for each environment
 
-To use bundler in rails app you should create initializer file in
+-------------- config/web_resource_bundler.yml --------------
+development:
+  :base64_filter:
+    :use: true
+    :max_image_size: 23
+    :protocol: http
+    :domain: localhost:3000
+  :bundle_filter:
+    :use: true
+  :cdn_filter:
+    :use: true
+    :http_hosts: ['http://localhost:3000']
+    :https_hosts: ['https://localhost:3000']
+------------------------------------------------------------
+
+Then you should create initializer file in
 /path/to/your/rails_app/config/initializers/ directory
 Let's say it will be web_resource_bundler_init.rb
 Then you should put content like this in it.
 
+------------- config/initializers/web_resource_bundler_init.rb ---------------
 require 'web_resource_bundler'
-settings = {
-  :resource_dir => File.join(Rails.root, 'public'), #use RAILS_ROOT while using rails older than rails 3
-  :log_path => File.join(Rails.root, 'log/web_resource_bundler.log'), #path to your log file
-  :cache_dir => 'cache', #cache dir where to put bundle files
-  :base64_filter => {
-    :max_image_size => 23, #kbytes, bigger images won't be encoded in base64 for efficiency
-    :protocol => 'http',
-    :domain => 'localhost:3000' #!be sure to set only domain, not http://domain
-  },
-  :bundle_filter => {
-    :md5_additional_data => [] #additional data that will be used to compute md5
-  },
-  :cdn_filter => {
-    :http_hosts => ['http://localhost:3000'],
-    :https_hosts => ['https://localhost:3000']
-  }
-}
-WebResourceBundler::Bundler.new(settings)
+require 'yaml'
+root_dir = Rails.root #or RAILS_ROOT if you are using older rails version than 3 
+environment = Rails.env #or RAILS_ENV in case rails <= 2.3
+settings = { }
+settings_file_path = File.join(root_dir, 'config', 'web_resource_bundler.yml')
+if File.exist?(settings_file_path)
+  settings_file = File.open(settings_file_path)
+  all_settings = YAML::load(settings_file)
+  if all_settings[environment]
+    settings = all_settings[environment]
+    settings[:resource_dir] = root_dir
+  end
+end
+
+WebResourceBundler::Bundler.instance.set_settings(settings)
 ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)
+------------------------------------------------------------------------------
 
 Now in your view files you can call web_resource_bundler_process helper like this:
 
