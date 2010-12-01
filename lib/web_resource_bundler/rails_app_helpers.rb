@@ -2,19 +2,15 @@ module WebResourceBundler::RailsAppHelpers
 
   def web_resource_bundler_process(&block)
     #getting ActionView::NonConcattingString
-    block_content = capture(&block)
     #but we want simple string to escape problems
-    block_text = String.new(block_content)
+    result = String.new(capture(&block))
     #result is original block content by default
-    result = block_text 
     version = Rails::VERSION::STRING
     if !params['no_bundler'] and WebResourceBundler::Bundler.instance.settings_correct
       #we want to keep original string unchanged so we can return same content on error
-      block_data = WebResourceBundler::Bundler.instance.process(block_text.dup)
+      block_data = WebResourceBundler::Bundler.instance.process(result.dup)
       #if everything ok with bundling we should construct resulted html content and change result
-      if block_data
-        result = construct_block(block_data, WebResourceBundler::Bundler.instance.settings)  
-      end
+      result = construct_block(block_data, WebResourceBundler::Bundler.instance.settings) if block_data 
     end
     case
       when version >= '3.0.0' then return raw(result) 
@@ -35,20 +31,20 @@ module WebResourceBundler::RailsAppHelpers
     end
     styles.each do |file|
       url = File.join('/', file.path)
-      result += stylesheet_link_tag(url) 
-      result += "\n"
+      result << stylesheet_link_tag(url) 
+      result << "\n"
     end
     block_data.scripts.each do |file|
       url = File.join('/', file.path)
-      result += javascript_include_tag(url) 
-      result += "\n"
+      result << javascript_include_tag(url) 
+      result << "\n"
     end
-    result += block_data.inline_block unless block_data.inline_block.blank?
+    result << block_data.inline_block unless block_data.inline_block.blank?
     block_data.child_blocks.each do |block|
-      result += construct_block(block, settings)
+      result << construct_block(block, settings)
     end
     unless block_data.condition.empty?
-      result = "<!--#{block_data.condition}>\n" + result + "<![endif]-->\n"
+      result = "<!--#{block_data.condition}>\n #{result}<![endif]-->\n"
     end
     #removing unnecessary new line symbols
     result.gsub!(/\n(\s)+/, "\n")

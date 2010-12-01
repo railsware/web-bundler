@@ -71,6 +71,14 @@ Now in your view files you can call web_resource_bundler_process helper like thi
 
 <% end %>
 </head>
+Notice:
+
+For Rails < 3
+you should use <% web_resource_bundler_process do %>
+
+And For Rails >= 3
+use <%= web_resource_bundler_process do %>
+
 
 And as result you'll have
 
@@ -89,3 +97,6 @@ And as result you'll have
 !!!
 Don't forget to clean your cache directory after deploy to clean old bundles
 
+
+To disable bundling and see raw results add no_bundler param
+mysite.com/?no_bundler=1
