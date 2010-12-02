@@ -18,13 +18,17 @@ module WebResourceBundler
     include Singleton
 
     attr_reader :settings, :settings_correct, :filters
+    @@logger = nil
+    def self.logger
+      @@logger
+    end
 
     def initialize
       @filters = {} 
       @settings = nil
       @file_manager = nil
       @parser = BlockParser.new
-      @logger = nil 
+      @@logger = nil 
       @settings_correct = false
     end
 
@@ -33,7 +37,7 @@ module WebResourceBundler
       begin
         @settings = Settings.new settings
         if @settings.resource_dir
-          @logger = create_logger(@settings)
+          @@logger = create_logger(@settings)
           unless @settings.cache_dir
             @settings.cache_dir = 'cache'
           end
@@ -46,7 +50,7 @@ module WebResourceBundler
           @settings_correct = true
         end
       rescue Exception => e
-        @logger.error("Incorrect settings initialization, #{settings}\n#{e.to_s}") if @logger
+        @@logger.error("Incorrect settings initialization, #{settings}\n#{e.to_s}") if @@logger
         @settings_correct = false
       end
     end
@@ -65,17 +69,17 @@ module WebResourceBundler
           block_data.apply_filters(filters)
           #writing resulted files with filtered content on disk
           write_files_on_disk(block_data)
-          @logger.info("files written on disk")
+          @@logger.info("files written on disk")
           return block_data
         end
         #bundle up to date, returning existing block with modified file names 
         block_data.apply_filters(filters)
         return block_data
       rescue Exceptions::WebResourceBundlerError => e
-        @logger.error(e.to_s)
+        @@logger.error(e.to_s)
         return nil
       rescue Exception => e
-        @logger.error(e.backtrace.join("\n") + "Unknown error occured: " + e.to_s)
+        @@logger.error(e.backtrace.join("\n") + "Unknown error occured: " + e.to_s)
         return nil
       end
     end

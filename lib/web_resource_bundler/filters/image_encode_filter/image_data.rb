@@ -13,10 +13,11 @@ module WebResourceBundler
     			@path = File.join(folder, url) 
           if File.file?(@path)
     			  @exist = true 
-          elsif @path.include?('://')
+          else 
             @exist = false
-          else
-            raise WebResourceBundler::Exceptions::NonExistentCssImage.new(@path)
+          end
+          if WebResourceBundler::Bundler.logger and !@path.include?('://') and !@exist
+            WebResourceBundler::Bundler.logger.info("Image not found #{@path}")
           end
     			if @exist
     				@size = File.size(@path)
