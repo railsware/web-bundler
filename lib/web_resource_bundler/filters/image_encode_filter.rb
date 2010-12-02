@@ -5,6 +5,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
     FILE_PREFIX = 'base64_'
     IE_FILE_PREFIX = 'base64_ie_'
+    MHTML_FILE_PREFIX = 'mhtml_'
     def initialize(settings, file_manager)
       super settings, file_manager
       @generator = CssGenerator.new(@settings, @file_manager)
@@ -44,8 +45,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     end
 
     def mhtml_filepath(base_file_path)
-      name = File.basename(base_file_path).gsub(/.css/, '.mhtml')
-      File.join(@settings.cache_dir, name) 
+      File.join(@settings.cache_dir, MHTML_FILE_PREFIX + File.basename(base_file_path)) 
     end
 
   end

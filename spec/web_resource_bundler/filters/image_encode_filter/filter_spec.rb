@@ -26,7 +26,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
 
   describe "#mhtml_filepath" do
     it "returns mhtml file path" do
-      @filter.mhtml_filepath('styles/1.css').should == 'cache/1.mhtml'
+      @filter.mhtml_filepath('styles/1.css').should == 'cache/mhtml_1.css'
     end
   end
 
