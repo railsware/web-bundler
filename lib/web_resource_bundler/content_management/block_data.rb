@@ -12,7 +12,7 @@ module WebResourceBundler
     def styles
       @files.select do |f|
         [WebResourceBundler::ResourceFileType::CSS, 
-          WebResourceBundler::ResourceFileType::MHTML].include?(f.type)
+          WebResourceBundler::ResourceFileType::IE_CSS].include?(f.type)
       end
     end
 

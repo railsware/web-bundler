@@ -5,8 +5,7 @@ module WebResourceBundler
         TAGS = ['background-image', 'background']
         SEPARATOR = 'A_SEPARATOR'
         PATTERN = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/
-        FILE_PREFIX = 'base64_'
-        IE_FILE_PREFIX = 'base64_ie_'
+        
 
         def initialize(settings, file_manager)
           @settings = settings
@@ -18,7 +17,7 @@ module WebResourceBundler
         end
 
         #construct mhtml head of css file with definition of image data in base64
-        def construct_header_for_ie(images)
+        def construct_mhtml_content(images)
           result = ""
           unless images.empty?
             result += "/*" + "\n"
@@ -36,16 +35,6 @@ module WebResourceBundler
         #creates mhtml link to use in css tags instead of image url
         def construct_mhtml_link(filepath)
           "#{@settings.protocol}://#{File.join(@settings.domain, filepath)}"
-        end
-
-        #path of a new file with images encoded
-        def encoded_filepath(base_file_path)
-          File.join(@settings.cache_dir, FILE_PREFIX + File.basename(base_file_path))
-        end
-
-        #path of a new file for IE with images encoded
-        def encoded_filepath_for_ie(base_file_path)
-          File.join(@settings.cache_dir, IE_FILE_PREFIX + File.basename(base_file_path))
         end
         
         #iterates through all tags found in css
@@ -71,24 +60,22 @@ module WebResourceBundler
         end
 
         #generates css file for IE with encoded images using mhtml in cache dir
-        def encode_images_for_ie!(file)
-          file.path = encoded_filepath_for_ie(file.path)
+        def encode_images_for_ie!(content, filepath)
           #creating new css content with images encoded in base64
-          images = encode_images_basic!(file.content) do |image_data, tag|
-            "*#{tag}url(mhtml:#{construct_mhtml_link(file.path)}!#{image_data.id})"
+          images = encode_images_basic!(content) do |image_data, tag|
+            "*#{tag}url(mhtml:#{construct_mhtml_link(filepath)}!#{image_data.id})"
           end
-          file.content = construct_header_for_ie(images) + file.content 
-          file
+          content
         end
     
         #generates css file with encoded images in cache dir 
-        def encode_images!(file)
-          file.path = encoded_filepath(file.path)
-          #creating new css content with images encoded in base64
-          encode_images_basic!(file.content) do |image_data, tag|
+        def encode_images!(content)
+          #encoding images in content
+          images = encode_images_basic!(content) do |image_data, tag|
               "#{tag}url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
           end
-          file
+          #we should return images to construct mhtml file
+          images
         end
 
       end

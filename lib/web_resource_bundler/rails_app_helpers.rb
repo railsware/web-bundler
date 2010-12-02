@@ -24,7 +24,7 @@ module WebResourceBundler::RailsAppHelpers
     result = ""
     #we should include only mhtml files if browser IE 7 or 6
     if mhtml_should_be_added?
-      styles = block_data.files.select {|f| f.type == WebResourceBundler::ResourceFileType::MHTML}
+      styles = block_data.files.select {|f| [WebResourceBundler::ResourceFileType::MHTML, WebResourceBundler::ResourceFileType::IE_CSS].include?(f.type)}
     else
     #it normal browser - so just including base64 css
       styles = block_data.files.select {|f| f.type == WebResourceBundler::ResourceFileType::CSS}

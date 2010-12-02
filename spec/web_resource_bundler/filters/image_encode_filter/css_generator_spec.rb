@@ -44,20 +44,6 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       end
 
     end
-    
-    describe "#new_filename" do
-      it "should return new filename for css for all browsers except IE" do
-        filename = "mycss.css"
-        @generator.encoded_filepath(filename).should == File.join(@settings.cache_dir, CssGenerator::FILE_PREFIX + filename)
-      end
-    end
-
-    describe "#new_filename_for_ie" do
-      it "should return new filename for css for IE" do
-        filename = "2.css"
-        @generator.encoded_filepath_for_ie(filename).should == File.join(@settings.cache_dir, CssGenerator::IE_FILE_PREFIX + filename)
-      end
-    end
 
     context "no images in css file" do
       before(:each) do
@@ -65,19 +51,19 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         @content = 'margin: 10px;'
         @file = WebResourceBundler::ResourceFile.new_css_file(@path, @content)
       end
-      describe "#encode_images" do
-        it "returns original content if no images found" do
-          @generator.encode_images!(@file)
+      describe "#encode_images!" do
+        it "content isn't changed if no images found" do
+          images = @generator.encode_images!(@file.content)
           @file.content.should == @content
+          images.should be_empty
         end
-      end
+              end
       describe "#encode_images_for_ie" do
         it "returns original content if no images found" do
-          new_filepath = @generator.encoded_filepath_for_ie(@file.path)
-          @generator.encode_images_for_ie!(@file)
-          @file.path.should == new_filepath
+          @generator.encode_images_for_ie!(@file.content, 'cache/1.mhtml')
           @file.content.should == @content
         end
+        
       end
     end
     context "css files has images" do
@@ -87,19 +73,23 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         @file = WebResourceBundler::ResourceFile.new_css_file(@path, @content)
       end
       describe "#encode_images" do
-        it "returns hash with new file path and images encoded in content" do
-          @generator.encode_images!(@file)
-          @file.path.should == File.join(@settings.cache_dir, 'base64_' + File.basename(@path))
+        it "return images hash" do
+          images = @generator.encode_images!(@content)
+          images.size.should == 1
+        end
+
+        it "modifies content with encoded images" do
+          @generator.encode_images!(@file.content)
           @file.content.include?("background: #eeeeee url('data:image").should be_true
           @file.content.include?("repeat-x 0 100%").should be_true
         end
       end
       describe "#encode_images_for_ie" do
-        it "returns hash with new file path and images encoded in content" do
-          @generator.encode_images_for_ie!(@file)
-          @file.path.should == File.join(@settings.cache_dir, 'base64_ie_' + File.basename(@path))
-          @file.content.include?("background: #eeeeee url(mhtml:").should be_true
-          @file.content.include?("repeat-x 0 100%").should be_true
+        it "changes urls to mhtml link" do
+          @generator.encode_images_for_ie!(@content, 'cache/1.mhtml')
+          @content.include?("mhtml:#{@settings.protocol}://#{@settings.domain}/cache/1.mhtml!").should be_true
+          @content.include?("background: #eeeeee url(mhtml:").should be_true
+          @content.include?("repeat-x 0 100%").should be_true
         end
       end
     end

@@ -3,7 +3,8 @@ module WebResourceBundler
   class ResourceFileType
     CSS = {:value => 1, :name => 'style', :ext => 'css'}
     JS = {:value => 2, :name => 'script', :ext => 'js'}
-    MHTML = {:value => 3, :name => 'style', :ext => 'css'}
+    IE_CSS = {:value => 3, :name => 'style', :ext => 'css'}
+    MHTML = {:value => 4, :name => 'style', :ext => 'mhtml'}
   end
 
   class ResourceFile  
@@ -19,6 +20,9 @@ module WebResourceBundler
     end
     def self.new_css_file(path, content = "")
       ResourceFile.new(ResourceFileType::CSS, path, content)
+    end
+    def self.new_ie_css_file(path, content ="")
+      ResourceFile.new(ResourceFileType::IE_CSS, path, content)
     end
     def self.new_mhtml_file(path, content = "")
       ResourceFile.new(ResourceFileType::MHTML, path, content)

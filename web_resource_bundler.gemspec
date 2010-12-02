@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
-  s.date = %q{2010-12-01}
+  s.date = %q{2010-12-02}
   s.description = %q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
   s.email = %q{anotheroneman@yahoo.com}
   s.extra_rdoc_files = [
@@ -41,14 +41,11 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/rails_app_helpers.rb",
      "lib/web_resource_bundler/settings.rb",
      "lib/web_resource_bundler/web_resource_bundler_init.rb",
-     "spec/bundler.log",
-     "spec/log/web_resource_bundler.log",
      "spec/public/foo.css",
      "spec/public/images/good.jpg",
      "spec/public/images/logo.jpg",
      "spec/public/images/sdfo.jpg",
      "spec/public/images/too_big_image.jpg",
-     "spec/public/log/web_resource_bundler.log",
      "spec/public/marketing.js",
      "spec/public/salog20.js",
      "spec/public/sample.css",
