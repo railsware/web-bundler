@@ -65,7 +65,7 @@ module WebResourceBundler
           images = encode_images_basic!(content) do |image_data, tag|
             "*#{tag}url(mhtml:#{construct_mhtml_link(filepath)}!#{image_data.id})"
           end
-          content
+          images
         end
     
         #generates css file with encoded images in cache dir 

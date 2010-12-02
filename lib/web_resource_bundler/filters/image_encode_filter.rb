@@ -23,9 +23,9 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         mhtml_file = WebResourceBundler::ResourceFile.new_mhtml_file(mhtml_filepath(file.path), "")
         file.path = encoded_filepath(file.path)
         unless file.content.empty?
-          images = @generator.encode_images!(file.content)
+          @generator.encode_images!(file.content)
+          images = @generator.encode_images_for_ie!(ie_css_file.content, mhtml_file.path)
           mhtml_file.content = @generator.construct_mhtml_content(images)
-          @generator.encode_images_for_ie!(ie_css_file.content, mhtml_file.path)
         end
         added_files << ie_css_file
         added_files << mhtml_file
