@@ -89,7 +89,7 @@ module WebResourceBundler
     def filters_array
       filters = []
       %w{bundle_filter base64_filter cdn_filter}.each do |key|
-        filters << @filters[key.to_sym]
+        filters << @filters[key.to_sym] if @filters[key.to_sym]
       end
       filters
     end
