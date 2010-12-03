@@ -25,9 +25,9 @@ module WebResourceBundler::Filters::BundleFilter
           output << bundle_files(imported_resource_files) unless imported_resource_files.empty?
         end
         #adding ';' symbol in case javascript developer forget to do this
-        content += ';' if File.extname(path) == '.js'
+        content << ';' if File.extname(path) == '.js'
         output << content
-        output << "/* --------- END #{path} --------- */\n"
+        output << "\n/* --------- END #{path} --------- */\n"
       end
       output
     end
