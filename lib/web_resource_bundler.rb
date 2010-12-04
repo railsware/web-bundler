@@ -32,6 +32,7 @@ module WebResourceBundler
       @settings_correct = false
     end
 
+    #could be used also when settings are different on each request
     def set_settings(settings)
       #all methods user call from rails should not raise any exception
       begin
@@ -41,12 +42,15 @@ module WebResourceBundler
           unless @settings.cache_dir
             @settings.cache_dir = 'cache'
           end
+          #if file manager is nil it should be created
           unless @file_manager
             @file_manager = FileManager.new(@settings.resource_dir, @settings.cache_dir)
           else
+            #if manager already exist than its settings chaged
             @file_manager.resource_dir, @file_manager.cache_dir = @settings.resource_dir, @settings.cache_dir
           end
           set_filters(@settings, @file_manager) 
+          #used to determine if bundler in correct state and could be used
           @settings_correct = true
         end
       rescue Exception => e
@@ -86,6 +90,7 @@ module WebResourceBundler
 
     private
 
+    #giving filters array in right sequence (bundle filter should be first)
     def filters_array
       filters = []
       %w{bundle_filter base64_filter cdn_filter}.each do |key|
@@ -94,12 +99,14 @@ module WebResourceBundler
       filters
     end
 
+    #creates filters or change their settings
     def set_filters(settings, file_manager)
       #common settings same for all filters
       common_sets = { 
         :resource_dir => settings.resource_dir,
         :cache_dir => settings.cache_dir
       }
+      #used to craete filters
       filters_data = {
         :bundle_filter => 'BundleFilter',
         :base64_filter => 'ImageEncodeFilter',
@@ -111,9 +118,11 @@ module WebResourceBundler
           if @filters[key]
             @filters[key].set_settings(filter_settings)
           else
+            #creating filter instance with settings
             @filters[key] = eval("Filters::" + filter_class + "::Filter").new(filter_settings, file_manager)
           end
         else
+          #this filter turned off in settings so should be deleted
           @filters.delete(key)
         end
       end
@@ -122,6 +131,7 @@ module WebResourceBundler
 
     def create_logger(settings)
       begin
+        #creating default log file in rails log directory called web_resource_bundler.log
         unless settings.log_path
           log_dir = File.expand_path('../log', settings.resource_dir)
           log_name = 'web_resource_bundler.log'
@@ -143,6 +153,8 @@ module WebResourceBundler
       #so just making a clone, using overriden clone method in BlockData
       block_data_copy = block_data.clone
       #modifying clone to obtain resulted files
+      #apply_filters will just compute resulted file paths
+      #because block_data isn't populated with files content yet
       block_data_copy.apply_filters(filters_array)
       #cheking if resulted files exist on disk in cache folder
       block_data_copy.files.each do |file|

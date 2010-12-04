@@ -19,11 +19,14 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     def apply!(block_data)
       added_files = [] 
       block_data.styles.each do |file|
+        #creating new css file with content for IE
         ie_css_file = WebResourceBundler::ResourceFile.new_ie_css_file(encoded_filepath_for_ie(file.path), file.content.dup)
+        #creating new mhtml file with images encoded in base64
         mhtml_file = WebResourceBundler::ResourceFile.new_mhtml_file(mhtml_filepath(file.path), "")
         file.path = encoded_filepath(file.path)
         unless file.content.empty?
           @generator.encode_images!(file.content)
+          #getting images to construct mhtml file
           images = @generator.encode_images_for_ie!(ie_css_file.content, mhtml_file.path)
           mhtml_file.content = @generator.construct_mhtml_content(images)
         end
@@ -44,6 +47,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       File.join(@settings.cache_dir, IE_FILE_PREFIX + File.basename(base_file_path))
     end
 
+    #filepath of mhtml file for IE
     def mhtml_filepath(base_file_path)
       File.join(@settings.cache_dir, MHTML_FILE_PREFIX + File.basename(base_file_path)) 
     end

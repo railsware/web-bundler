@@ -45,6 +45,7 @@ module WebResourceBundler
           images = {}
           new_content = content.gsub!(PATTERN) do |s|
             tag, url = $1, $3
+            #this constructor will write in log if image doesn't exist
             data = ImageData.new(url, @settings.resource_dir) 
             if !url.empty? and data.exist and data.size <= @settings.max_image_size and block_given?
               #using image url as key to prevent one image be encoded many times
@@ -60,10 +61,11 @@ module WebResourceBundler
         end
 
         #generates css file for IE with encoded images using mhtml in cache dir
-        def encode_images_for_ie!(content, filepath)
+        #mhtml_filepath - path to file with images encoded in base64
+        def encode_images_for_ie!(content, mhtml_filepath)
           #creating new css content with images encoded in base64
           images = encode_images_basic!(content) do |image_data, tag|
-            "*#{tag}url(mhtml:#{construct_mhtml_link(filepath)}!#{image_data.id})"
+            "*#{tag}url(mhtml:#{construct_mhtml_link(mhtml_filepath)}!#{image_data.id})"
           end
           images
         end
@@ -74,7 +76,6 @@ module WebResourceBundler
           images = encode_images_basic!(content) do |image_data, tag|
               "#{tag}url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
           end
-          #we should return images to construct mhtml file
           images
         end
 
