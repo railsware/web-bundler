@@ -35,9 +35,9 @@ module WebResourceBundler
     		def construct_mhtml_image_data(separator)
     			if @exist
     				result = separator + "\n"
-    				result += "Content-Location:" + @id + "\n"
-    				result +=	"Content-Transfer-Encoding:base64" + "\n\n"
-    				result += encoded + "\n\n"
+    				result << 'Content-Location:' << @id << "\n"
+    				result <<	'Content-Transfer-Encoding:base64' << "\n\n"
+    				result << encoded << "\n\n"
     			end
     		end
 
