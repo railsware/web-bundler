@@ -28,14 +28,14 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     describe "#encode_images_basic" do
 
       before(:each) do
-        @content = "background-image: url('images/logo.jpg'); background: url('images/logo.jpg');"
+        @content = "background-image: url('images/ligo.jpg'); background: url('images/logo.jpg');"
         @images = @generator.encode_images_basic!(@content) do |image_data, tag|
           tag + image_data.extension
         end
       end
 
       it "substitute each image tag (image should exist and has proper size) with result of a yield" do
-        @content.should == "background-image: jpg; background: jpg;"
+        @content.should == "background-image: url('images/ligo.jpg'); background: jpg;"
       end
 
       it "returns hash of images found and with proper size" do
@@ -88,7 +88,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         it "changes urls to mhtml link" do
           @generator.encode_images_for_ie!(@content, 'cache/1.mhtml')
           @content.include?("mhtml:#{@settings.protocol}://#{@settings.domain}/cache/1.mhtml!").should be_true
-          @content.include?("background: #eeeeee url(mhtml:").should be_true
+          @content.include?("*background: #eeeeee url(mhtml:").should be_true
           @content.include?("repeat-x 0 100%").should be_true
         end
       end
