@@ -131,13 +131,13 @@ WebResourceBundler combines all resource file in one. This resulted file could b
 2. Don't set max_image_size to big values. 
 The main reason of using Base64 filter is to avoid unnecessary server requests and minimize load time,
 but when encoded image is very big, traffic overhead time (encoded image base64 code is bigger for apprx. 30% than source image size) could be bigger than request time. In this case your site could be even slower than without a WebResourceBundler.
-Recommended image size is 1..20kbytes
+Recommended max_image_size value is 1..20kbytes
 
 3. Be careful with third party scripts.
 Some third party javascript libs can load another script file on the fly, relative path for this file computed
 on the client side. But your scripts are bundled and their relative path changed (cache folder), that's why such script
 won't be able to compute loaded file path correctly. You should avoid bundling such tricky javascripts.
 
-4. Unexistent resources treatment 
+4. Unexistent resources handling 
   a. Be sure to link in html only existent resource files, otherwise bundler won't work.
   b. If you have unexistent images in css, bundler will work but you've got info messages in log.
