@@ -7,6 +7,17 @@ module WebResourceBundler
       @bundler = WebResourceBundler::Bundler.instance
     end
 
+    describe "#set_settings" do
+      it "sets settings_correct property to false if resource dir not specified" do
+        @bundler.set_settings({})
+        @bundler.settings_correct.should be_false
+      end
+      it "sets settings_correct property to true if resource dir specified" do
+        @bundler.set_settings({:resource_dir => @s.resource_dir})
+        @bundler.settings_correct.should be_true
+      end
+    end
+
     describe "#set_filters" do
       before(:each) do
         @file_manager = FileManager.new(@s.resource_dir, @s.cache_dir)

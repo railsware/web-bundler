@@ -52,6 +52,8 @@ module WebResourceBundler
           set_filters(@settings, @file_manager) 
           #used to determine if bundler in correct state and could be used
           @settings_correct = true
+        else
+          @settings_correct = false
         end
       rescue Exception => e
         @@logger.error("Incorrect settings initialization, #{settings}\n#{e.to_s}") if @@logger
