@@ -26,7 +26,7 @@ module WebResourceBundler
     def initialize
       @filters = {} 
       @settings = nil
-      @file_manager = nil
+      @file_manager = FileManager.new('','') 
       @parser = BlockParser.new
       @@logger = nil 
       @settings_correct = false
@@ -42,13 +42,7 @@ module WebResourceBundler
           unless @settings.cache_dir
             @settings.cache_dir = 'cache'
           end
-          #if file manager is nil it should be created
-          unless @file_manager
-            @file_manager = FileManager.new(@settings.resource_dir, @settings.cache_dir)
-          else
-            #if manager already exist than its settings chaged
-            @file_manager.resource_dir, @file_manager.cache_dir = @settings.resource_dir, @settings.cache_dir
-          end
+          @file_manager.resource_dir, @file_manager.cache_dir = @settings.resource_dir, @settings.cache_dir
           set_filters(@settings, @file_manager) 
           #used to determine if bundler in correct state and could be used
           @settings_correct = true
@@ -63,30 +57,32 @@ module WebResourceBundler
 
     #main method to process html text block
     def process(block)
-      begin
-        filters = filters_array
-        #parsing html text block, creating BlockData instance
-        block_data = @parser.parse(block)
-        #if filters set and no bundle files exists we should process block data
-        unless filters.empty? or bundle_upto_date?(block_data)
-          #reading files content and populating block_data
-          read_resources!(block_data)
-          #applying filters to block_data
+      if @settings_correct
+        begin
+          filters = filters_array
+          #parsing html text block, creating BlockData instance
+          block_data = @parser.parse(block)
+          #if filters set and no bundle files exists we should process block data
+          unless filters.empty? or bundle_upto_date?(block_data)
+            #reading files content and populating block_data
+            read_resources!(block_data)
+            #applying filters to block_data
+            block_data.apply_filters(filters)
+            #writing resulted files with filtered content on disk
+            write_files_on_disk(block_data)
+            @@logger.info("files written on disk")
+            return block_data
+          end
+          #bundle up to date, returning existing block with modified file names 
           block_data.apply_filters(filters)
-          #writing resulted files with filtered content on disk
-          write_files_on_disk(block_data)
-          @@logger.info("files written on disk")
           return block_data
+        rescue Exceptions::WebResourceBundlerError => e
+          @@logger.error(e.to_s)
+          return nil
+        rescue Exception => e
+          @@logger.error(e.backtrace.join("\n") + "Unknown error occured: " + e.to_s)
+          return nil
         end
-        #bundle up to date, returning existing block with modified file names 
-        block_data.apply_filters(filters)
-        return block_data
-      rescue Exceptions::WebResourceBundlerError => e
-        @@logger.error(e.to_s)
-        return nil
-      rescue Exception => e
-        @@logger.error(e.backtrace.join("\n") + "Unknown error occured: " + e.to_s)
-        return nil
       end
     end
 
@@ -96,7 +92,7 @@ module WebResourceBundler
     def filters_array
       filters = []
       %w{bundle_filter base64_filter cdn_filter}.each do |key|
-        filters << @filters[key.to_sym] if @filters[key.to_sym]
+        filters << @filters[key.to_sym] if @settings[key.to_sym][:use] and @filters[key.to_sym] 
       end
       filters
     end
@@ -108,7 +104,7 @@ module WebResourceBundler
         :resource_dir => settings.resource_dir,
         :cache_dir => settings.cache_dir
       }
-      #used to craete filters
+      #used to create filters
       filters_data = {
         :bundle_filter => 'BundleFilter',
         :base64_filter => 'ImageEncodeFilter',
@@ -123,9 +119,6 @@ module WebResourceBundler
             #creating filter instance with settings
             @filters[key] = eval("Filters::" + filter_class + "::Filter").new(filter_settings, file_manager)
           end
-        else
-          #this filter turned off in settings so should be deleted
-          @filters.delete(key)
         end
       end
       @filters

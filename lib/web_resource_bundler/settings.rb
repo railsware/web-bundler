@@ -1,20 +1,5 @@
 module WebResourceBundler
   class Settings
-    @@defaults = {
-      :cache_dir => 'cache',
-      :base64_filter => {
-        :max_image_size => 23, #kbytes
-        :protocol => 'http',
-        :domain => 'localhost:3000'
-      },
-      :bundle_filter => {
-        :md5_additional_data => []
-      },
-      :cdn_filter => {
-        :http_hosts => ['http://localhost:3000'],
-        :https_hosts => ['https://localhost:3000']
-      }
-    }
 
     def initialize(hash = {})
       @settings = hash

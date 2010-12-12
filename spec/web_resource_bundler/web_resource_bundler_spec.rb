@@ -18,9 +18,29 @@ module WebResourceBundler
       end
     end
 
+
+    describe "#filters_array" do
+      it "returns array of filters that has :use => true in settings" do
+        @bundler.set_settings(@s)
+        filters = @bundler.send("filters_array")
+        filters.size.should == 3
+        @bundler.filters.size.should == 3
+        i = 2
+        %w{cdn_filter bundle_filter base64_filter}.each do |s|
+          @s[s.to_sym][:use] = false
+          @bundler.set_settings(@s)
+          filters = @bundler.send("filters_array")
+          filters.size.should == i
+          @bundler.filters.size.should == 3
+          i -= 1
+        end
+      end
+    end
+
     describe "#set_filters" do
       before(:each) do
         @file_manager = FileManager.new(@s.resource_dir, @s.cache_dir)
+        @bundler.instance_eval "@filters={}"
       end
       it "inits filters if no filters were initialized before" do
         @bundler.filters.should == {}
