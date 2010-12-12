@@ -2,8 +2,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../../../spec_helper
 module WebResourceBundler::Filters::ImageEncodeFilter
   describe CssGenerator do
     before(:each) do
-      @settings = Settings.new base64_settings
-      @generator = CssGenerator.new(@settings, FileManager.new(@settings.resource_dir, @settings.cache_dir))
+      @settings = base64_settings
+      @generator = CssGenerator.new(@settings, FileManager.new(@settings[:resource_dir], @settings[:cache_dir]))
     end
     
     describe "#pattern" do
@@ -87,7 +87,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       describe "#encode_images_for_ie" do
         it "changes urls to mhtml link" do
           @generator.encode_images_for_ie!(@content, 'cache/1.mhtml')
-          @content.include?("mhtml:#{@settings.protocol}://#{@settings.domain}/cache/1.mhtml!").should be_true
+          @content.include?("mhtml:#{@settings[:protocol]}://#{@settings[:domain]}/cache/1.mhtml!").should be_true
           @content.include?("*background: #eeeeee url(mhtml:").should be_true
           @content.include?("repeat-x 0 100%").should be_true
         end
@@ -96,7 +96,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     
     describe "#construct_mhtml_link" do
       it "should create link without public folder" do
-        @generator.construct_mhtml_link("temp.css").should == "http://#{@settings.domain}/temp.css"
+        @generator.construct_mhtml_link("temp.css").should == "http://#{@settings[:domain]}/temp.css"
       end
     end
   end

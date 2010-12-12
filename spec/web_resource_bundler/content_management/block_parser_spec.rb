@@ -3,7 +3,8 @@ module WebResourceBundler
   describe BlockParser do
 
     before(:each) do
-      @file_manager = FileManager.new(settings.resource_dir, settings.cache_dir)
+      @settings = settings
+      @file_manager = FileManager.new(@settings[:resource_dir], @settings[:cache_dir])
       @block_parser = BlockParser.new
     end
 

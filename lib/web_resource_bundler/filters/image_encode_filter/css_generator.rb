@@ -13,7 +13,7 @@ module WebResourceBundler
         end
 
         def set_settings(settings)
-          @settings.set(settings)
+          @settings = settings
         end
 
         #construct mhtml head of css file with definition of image data in base64
@@ -34,7 +34,7 @@ module WebResourceBundler
 
         #creates mhtml link to use in css tags instead of image url
         def construct_mhtml_link(filepath)
-          "#{@settings.protocol}://#{File.join(@settings.domain, filepath)}"
+          "#{@settings[:protocol]}://#{File.join(@settings[:domain], filepath)}"
         end
         
         #iterates through all tags found in css
@@ -46,8 +46,8 @@ module WebResourceBundler
           new_content = content.gsub!(PATTERN) do |s|
             tag, url = $1, $3
             #this constructor will write in log if image doesn't exist
-            data = ImageData.new(url, @settings.resource_dir) 
-            if !url.empty? and data.exist and data.size <= @settings.max_image_size and block_given?
+            data = ImageData.new(url, @settings[:resource_dir]) 
+            if !url.empty? and data.exist and data.size <= @settings[:max_image_size] and block_given?
               #using image url as key to prevent one image be encoded many times
               images[data.url] = data unless images[data.path]
               #changing string using provided block

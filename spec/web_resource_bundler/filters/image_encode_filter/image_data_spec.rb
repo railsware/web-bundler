@@ -15,7 +15,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
 
 		context "with existent small enough file" do
 			before(:each) do
-				@data = ImageData.new(image_path("logo.jpg"), settings.resource_dir)
+				@data = ImageData.new(image_path("logo.jpg"), settings[:resource_dir])
 			end
 			
 			it "should exist" do
@@ -32,7 +32,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
 			end
 
 			it "should have unique id" do
-				new_data = ImageData.new(image_path("good.jpg"), settings.resource_dir)
+				new_data = ImageData.new(image_path("good.jpg"), settings[:resource_dir])
 				new_data.exist.should be_true
 				@data.id.should_not equal(new_data.id)
   		end

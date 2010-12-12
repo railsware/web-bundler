@@ -34,7 +34,7 @@ class SampleBlockHelper
     if content
       resource_file.content = content
     else
-      resource_file.content = File.read(File.join(@settings.resource_dir, file))
+      resource_file.content = File.read(File.join(@settings[:resource_dir], file))
     end
     resource_file
   end

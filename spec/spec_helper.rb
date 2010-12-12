@@ -20,10 +20,6 @@ def scripts
 end
 
 def settings
-  Settings.new(settings_hash)
-end
-
-def settings_hash
   {
     :resource_dir => File.join(File.dirname(__FILE__), '/public'),
     :cache_dir => 'cache',
@@ -48,19 +44,19 @@ def settings_hash
 end
 
 def bundle_settings
-  settings.bundle_filter.merge(common_settings)
+  settings[:bundle_filter].merge(common_settings)
 end
 
 def cdn_settings
-  settings.cdn_filter.merge(common_settings)
+  settings[:cdn_filter].merge(common_settings)
 end
 
 def base64_settings
-  settings.base64_filter.merge(common_settings)
+  settings[:base64_filter].merge(common_settings)
 end
 
 def common_settings
-  {:resource_dir => settings.resource_dir, :cache_dir => settings.cache_dir}
+  {:resource_dir => settings[:resource_dir], :cache_dir => settings[:cache_dir]}
 end
 
 
@@ -74,8 +70,8 @@ Spec::Runner.configure do |config|
   end
 
   config.after(:all) do
-    File.delete(settings.log_path) if File.exist?(settings.log_path)
-    log_path = File.expand_path('../log', settings.resource_dir)
+    File.delete(settings[:log_path]) if File.exist?(settings[:log_path])
+    log_path = File.expand_path('../log', settings[:resource_dir])
     FileUtils.rm_rf(log_path) if File.exist?(log_path)
     clean_cache_dir
   end

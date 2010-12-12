@@ -5,27 +5,27 @@ describe WebResourceBundler::FileManager do
   end
 
   def create_stub_file(name)
-    File.open(File.join(@settings.resource_dir, name), "w") do |file|
+    File.open(File.join(@settings[:resource_dir], name), "w") do |file|
       file.print "hi there"
     end
   end
 
   before(:each) do
-    temp_dir = File.join(@settings.resource_dir, 'temp')
+    temp_dir = File.join(@settings[:resource_dir], 'temp')
     Dir.mkdir(temp_dir) unless File.exist?(temp_dir)
     @bundle_url = 'temp/bundle.dat'
-    @bundle_path = File.join(@settings.resource_dir, @bundle_url)
+    @bundle_path = File.join(@settings[:resource_dir], @bundle_url)
     create_stub_file(@bundle_url)
-    @manager = FileManager.new(@settings.resource_dir, @settings.cache_dir)
+    @manager = FileManager.new(@settings[:resource_dir], @settings[:cache_dir])
   end
 
   after(:each) do
-    FileUtils.rm_rf(File.join(@settings.resource_dir, 'temp'))
+    FileUtils.rm_rf(File.join(@settings[:resource_dir], 'temp'))
   end
 
   describe "#create_cache_dir" do
     it "creates cache dir if it doesn't exists" do
-      dir_path = File.join(@settings.resource_dir, @settings.cache_dir)
+      dir_path = File.join(@settings[:resource_dir], @settings[:cache_dir])
       FileUtils.rm_rf(dir_path)
       @manager.create_cache_dir
       File.exist?(dir_path).should == true

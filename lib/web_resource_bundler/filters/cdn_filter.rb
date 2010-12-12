@@ -13,16 +13,16 @@ module WebResourceBundler::Filters::CdnFilter
     end
 
     def new_filepath(path)
-      File.join(@settings.cache_dir, 'cdn_' + File.basename(path))
+      File.join(@settings[:cache_dir], 'cdn_' + File.basename(path))
     end
 
     #insures that image linked to one particular host  
     def host_for_image(image_url)
       #hosts are different depending on protocol 
-      if @settings.protocol == 'https' 
-        hosts = @settings.https_hosts
+      if @settings[:protocol] == 'https' 
+        hosts = @settings[:https_hosts]
       else
-        hosts = @settings.http_hosts
+        hosts = @settings[:http_hosts]
       end
       #getting host based on image url hash
       host_index = image_url.hash % hosts.size

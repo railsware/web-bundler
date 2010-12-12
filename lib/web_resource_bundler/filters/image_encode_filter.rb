@@ -39,17 +39,17 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     
     #path of a new file with images encoded
     def encoded_filepath(base_file_path)
-      File.join(@settings.cache_dir, FILE_PREFIX + File.basename(base_file_path))
+      File.join(@settings[:cache_dir], FILE_PREFIX + File.basename(base_file_path))
     end
 
     #path of a new file for IE with images encoded
     def encoded_filepath_for_ie(base_file_path)
-      File.join(@settings.cache_dir, IE_FILE_PREFIX + File.basename(base_file_path))
+      File.join(@settings[:cache_dir], IE_FILE_PREFIX + File.basename(base_file_path))
     end
 
     #filepath of mhtml file for IE
     def mhtml_filepath(base_file_path)
-      File.join(@settings.cache_dir, MHTML_FILE_PREFIX + File.basename(base_file_path)) 
+      File.join(@settings[:cache_dir], MHTML_FILE_PREFIX + File.basename(base_file_path)) 
     end
 
   end

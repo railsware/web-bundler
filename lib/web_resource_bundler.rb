@@ -4,7 +4,6 @@ require 'content_management/block_data'
 require 'content_management/css_url_rewriter'
 require 'content_management/resource_file'
 
-require 'settings'
 require 'file_manager'
 require 'logger'
 require 'filters'
@@ -36,13 +35,13 @@ module WebResourceBundler
     def set_settings(settings)
       #all methods user call from rails should not raise any exception
       begin
-        @settings = Settings.new settings
-        if @settings.resource_dir
+        @settings = settings
+        if @settings[:resource_dir]
           @@logger = create_logger(@settings)
-          unless @settings.cache_dir
-            @settings.cache_dir = 'cache'
+          unless @settings[:cache_dir]
+            @settings[:cache_dir] = 'cache'
           end
-          @file_manager.resource_dir, @file_manager.cache_dir = @settings.resource_dir, @settings.cache_dir
+          @file_manager.resource_dir, @file_manager.cache_dir = @settings[:resource_dir], @settings[:cache_dir]
           set_filters(@settings, @file_manager) 
           #used to determine if bundler in correct state and could be used
           @settings_correct = true
@@ -101,8 +100,8 @@ module WebResourceBundler
     def set_filters(settings, file_manager)
       #common settings same for all filters
       common_sets = { 
-        :resource_dir => settings.resource_dir,
-        :cache_dir => settings.cache_dir
+        :resource_dir => settings[:resource_dir],
+        :cache_dir => settings[:cache_dir]
       }
       #used to create filters
       filters_data = {
@@ -127,17 +126,17 @@ module WebResourceBundler
     def create_logger(settings)
       begin
         #creating default log file in rails log directory called web_resource_bundler.log
-        unless settings.log_path
-          log_dir = File.expand_path('../log', settings.resource_dir)
+        unless settings[:log_path]
+          log_dir = File.expand_path('../log', settings[:resource_dir])
           log_name = 'web_resource_bundler.log'
           settings[:log_path] = File.join(log_dir, log_name)
           Dir.mkdir(log_dir) unless File.exist?(log_dir)
         end
-        file = File.open(settings.log_path, File::WRONLY | File::APPEND | File::CREAT)
+        file = File.open(settings[:log_path], File::WRONLY | File::APPEND | File::CREAT)
         logger = Logger.new(file)
       rescue Exception => e
         logger = Logger.new(STDOUT)
-        logger.error("Can't create log file, check log path: #{settings.log_path}\n#{e.to_s}")
+        logger.error("Can't create log file, check log path: #{settings[:log_path]}\n#{e.to_s}")
       end
       logger
     end
@@ -153,7 +152,7 @@ module WebResourceBundler
       block_data_copy.apply_filters(filters_array)
       #cheking if resulted files exist on disk in cache folder
       block_data_copy.files.each do |file|
-        return false unless File.exist?(File.join(@settings.resource_dir, file.path))
+        return false unless File.exist?(File.join(@settings[:resource_dir], file.path))
       end
       true
     end
@@ -177,7 +176,7 @@ module WebResourceBundler
     def write_files_on_disk(block_data)
       @file_manager.create_cache_dir
       block_data.files.each do |file|
-        File.open(File.join(@settings.resource_dir, file.path), "w") do |f|
+        File.open(File.join(@settings[:resource_dir], file.path), "w") do |f|
           f.print(file.content)
         end
       end

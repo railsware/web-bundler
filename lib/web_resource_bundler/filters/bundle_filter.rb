@@ -30,16 +30,16 @@ module WebResourceBundler::Filters::BundleFilter
 
     def get_md5(files)
       items = [(files.map {|f| f.path }).sort]
-      items += @settings.md5_additional_data if @settings.md5_additional_data
+      items += @settings[:md5_additional_data] if @settings[:md5_additional_data]
       Digest::MD5.hexdigest(items.flatten.join('|'))
     end
 
     def bundle_filepath(type, files)
       unless files.empty?
         items = [type[:name] + '_' + get_md5(files)]
-        items += @settings.filename_additional_data if @settings.filename_additional_data
+        items += @settings[:filename_additional_data] if @settings[:filename_additional_data]
         items << type[:ext]
-        return File.join(@settings.cache_dir, items.join('.'))
+        return File.join(@settings[:cache_dir], items.join('.'))
       else
         return nil
       end

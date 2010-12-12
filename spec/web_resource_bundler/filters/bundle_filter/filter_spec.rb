@@ -4,16 +4,16 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
     clean_cache_dir
     @settings = settings
     @bundle_settings = bundle_settings
-    @filter = Filters::BundleFilter::Filter.new(@bundle_settings, FileManager.new(@settings.resource_dir, @settings.cache_dir))
+    @filter = Filters::BundleFilter::Filter.new(@bundle_settings, FileManager.new(@settings[:resource_dir], @settings[:cache_dir]))
     @block_data = @sample_block_helper.sample_block_data
     css_type = ResourceFileType::CSS
     js_type = ResourceFileType::JS
     items = [@block_data.styles.map {|f| f.path}.sort] + @bundle_settings[:md5_additional_data]
     @css_md5_value = Digest::MD5.hexdigest(items.flatten.join('|'))
-    @css_bundle_file = File.join(@settings.cache_dir, [css_type[:name] + '_' + @css_md5_value, 'en', css_type[:ext]].join('.'))
+    @css_bundle_file = File.join(@settings[:cache_dir], [css_type[:name] + '_' + @css_md5_value, 'en', css_type[:ext]].join('.'))
     items = [@block_data.scripts.map {|f| f.path}.sort]  + @bundle_settings[:md5_additional_data]
     js_md5_value = Digest::MD5.hexdigest(items.flatten.join('|'))
-    @js_bundle_file = File.join(@settings.cache_dir, [js_type[:name] + '_' + js_md5_value, 'en', js_type[:ext]].join('.'))
+    @js_bundle_file = File.join(@settings[:cache_dir], [js_type[:name] + '_' + js_md5_value, 'en', js_type[:ext]].join('.'))
   end
 
   describe "#apply" do
