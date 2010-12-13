@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
-  s.date = %q{2010-12-12}
+  s.date = %q{2010-12-13}
   s.description = %q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
   s.email = %q{anotheroneman@yahoo.com}
   s.extra_rdoc_files = [
@@ -39,7 +39,6 @@ Gem::Specification.new do |s|
      "lib/web_resource_bundler/filters/image_encode_filter/css_generator.rb",
      "lib/web_resource_bundler/filters/image_encode_filter/image_data.rb",
      "lib/web_resource_bundler/rails_app_helpers.rb",
-     "lib/web_resource_bundler/settings.rb",
      "lib/web_resource_bundler/web_resource_bundler_init.rb",
      "spec/public/foo.css",
      "spec/public/images/good.jpg",
@@ -68,7 +67,6 @@ Gem::Specification.new do |s|
      "spec/web_resource_bundler/filters/image_encode_filter/css_generator_spec.rb",
      "spec/web_resource_bundler/filters/image_encode_filter/filter_spec.rb",
      "spec/web_resource_bundler/filters/image_encode_filter/image_data_spec.rb",
-     "spec/web_resource_bundler/settings_spec.rb",
      "spec/web_resource_bundler/web_resource_bundler_spec.rb",
      "web_resource_bundler.gemspec"
   ]
@@ -86,7 +84,6 @@ Gem::Specification.new do |s|
      "spec/web_resource_bundler/filters/bundle_filter/resource_packager_spec.rb",
      "spec/web_resource_bundler/web_resource_bundler_spec.rb",
      "spec/web_resource_bundler/file_manager_spec.rb",
-     "spec/web_resource_bundler/settings_spec.rb",
      "spec/web_resource_bundler/content_management/css_url_rewriter_spec.rb",
      "spec/web_resource_bundler/content_management/block_data_spec.rb",
      "spec/web_resource_bundler/content_management/resource_file_spec.rb",

@@ -21,6 +21,7 @@ module WebResourceBundler
           end
     			if @exist
     				@size = File.size(@path)
+            WebResourceBundler::Bundler.logger.info("Error here #{@path}")
     				name, @extension = File.basename(@path).split('.')
     				#id is a filename plus random number - to support uniqueness
     				@id = name + rand(MAX_RAND_FOR_ID).to_s
@@ -43,6 +44,7 @@ module WebResourceBundler
 
     		def encoded
     			return nil unless @exist
+          #return 'iVBORw0KGgoAAAANSUhEUgAAAF8AAABfAQMAAAC0gom2AAAABlBMVEX///8BAQE6HLieAAAA4UlEQVQ4jcXTMa7DIAwG4L/KwAYXQOIa3rgS7wJJeoH0Smy9BlIu0G4MqH6OoqbLw3lbEQPfANjYAN8fkV8ID2KuKgjWlERFFip4AV/r+jpHGekfoGbPARuLq0c4HUg+tC6f5DrYjCl/HuhvGEz35u48n0BecGX20AG53svRSUcMz+rHCFdVINxyu+ThQSoIPzXMcQ9AgXdcXOZbVWEkiCZz0oEgNRvjvkfB5oWGGSqkcrElWp9ZxdYH0nzDu5V74MWUiffK6UCKxZ5DkuHj6A5gJRmzV66P7Tf6S0UiFd8ev8BJTrfU/sE4AAAAAElFTkSuQmCC'
     			Base64.encode64(File.read(@path)).gsub("\n", '')
     		end
     	end

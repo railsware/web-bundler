@@ -37,7 +37,7 @@ module WebResourceBundler
       begin
         @settings = settings
         if @settings[:resource_dir]
-          @@logger = create_logger(@settings)
+          @@logger = create_logger(@settings) unless @@logger
           unless @settings[:cache_dir]
             @settings[:cache_dir] = 'cache'
           end
