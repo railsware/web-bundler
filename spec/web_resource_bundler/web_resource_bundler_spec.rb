@@ -55,9 +55,8 @@ module WebResourceBundler
         @bundler.filters[:base64_filter].settings[:max_image_size].should == 90 
       end
     end
-
-    describe "#initialize" do
-      it "set instance to nil if resource_dir ins't specified" do
+    describe "#initialize" do 
+      it "set instance to nil if resource_dir ins't specified" do 
         @bundler.set_settings({})
         @bundler.settings_correct.should be_false
       end
@@ -68,13 +67,20 @@ module WebResourceBundler
         @bundler.settings[:cache_dir].should == 'cache'
         @bundler.settings[:log_path].should == File.expand_path('../log/web_resource_bundler.log', res_dir)
       end
+      it "creates log directory if it's unexistent" do
+        @bundler.set_settings({:resource_dir => @s[:resource_dir]})
+        log_dir_path = File.expand_path('../log', @s[:resource_dir])
+        File.exist?(log_dir_path).should be_true
+        Dir.delete(log_dir_path)
+      end
     end
 
     describe "#create_logger" do
       it "sets log_path in settings if it isn't specified" do
-        sets = {:resource_dir => @s[:resource_dir] }
-        @bundler.send("create_logger", sets)
-        @bundler.settings[:log_path].should == File.expand_path('../log/web_resource_bundler.log', sets[:resource_dir])
+        path = File.expand_path('../web_resource_bundler.log', @s[:resource_dir])
+        @bundler.send("create_logger", path)
+        File.exist?(path).should be_true
+        File.delete(path)
       end
     end
 

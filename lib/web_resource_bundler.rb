@@ -37,10 +37,20 @@ module WebResourceBundler
       begin
         @settings = settings
         if @settings[:resource_dir]
-          @@logger = create_logger(@settings) unless @@logger
+
+          #creating default log file in rails log directory called web_resource_bundler.log
+          unless @settings[:log_path]
+            log_dir = File.expand_path('../log', @settings[:resource_dir])
+            log_name = 'web_resource_bundler.log'
+            @settings[:log_path] = File.join(log_dir, log_name)
+            Dir.mkdir(log_dir) unless File.exist?(log_dir)
+          end
+          @@logger = create_logger(@settings[:log_path]) unless @@logger
+
           unless @settings[:cache_dir]
             @settings[:cache_dir] = 'cache'
           end
+
           @file_manager.resource_dir, @file_manager.cache_dir = @settings[:resource_dir], @settings[:cache_dir]
           set_filters(@settings, @file_manager) 
           #used to determine if bundler in correct state and could be used
@@ -109,10 +119,10 @@ module WebResourceBundler
         :base64_filter => 'ImageEncodeFilter',
         :cdn_filter => 'CdnFilter'
       }
-      filters_data.each_pair do |key, filter_class|
-        if settings[key] and settings[key][:use]
-          filter_settings = settings[key].merge(common_sets)
-          if @filters[key]
+      filters_data.each_pair do |key, filter_class| 
+        if settings[key] and settings[key][:use] 
+          filter_settings = settings[key].merge(common_sets) 
+          if @filters[key] 
             @filters[key].set_settings(filter_settings)
           else
             #creating filter instance with settings
@@ -123,20 +133,13 @@ module WebResourceBundler
       @filters
     end
 
-    def create_logger(settings)
+    def create_logger(logfile_path)
       begin
-        #creating default log file in rails log directory called web_resource_bundler.log
-        unless settings[:log_path]
-          log_dir = File.expand_path('../log', settings[:resource_dir])
-          log_name = 'web_resource_bundler.log'
-          settings[:log_path] = File.join(log_dir, log_name)
-          Dir.mkdir(log_dir) unless File.exist?(log_dir)
-        end
-        file = File.open(settings[:log_path], File::WRONLY | File::APPEND | File::CREAT)
+        file = File.open(logfile_path, File::WRONLY | File::APPEND | File::CREAT)
         logger = Logger.new(file)
       rescue Exception => e
         logger = Logger.new(STDOUT)
-        logger.error("Can't create log file, check log path: #{settings[:log_path]}\n#{e.to_s}")
+        logger.error("Can't create log file, check log path: #{logfile_path}\n#{e.to_s}")
       end
       logger
     end
