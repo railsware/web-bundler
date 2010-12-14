@@ -3,7 +3,7 @@
 Purpose
 ------------------
 The main purpose of WebResourceBundler gem is to minimize request & response
-round-trips count. This could be done by bundling particular resource (css or js) in 
+round-trips count.  This could be done by bundling particular resource (css or js) in 
 one file. Encoding images in base64 and putting then in css directly.
 
 Functional description
@@ -19,9 +19,7 @@ cdn filter can rewrite image urls for you. Resulted filename is a md5(filenames.
 Installation
 ---------------------
 
-  gem install web_resource_bundler
-
-It's pretty easy, yeah?
+    gem install web_resource_bundler
 
 Usage
 -------------------
@@ -31,19 +29,18 @@ You can set separate settings for each environment
 
 config/web_resource_bundler.yml
 
-  development:
-    :base64_filter:
-      :use: true
-      :max_image_size: 23
-      :protocol: http
-      :domain: localhost:3000
-    :bundle_filter:
-      :use: true
-    :cdn_filter:
-      :use: true
-      :http_hosts: ['http://localhost:3000']
-      :https_hosts: ['https://localhost:3000']
-
+    development:
+      :base64_filter:
+        :use: true
+        :max_image_size: 23
+        :protocol: http
+        :domain: localhost:3000
+      :bundle_filter:
+        :use: true
+      :cdn_filter:
+        :use: true
+        :http_hosts: ['http://localhost:3000']
+        :https_hosts: ['https://localhost:3000']
 
 Then you should create initializer file in
 /path/to/your/rails_app/config/initializers/ directory
@@ -52,39 +49,39 @@ Then you should put content like this in it.
 
 config/initializers/web_resource_bundler_init.rb
 
-  require 'web_resource_bundler'
-  require 'yaml'
-  root_dir = Rails.root #or RAILS_ROOT if you are using older rails version than 3 
-  environment = Rails.env #or RAILS_ENV in case rails <= 2.3
-  settings = { }
-  settings_file_path = File.join(root_dir, 'config', 'web_resource_bundler.yml')
-  if File.exist?(settings_file_path)
-    settings_file = File.open(settings_file_path)
-    all_settings = YAML::load(settings_file)
-    if all_settings[environment]
-      settings = all_settings[environment]
-      settings[:resource_dir] = File.join(root_dir, 'public')
+    require 'web_resource_bundler'
+    require 'yaml'
+    root_dir = Rails.root #or RAILS_ROOT if you are using older rails version than 3 
+    environment = Rails.env #or RAILS_ENV in case rails <= 2.3
+    settings = { }
+    settings_file_path = File.join(root_dir, 'config', 'web_resource_bundler.yml')
+    if File.exist?(settings_file_path)
+      settings_file = File.open(settings_file_path)
+      all_settings = YAML::load(settings_file)
+      if all_settings[environment]
+        settings = all_settings[environment]
+        settings[:resource_dir] = File.join(root_dir, 'public')
+      end
     end
-  end
 
-  WebResourceBundler::Bundler.instance.set_settings(settings)
-  ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)
+    WebResourceBundler::Bundler.instance.set_settings(settings)
+    ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)
 
 Now in your view files you can call web_resource_bundler_process helper like this:
 
-  <head>
-  <% web_resource_bundler_process do %>
-    <%= stylesheet_link_tag :scaffold %>
-    <%= javascript_include_tag :defaults %>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/somestyle.css"/>
-    <%=yield :head %>
-    <!--[if lte IE 7]>
-       <link type="text/css" rel="stylesheet" href="/stylesheets/ie7fix.css"/>
-       <link type="text/css" rel="stylesheet" href="/stylesheets/pngfix.css"/>
-    <![endif]-->
+    <head>
+    <% web_resource_bundler_process do %>
+      <%= stylesheet_link_tag :scaffold %>
+      <%= javascript_include_tag :defaults %>
+      <link type="text/css" rel="stylesheet" href="/stylesheets/somestyle.css"/>
+      <%=yield :head %>
+      <!--[if lte IE 7]>
+         <link type="text/css" rel="stylesheet" href="/stylesheets/ie7fix.css"/>
+         <link type="text/css" rel="stylesheet" href="/stylesheets/pngfix.css"/>
+      <![endif]-->
 
-  <% end %>
-  </head>
+    <% end %>
+    </head>
 
 Notice:
 
@@ -97,16 +94,16 @@ use <%= web_resource_bundler_process do %>
 
 And as result you'll have
 
-  <link href="/cache/base64_style_d880a502addaa493b889c0970616430b.css?1290594873" media="screen" rel="stylesheet" type="text/css" />
-  <script src="/cache/script_275d311037da40e9c9b8c919a8c08b55.js?1290594873" type="text/javascript"></script>
+    <link href="/cache/base64_style_d880a502addaa493b889c0970616430b.css?1290594873" media="screen" rel="stylesheet" type="text/css" />
+    <script src="/cache/script_275d311037da40e9c9b8c919a8c08b55.js?1290594873" type="text/javascript"></script>
 
-  <!--[if lte IE 7]>
-     <link href="/cache/base64_ie_style_d880a502addaa493b889c0970616430b.css?1290594873" media="screen" rel="stylesheet" type="text/css" />
-  <![endif]-->
+    <!--[if lte IE 7]>
+       <link href="/cache/base64_ie_style_d880a502addaa493b889c0970616430b.css?1290594873" media="screen" rel="stylesheet" type="text/css" />
+    <![endif]-->
 
-  <!--[if lte IE 7]>
-     <link type="text/css" rel="stylesheet" href="/cache/base64_style_ad801w02addaa493b889c0970616430b.css?1290594873"/>
-  <![endif]-->
+    <!--[if lte IE 7]>
+       <link type="text/css" rel="stylesheet" href="/cache/base64_style_ad801w02addaa493b889c0970616430b.css?1290594873"/>
+    <![endif]-->
 
 !!!
 Don't forget to clean your cache directory after deploy to clean old bundles
