@@ -12,14 +12,14 @@ WebResourceBundler parse your head html block, finding all css and js resource
 files.
 It can bundle resource of particular type in one single file. Base64 filter
 encodes images in base64 putting them in css directly. Separate files for IE
-and other browsers created. Conditional comments (like <!--[if IE 6]>) also
+and other browsers created. Conditional comments (like `<!--[if IE 6]>`) also
 supported. You can use external image hosts to server images in css: 
 cdn filter can rewrite image urls for you. Resulted filename is a md5(filenames.sort)
 
 Installation
 ---------------------
 
-    gem install web_resource_bundler
+   gem install web_resource_bundler
 
 Usage
 -------------------
