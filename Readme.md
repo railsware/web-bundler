@@ -19,7 +19,7 @@ cdn filter can rewrite image urls for you. Resulted filename is a md5(filenames.
 Installation
 ---------------------
 
-   gem install web_resource_bundler
+   `gem install web_resource_bundler`
 
 Usage
 -------------------
@@ -67,10 +67,11 @@ config/initializers/web_resource_bundler_init.rb
     WebResourceBundler::Bundler.instance.set_settings(settings)
     ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)
 
-Now in your view files you can call web_resource_bundler_process helper like this:
+Now in your view files you can call **`web_resource_bundler_process`** helper like this:
 
     <head>
     <% web_resource_bundler_process do %>
+
       <%= stylesheet_link_tag :scaffold %>
       <%= javascript_include_tag :defaults %>
       <link type="text/css" rel="stylesheet" href="/stylesheets/somestyle.css"/>
@@ -86,10 +87,10 @@ Now in your view files you can call web_resource_bundler_process helper like thi
 Notice:
 
 For Rails < 3
-you should use <% web_resource_bundler_process do %>
+you should use **`<% web_resource_bundler_process do %>`**
 
 And For Rails >= 3
-use <%= web_resource_bundler_process do %>
+use **`<%= web_resource_bundler_process do %>`**
 
 
 And as result you'll have
