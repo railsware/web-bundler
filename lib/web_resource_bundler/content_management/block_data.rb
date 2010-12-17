@@ -11,13 +11,13 @@ module WebResourceBundler
 
     def styles
       @files.select do |f|
-        [WebResourceBundler::ResourceFileType::CSS, 
-          WebResourceBundler::ResourceFileType::IE_CSS].include?(f.type)
+        !([WebResourceBundler::ResourceFileType::CSS, 
+          WebResourceBundler::ResourceFileType::IE_CSS] & f.types).empty?
       end
     end
 
     def scripts
-      @files.select {|f| f.type == WebResourceBundler::ResourceFileType::JS}
+      @files.select {|f| f.types.include?(WebResourceBundler::ResourceFileType::JS)}
     end
 
     def clone

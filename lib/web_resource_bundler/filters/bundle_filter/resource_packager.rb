@@ -14,7 +14,7 @@ module WebResourceBundler::Filters::BundleFilter
         path = file.path
         content = file.content
         output << "/* --------- #{path} --------- */\n"
-        if file.type[:ext] == 'css'
+        if file.types.first[:ext] == 'css'
           imported_files = extract_imported_files!(content, path)
           #getting imported (@import ...) files contents
           imported_resource_files = [] 

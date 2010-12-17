@@ -9,19 +9,15 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
-  s.date = %q{2010-12-13}
+  s.date = %q{2010-12-17}
   s.description = %q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
   s.email = %q{anotheroneman@yahoo.com}
-  s.extra_rdoc_files = [
-    "README"
-  ]
   s.files = [
-    ".bundle/config",
-     ".gitignore",
+    ".gitignore",
      "Gemfile",
      "Gemfile.lock",
-     "README",
      "Rakefile",
+     "Readme.md",
      "VERSION",
      "lib/web_resource_bundler.rb",
      "lib/web_resource_bundler/content_management/block_data.rb",
@@ -70,7 +66,7 @@ Gem::Specification.new do |s|
      "spec/web_resource_bundler/web_resource_bundler_spec.rb",
      "web_resource_bundler.gemspec"
   ]
-  s.homepage = %q{http://github.com/gregolsen/web-bundler}
+  s.homepage = %q{https://github.com/railsware/web-bundler}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}

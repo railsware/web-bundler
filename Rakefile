@@ -9,7 +9,7 @@ begin
     gem.summary = %Q{lib for css and js content bundling and managment}
     gem.description = %Q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
     gem.email = "anotheroneman@yahoo.com"
-    gem.homepage = "http://github.com/gregolsen/web-bundler"
+    gem.homepage = "https://github.com/railsware/web-bundler"
     gem.authors = ["gregolsen"]
     gem.add_development_dependency "rspec", "1.3.1"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings

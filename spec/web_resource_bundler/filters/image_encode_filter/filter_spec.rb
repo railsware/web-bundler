@@ -26,7 +26,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
 
   describe "#mhtml_filepath" do
     it "returns mhtml file path" do
-      @filter.mhtml_filepath('styles/1.css').should == 'cache/mhtml_1.css'
+      @filter.mhtml_filepath('styles/1.css').should == 'cache/mhtml_1.mhtml'
     end
   end
 
@@ -34,17 +34,30 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
     context "block was bundled" do
       before(:each) do
         @bundler_filter = Filters::BundleFilter::Filter.new(@base64_settings, @file_manager)
-      end
+              end
       it "encodes images in css and change filename" do
         block_data = @sample_block_helper.sample_block_data
         bundle_filepath = @bundler_filter.bundle_filepath(WebResourceBundler::ResourceFileType::CSS, block_data.styles)
         @bundler_filter.apply!(block_data)
         @filter.apply!(block_data)
-        generated_files = block_data.files.map {|f| f.path}
+        generated_files = block_data.files.map {|f| f.path}      
         generated_files.include?(File.join(@settings[:cache_dir], @file_prefix + File.basename(bundle_filepath))).should be_true
         generated_files.include?(File.join(@settings[:cache_dir], @ie_file_prefix + File.basename(bundle_filepath))).should be_true
       end
 
+      it "changes type of styles files to CSS only" do
+        block_data = @sample_block_helper.sample_block_data
+        resource_file = WebResourceBundler::ResourceFile.new_style_file(styles.first)
+        block_data.files = [resource_file]
+        block_data.child_blocks = []
+        @bundler_filter.apply!(block_data)
+        @filter.apply!(block_data)
+        block_data.files.size.should == 3
+        %w{CSS IE_CSS MHTML}.each do |type_name|
+          type = eval("WebResourceBundler::ResourceFileType::" + type_name)
+          block_data.files.select {|f| f.types == [type]}.size.should == 1
+        end
+      end
     end
     context "block wasn't bundled" do
       before(:each) do
@@ -53,7 +66,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         @block_data.files = []
         @files = %w{sample.css foo.css}
         @files.each do |f|
-          @block_data.files << @sample_block_helper.construct_resource_file(WebResourceBundler::ResourceFileType::CSS, f)
+          @block_data.files << @sample_block_helper.construct_resource_file(f,'', WebResourceBundler::ResourceFileType::CSS)
         end
         @filter.apply!(@block_data)
       end

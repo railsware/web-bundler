@@ -19,7 +19,7 @@ cdn filter can rewrite image urls for you. Resulted filename is a md5(filenames.
 Installation
 ---------------------
 
-   `gem install web_resource_bundler`
+    gem install web_resource_bundler
 
 Usage
 -------------------

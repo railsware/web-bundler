@@ -20,14 +20,12 @@ module WebResourceBundler
         def construct_mhtml_content(images)
           result = ""
           unless images.empty?
-            result << "/* \n" 
             result << 'Content-Type: multipart/related; boundary="' << SEPARATOR << '"' << "\n\n"
             #each image found in css should be defined in header with base64 encoded content
             images.each_key do |key|
               result << images[key].construct_mhtml_image_data('--' + SEPARATOR)
             end
             result << "\n" << '--' << SEPARATOR << '--' << "\n"
-            result << "*/"
           end
           result
         end

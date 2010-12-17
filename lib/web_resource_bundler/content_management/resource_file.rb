@@ -8,27 +8,30 @@ module WebResourceBundler
   end
 
   class ResourceFile  
-    attr_reader :type
+    attr_accessor :types #array of ResourceFileType's objects
     attr_accessor :path, :content
-    def initialize(type, path, content = "")
-      @type = type
+    def initialize(path, content, *types)
+      @types = types.flatten
       @content = content
       @path = path
     end
     def self.new_js_file(path, content = "")
-      ResourceFile.new(ResourceFileType::JS, path, content) 
+      ResourceFile.new(path, content, ResourceFileType::JS) 
     end
     def self.new_css_file(path, content = "")
-      ResourceFile.new(ResourceFileType::CSS, path, content)
+      ResourceFile.new(path, content, ResourceFileType::CSS)
     end
     def self.new_ie_css_file(path, content ="")
-      ResourceFile.new(ResourceFileType::IE_CSS, path, content)
+      ResourceFile.new(path, content, ResourceFileType::IE_CSS)
+    end
+    def self.new_style_file(path, content ="")
+      ResourceFile.new(path, content, ResourceFileType::CSS, ResourceFileType::IE_CSS)
     end
     def self.new_mhtml_file(path, content = "")
-      ResourceFile.new(ResourceFileType::MHTML, path, content)
+      ResourceFile.new(path, content, ResourceFileType::MHTML)
     end
     def clone
-      ResourceFile.new(self.type.dup, self.path.dup, self.content.dup)
+      ResourceFile.new(self.path.dup, self.content.dup, self.types.dup)
     end
   end
 

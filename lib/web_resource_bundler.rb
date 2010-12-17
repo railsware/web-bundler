@@ -166,7 +166,7 @@ module WebResourceBundler
       block_data.files.each do |file|
         content = @file_manager.get_content(file.path)
         #rewriting url to absolute if content is css
-        WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(file.path, content) if file.type[:ext] == 'css'  
+        WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(file.path, content) if file.types.first[:ext] == 'css'  
         file.content = content
       end
       #making the same for each child blocks, recursively

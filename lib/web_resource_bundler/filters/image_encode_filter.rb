@@ -24,6 +24,8 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         #creating new mhtml file with images encoded in base64
         mhtml_file = WebResourceBundler::ResourceFile.new_mhtml_file(mhtml_filepath(file.path), "")
         file.path = encoded_filepath(file.path)
+        #we've created separate file for IE so current file should be marked as CSS only
+        file.types = [WebResourceBundler::ResourceFileType::CSS]
         unless file.content.empty?
           @generator.encode_images!(file.content)
           #getting images to construct mhtml file
@@ -49,7 +51,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
 
     #filepath of mhtml file for IE
     def mhtml_filepath(base_file_path)
-      File.join(@settings[:cache_dir], MHTML_FILE_PREFIX + File.basename(base_file_path)) 
+      File.join(@settings[:cache_dir], MHTML_FILE_PREFIX + File.basename(base_file_path, ".*") + '.mhtml') 
     end
 
   end

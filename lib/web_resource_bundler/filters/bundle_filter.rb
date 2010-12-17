@@ -15,7 +15,7 @@ module WebResourceBundler::Filters::BundleFilter
       unless block_data.styles.empty?
         new_css_filename = css_bundle_filepath(block_data.styles)
         new_css_content = @packager.bundle_files(block_data.styles)
-        new_css_file = WebResourceBundler::ResourceFile.new_css_file(new_css_filename, new_css_content)
+        new_css_file = WebResourceBundler::ResourceFile.new_style_file(new_css_filename, new_css_content)
         new_files << new_css_file 
       end
       unless block_data.scripts.empty?

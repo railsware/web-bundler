@@ -45,9 +45,9 @@ module WebResourceBundler
         unless value.include?('://') 
           case property
             when "src" 
-              then files << WebResourceBundler::ResourceFile.new(WebResourceBundler::ResourceFileType::JS, value) if File.extname(value) == '.js'
+              then files << WebResourceBundler::ResourceFile.new_js_file(value) if File.extname(value) == '.js'
             when "href" 
-              then files << WebResourceBundler::ResourceFile.new(WebResourceBundler::ResourceFileType::CSS, value) if File.extname(value) == '.css'
+              then files << WebResourceBundler::ResourceFile.new_style_file(value) if File.extname(value) == '.css'
           end
         end
       end
