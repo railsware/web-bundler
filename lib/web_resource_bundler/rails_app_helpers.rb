@@ -8,7 +8,7 @@ module WebResourceBundler::RailsAppHelpers
     version = Rails::VERSION::STRING
     if !params['no_bundler'] and WebResourceBundler::Bundler.instance.settings_correct
       #we want to keep original string unchanged so we can return same content on error
-      block_data = WebResourceBundler::Bundler.instance.process(result.dup, request.domain, request.protocol)
+      block_data = WebResourceBundler::Bundler.instance.process(result.dup, request.host_with_port, request.protocol.gsub(/:\/\//,''))
       #if everything ok with bundling we should construct resulted html content and change result
       result = construct_block(block_data, WebResourceBundler::Bundler.instance.settings) if block_data 
     end
