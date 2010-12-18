@@ -8,6 +8,8 @@ class WebResourceBundler::SettingsManager
 
   class << self
 
+    #creates settings from config file or from defaults
+    #if config file doesn't exists
     def create_settings(rails_root, rails_env)
       settings = {}
       if File.exist?(rails_root)
@@ -22,6 +24,7 @@ class WebResourceBundler::SettingsManager
       settings
     end
 
+    #creates defaults settings
     def create_default_settings(rails_root)
       settings = {}
       settings[:resource_dir] = File.join(rails_root, DEFAULT_RESOURCE_DIR)
@@ -40,6 +43,7 @@ class WebResourceBundler::SettingsManager
       settings
     end
 
+    #settings common for all filters
     def common_settings(settings)
       {
         :resource_dir => settings[:resource_dir],
@@ -47,6 +51,7 @@ class WebResourceBundler::SettingsManager
       }
     end
 
+    #load settings from yaml file depending on environment
     def settings_from_file(rails_root, rails_env)
       settings = {} 
       settings_file_path = File.join(rails_root, DEFAULT_SETTINGS_PATH)
@@ -61,6 +66,7 @@ class WebResourceBundler::SettingsManager
       settings
     end
 
+    #ensures that settings has obligatory keys present
     def settings_correct?(settings)
       %w{resource_dir log_path cache_dir}.each do |key|
         return false unless settings.has_key?(key.to_sym)
@@ -68,12 +74,14 @@ class WebResourceBundler::SettingsManager
       return true
     end
 
+    #dynamically created methods for each filter have its own settings method
     %w{base64_filter cdn_filter bundle_filter}.each do |filter_name|
       define_method "#{filter_name}_settings" do |settings|
         self.common_settings(settings).merge(settings[filter_name.to_sym])
       end
     end 
 
+    #setting request specific settings like domain and protocol
     def set_request_specific_settings!(settings, domain, protocol)
       settings[:domain] = domain
       settings[:protocol] = protocol

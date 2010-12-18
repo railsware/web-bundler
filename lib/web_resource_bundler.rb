@@ -28,6 +28,7 @@ module WebResourceBundler
       @settings_correct = false
     end
 
+    #this method should called in initializer
     def setup(rails_root, rails_env)
       @settings = SettingsManager.create_settings(rails_root, rails_env)
       @settings_correct = SettingsManager.settings_correct?(@settings)
@@ -38,6 +39,8 @@ module WebResourceBundler
       end
     end
 
+    #this method should be used to turn on\off filters
+    #on particular request
     def set_settings(settings)
       @settings.merge!(settings)
       @settings_correct = SettingsManager.settings_correct?(@settings)
@@ -49,6 +52,7 @@ module WebResourceBundler
       if @settings_correct
         begin
           filters = filters_array
+          #passing current request domain and protocol to each filter
           filters.each do |filter|
             SettingsManager.set_request_specific_settings!(filter.settings, domain, protocol)
           end
@@ -97,6 +101,7 @@ module WebResourceBundler
         :cdn_filter => 'CdnFilter'
       }
       filters_data.each_pair do |key, filter_class| 
+        #if filter settings are present and filter turned on
         if settings[key] and settings[key][:use] 
           filter_settings = SettingsManager.send("#{key}_settings", settings) 
           if @filters[key] 
@@ -113,6 +118,7 @@ module WebResourceBundler
     def create_logger(log_path)
       begin
         log_dir = File.dirname(log_path)
+        #we should create log dir in rails root if it doesn't exist
         Dir.mkdir(log_dir) unless File.exist?(log_dir)
         file = File.open(log_path, File::WRONLY | File::APPEND | File::CREAT)
         logger = Logger.new(file)
