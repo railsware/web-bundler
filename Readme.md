@@ -24,47 +24,13 @@ Installation
 Usage
 -------------------
 
-Firstly you should create your settings file in config dir.
-You can set separate settings for each environment
+Declare web_resource_bundler in your Gemfile like this:
 
-config/web_resource_bundler.yml
+    gem web_resource_bundler
 
-    development:
-      :base64_filter:
-        :use: true
-        :max_image_size: 23
-        :protocol: http
-        :domain: localhost:3000
-      :bundle_filter:
-        :use: true
-      :cdn_filter:
-        :use: true
-        :http_hosts: ['http://localhost:3000']
-        :https_hosts: ['https://localhost:3000']
+Add this two lines in your application.rb file on rails config dir:
 
-Then you should create initializer file in
-/path/to/your/rails_app/config/initializers/ directory
-Let's say it will be web_resource_bundler_init.rb
-Then you should put content like this in it.
-
-config/initializers/web_resource_bundler_init.rb
-
-    require 'web_resource_bundler'
-    require 'yaml'
-    root_dir = Rails.root #or RAILS_ROOT if you are using older rails version than 3 
-    environment = Rails.env #or RAILS_ENV in case rails <= 2.3
-    settings = { }
-    settings_file_path = File.join(root_dir, 'config', 'web_resource_bundler.yml')
-    if File.exist?(settings_file_path)
-      settings_file = File.open(settings_file_path)
-      all_settings = YAML::load(settings_file)
-      if all_settings[environment]
-        settings = all_settings[environment]
-        settings[:resource_dir] = File.join(root_dir, 'public')
-      end
-    end
-
-    WebResourceBundler::Bundler.instance.set_settings(settings)
+    WebResourceBundler::Bundler.instance.setup(Rails.root, Rails.env)
     ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)
 
 Now in your view files you can call **`web_resource_bundler_process`** helper like this:
@@ -109,9 +75,25 @@ And as result you'll have
 !!!
 Don't forget to clean your cache directory after deploy to clean old bundles
 
-
 To disable bundling and see raw results add no_bundler param
 mysite.com/?no_bundler=1
+
+To configure bundler you can create your custom config file - web_resource_bundler.yml
+
+/your_rails_app/config/web_resource_bundler.yml
+
+    development:
+      :base64_filter:
+        :use: true
+        :max_image_size: 23
+        :protocol: http
+        :domain: localhost:3000
+      :bundle_filter:
+        :use: true
+      :cdn_filter:
+        :use: true
+        :http_hosts: ['http://localhost:3000']
+        :https_hosts: ['https://localhost:3000']
 
 Recommendations
 --------------------
