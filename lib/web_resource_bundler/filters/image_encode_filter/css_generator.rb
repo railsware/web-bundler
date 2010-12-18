@@ -5,7 +5,6 @@ module WebResourceBundler
         TAGS = ['background-image', 'background']
         SEPARATOR = 'A_SEPARATOR'
         PATTERN = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/
-        
 
         def initialize(settings, file_manager)
           @settings = settings
@@ -14,6 +13,7 @@ module WebResourceBundler
 
         def set_settings(settings)
           @settings = settings
+          @settings[:max_image_size] = 20 unless @settings[:max_image_size]
         end
 
         #construct mhtml head of css file with definition of image data in base64

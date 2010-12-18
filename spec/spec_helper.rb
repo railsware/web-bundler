@@ -19,20 +19,23 @@ def scripts
   ["/set_cookies.js", "/seal.js", "/salog20.js", "/marketing.js"]
 end
 
+def root_dir
+  File.join(File.dirname(__FILE__), 'test_data')
+end
+
 def settings
   {
-    :resource_dir => File.join(File.dirname(__FILE__), '/public'),
+    :resource_dir => File.join(root_dir, '/public'),
     :cache_dir => 'cache',
-    :log_path => File.join(File.dirname(__FILE__), '/bundler.log'),
+    :log_path => File.join(root_dir, '/log/bundler.log'),
+    :protocol => 'http',
+    :domain => 'localhost:3000',
     :base64_filter => {
       :use => true,
       :max_image_size => 23, #kbytes
-      :protocol => 'http',
-      :domain => 'localhost:3000'
     },
     :bundle_filter => {
       :use => true,
-      :md5_additional_data => ['localhost:3000', 'http'],
       :filename_additional_data => ['en']
     },
     :cdn_filter => {
@@ -56,7 +59,12 @@ def base64_settings
 end
 
 def common_settings
-  {:resource_dir => settings[:resource_dir], :cache_dir => settings[:cache_dir]}
+  {
+    :resource_dir => settings[:resource_dir], 
+    :cache_dir => settings[:cache_dir],
+    :domain => settings[:domain],
+    :protocol => settings[:protocol]
+  }
 end
 
 

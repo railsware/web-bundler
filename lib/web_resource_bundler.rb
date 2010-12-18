@@ -5,6 +5,7 @@ require 'content_management/css_url_rewriter'
 require 'content_management/resource_file'
 
 require 'file_manager'
+require 'settings_manager'
 require 'logger'
 require 'filters'
 require 'exceptions'
@@ -16,59 +17,41 @@ module WebResourceBundler
   class Bundler
     include Singleton
 
-    attr_reader :settings, :settings_correct, :filters
-    @@logger = nil
-    def self.logger
-      @@logger
-    end
+    attr_reader :settings, :settings_correct, :filters, :logger
 
     def initialize
       @filters = {} 
       @settings = nil
       @file_manager = FileManager.new('','') 
       @parser = BlockParser.new
-      @@logger = nil 
+      @logger = nil 
       @settings_correct = false
     end
 
-    #could be used also when settings are different on each request
-    def set_settings(settings)
-      #all methods user call from rails should not raise any exception
-      begin
-        @settings = settings
-        if @settings[:resource_dir]
-
-          #creating default log file in rails log directory called web_resource_bundler.log
-          unless @settings[:log_path]
-            log_dir = File.expand_path('../log', @settings[:resource_dir])
-            log_name = 'web_resource_bundler.log'
-            @settings[:log_path] = File.join(log_dir, log_name)
-            Dir.mkdir(log_dir) unless File.exist?(log_dir)
-          end
-          @@logger = create_logger(@settings[:log_path]) unless @@logger
-
-          unless @settings[:cache_dir]
-            @settings[:cache_dir] = 'cache'
-          end
-
-          @file_manager.resource_dir, @file_manager.cache_dir = @settings[:resource_dir], @settings[:cache_dir]
-          set_filters(@settings, @file_manager) 
-          #used to determine if bundler in correct state and could be used
-          @settings_correct = true
-        else
-          @settings_correct = false
-        end
-      rescue Exception => e
-        @@logger.error("Incorrect settings initialization, #{settings}\n#{e.to_s}") if @@logger
-        @settings_correct = false
+    def setup(rails_root, rails_env)
+      @settings = SettingsManager.create_settings(rails_root, rails_env)
+      @settings_correct = SettingsManager.settings_correct?(@settings)
+      if @settings_correct
+        @logger = create_logger(@settings[:log_path]) unless @logger
+        @file_manager.resource_dir, @file_manager.cache_dir = @settings[:resource_dir], @settings[:cache_dir]
+        set_filters(@settings, @file_manager) 
       end
     end
 
+    def set_settings(settings)
+      @settings.merge!(settings)
+      @settings_correct = SettingsManager.settings_correct?(@settings)
+      set_filters(@settings, @file_manager)
+    end
+
     #main method to process html text block
-    def process(block)
+    def process(block, domain, protocol)
       if @settings_correct
         begin
           filters = filters_array
+          filters.each do |filter|
+            SettingsManager.set_request_specific_settings!(filter.settings, domain, protocol)
+          end
           #parsing html text block, creating BlockData instance
           block_data = @parser.parse(block)
           #if filters set and no bundle files exists we should process block data
@@ -79,17 +62,17 @@ module WebResourceBundler
             block_data.apply_filters(filters)
             #writing resulted files with filtered content on disk
             write_files_on_disk(block_data)
-            @@logger.info("files written on disk")
+            @logger.info("files written on disk")
             return block_data
           end
           #bundle up to date, returning existing block with modified file names 
           block_data.apply_filters(filters)
           return block_data
         rescue Exceptions::WebResourceBundlerError => e
-          @@logger.error(e.to_s)
+          @logger.error(e.to_s)
           return nil
         rescue Exception => e
-          @@logger.error(e.backtrace.join("\n") + "Unknown error occured: " + e.to_s)
+          @logger.error(e.backtrace.join("\n") + "Unknown error occured: " + e.to_s)
           return nil
         end
       end
@@ -108,12 +91,6 @@ module WebResourceBundler
 
     #creates filters or change their settings
     def set_filters(settings, file_manager)
-      #common settings same for all filters
-      common_sets = { 
-        :resource_dir => settings[:resource_dir],
-        :cache_dir => settings[:cache_dir]
-      }
-      #used to create filters
       filters_data = {
         :bundle_filter => 'BundleFilter',
         :base64_filter => 'ImageEncodeFilter',
@@ -121,7 +98,7 @@ module WebResourceBundler
       }
       filters_data.each_pair do |key, filter_class| 
         if settings[key] and settings[key][:use] 
-          filter_settings = settings[key].merge(common_sets) 
+          filter_settings = SettingsManager.send("#{key}_settings", settings) 
           if @filters[key] 
             @filters[key].set_settings(filter_settings)
           else
@@ -133,13 +110,14 @@ module WebResourceBundler
       @filters
     end
 
-    def create_logger(logfile_path)
+    def create_logger(log_path)
       begin
-        file = File.open(logfile_path, File::WRONLY | File::APPEND | File::CREAT)
+        log_dir = File.dirname(log_path)
+        Dir.mkdir(log_dir) unless File.exist?(log_dir)
+        file = File.open(log_path, File::WRONLY | File::APPEND | File::CREAT)
         logger = Logger.new(file)
       rescue Exception => e
-        logger = Logger.new(STDOUT)
-        logger.error("Can't create log file, check log path: #{logfile_path}\n#{e.to_s}")
+        raise WebResourceBundler::Exceptions::LogCreationError.new(log_path, e.to_s) 
       end
       logger
     end

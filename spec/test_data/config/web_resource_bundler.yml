@@ -1,0 +1,21 @@
+development:
+  :base64_filter:
+    :use: true
+    :max_image_size: 23
+  :bundle_filter:
+    :use: true
+  :cdn_filter:
+    :use: true
+    :http_hosts: ['http://localhost:3000']
+    :https_hosts: ['https://localhost:3000']
+
+production:
+  :base64_filter:
+    :use: true
+    :max_image_size: 23
+  :bundle_filter:
+    :use: true
+  :cdn_filter:
+    :use: true
+    :http_hosts: ['http://s1.wrb.railsware.com', 'http://s2.wrb.railsware.com', 'http://s3.wrb.railsware.com', 'http://s4.wrb.railsware.com']
+    :https_hosts: ['http://s1.wrb.railsware.com', 'http://s2.wrb.railsware.com', 'http://s3.wrb.railsware.com', 'http://s4.wrb.railsware.com']

@@ -30,6 +30,8 @@ module WebResourceBundler::Filters::BundleFilter
 
     def get_md5(files)
       items = [(files.map {|f| f.path }).sort]
+      items << @settings[:protocol]
+      items << @settings[:domain]
       items += @settings[:md5_additional_data] if @settings[:md5_additional_data]
       Digest::MD5.hexdigest(items.flatten.join('|'))
     end

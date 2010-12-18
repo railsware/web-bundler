@@ -23,4 +23,10 @@ module WebResourceBundler::Exceptions
     end
   end
 
+  class LogCreationError < WebResourceBundlerError
+    def initialize(log_path, original_exception)
+      super "Can't create log file, check log path: #{log_path}\n#{original_exception}"
+    end
+  end
+
 end

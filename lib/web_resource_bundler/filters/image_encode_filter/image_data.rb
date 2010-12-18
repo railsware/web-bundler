@@ -16,13 +16,13 @@ module WebResourceBundler
           else 
             @exist = false
           end
-          if WebResourceBundler::Bundler.logger and !@path.include?('://') and !@exist
-            WebResourceBundler::Bundler.logger.info("Image not found #{@path}")
+          if WebResourceBundler::Bundler.instance.logger and !@path.include?('://') and !@exist
+            WebResourceBundler::Bundler.instance.logger.info("Image not found #{@path}")
           end
     			if @exist
     				@size = File.size(@path)
     				name, @extension = File.basename(@path).split('.')
-    				#id is a filename plus random number - to support uniqueness
+    				#id is a filename plus random number - to provide uniqueness
     				@id = name + rand(MAX_RAND_FOR_ID).to_s
     			end
     		end
