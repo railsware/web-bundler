@@ -78,7 +78,7 @@ Don't forget to clean your cache directory after deploy to clean old bundles
 To disable bundling and see raw results add no_bundler param
 mysite.com/?no_bundler=1
 
-To configure bundler you can create your custom config file - web_resource_bundler.yml
+To configure bundler by your self you can create your custom config file - web_resource_bundler.yml
 
 /your_rails_app/config/web_resource_bundler.yml
 
@@ -86,12 +86,10 @@ To configure bundler you can create your custom config file - web_resource_bundl
       :base64_filter:
         :use: true
         :max_image_size: 23
-        :protocol: http
-        :domain: localhost:3000
       :bundle_filter:
         :use: true
       :cdn_filter:
-        :use: true
+        :use: false
         :http_hosts: ['http://localhost:3000']
         :https_hosts: ['https://localhost:3000']
 
