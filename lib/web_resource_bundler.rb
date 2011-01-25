@@ -138,7 +138,7 @@ module WebResourceBundler
       #because block_data isn't populated with files content yet
       block_data_copy.apply_filters(filters_array)
       #cheking if resulted files exist on disk in cache folder
-      block_data_copy.files.each do |file|
+      block_data_copy.all_files.each do |file|
         return false unless File.exist?(File.join(@settings[:resource_dir], file.path))
       end
       true

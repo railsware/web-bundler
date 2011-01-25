@@ -33,6 +33,14 @@ module WebResourceBundler
       clon
     end
 
+    def all_files
+      result = self.files
+      self.child_blocks.each do |child|
+        result += child.all_files
+      end
+      result
+    end
+
     def self.all_childs(block_data)
       result = []
       result << block_data
