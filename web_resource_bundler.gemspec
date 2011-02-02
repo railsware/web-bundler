@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{web_resource_bundler}
-  s.version = "0.0.15"
+  s.version = "0.0.16"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
-  s.date = %q{2011-01-25}
+  s.date = %q{2011-02-02}
   s.description = %q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
   s.email = %q{anotheroneman@yahoo.com}
   s.files = [
