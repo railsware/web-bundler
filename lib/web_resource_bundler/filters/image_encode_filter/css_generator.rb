@@ -44,13 +44,13 @@ module WebResourceBundler
           images = {}
           new_content = content.gsub!(PATTERN) do |s|
             tag, url = $1, $3
-            #this constructor will write in log if image doesn't exist
-            data = ImageData.new(url, @settings[:resource_dir]) 
+            #ImageData constructor will write in log if image doesn't exist
+            data = ImageData.new(url, @settings[:resource_dir])
             if !url.empty? and data.exist and data.size <= @settings[:max_image_size] and block_given?
-              #using image url as key to prevent one image be encoded many times
-              images[data.url] = data unless images[data.path]
               #changing string using provided block
-              s = yield(data, tag) if block_given?
+              #using image url as key to prevent one image be encoded many times
+              images[url] = data unless images[url]
+              s = yield(images[url], tag) if block_given?
             else
               #returning the same string because user failed with image path - such image non existent
               s
