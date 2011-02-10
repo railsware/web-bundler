@@ -12,6 +12,7 @@ require 'exceptions'
 require 'rails_app_helpers'
 require 'yaml'
 require 'singleton'
+require 'digest/md5'
 
 module WebResourceBundler
   class Bundler

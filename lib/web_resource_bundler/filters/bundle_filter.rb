@@ -1,7 +1,6 @@
 $:.unshift File.join(File.dirname(__FILE__), "/bundle_filter")
 require 'bundle_filter/resource_packager'
 require 'base_filter'
-require 'digest/md5'
 module WebResourceBundler::Filters::BundleFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
 

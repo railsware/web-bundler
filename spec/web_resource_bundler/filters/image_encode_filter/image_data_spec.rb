@@ -37,6 +37,14 @@ module WebResourceBundler::Filters::ImageEncodeFilter
 				@data.id.should_not equal(new_data.id)
   		end
 
+      it "should generate the same id for the same image" do
+        data1 = ImageData.new(image_path("good.jpg"), settings[:resource_dir])
+        data2 = ImageData.new(image_path("good.jpg"), settings[:resource_dir])
+        data1.id.should_not be_nil
+        data1.id.should == Digest::MD5.hexdigest(data1.url)
+        data1.id.should == data2.id
+      end
+
 			describe "#construct_mthml_image_data" do
 				it "should return proper data" do
 					result = '--' + CssGenerator::SEPARATOR + "\n" +

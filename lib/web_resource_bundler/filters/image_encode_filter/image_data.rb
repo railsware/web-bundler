@@ -22,8 +22,7 @@ module WebResourceBundler
     			if @exist
     				@size = File.size(@path)
     				name, @extension = File.basename(@path).split('.')
-    				#id is a filename plus random number - to provide uniqueness
-    				@id = name + rand(MAX_RAND_FOR_ID).to_s
+    				@id = Digest::MD5.hexdigest(url) 
     			end
     		end
 
