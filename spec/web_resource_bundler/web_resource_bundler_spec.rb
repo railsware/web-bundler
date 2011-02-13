@@ -4,7 +4,8 @@ module WebResourceBundler
 
     before(:each) do
       @s = settings
-      @bundler = WebResourceBundler::Bundler.instance
+      @bundler = WebResourceBundler::Bundler
+      @bundler.init
     end
 
     describe "#initialize" do 
