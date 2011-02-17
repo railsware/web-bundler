@@ -5,7 +5,7 @@ require 'content_management/css_url_rewriter'
 require 'content_management/resource_file'
 
 require 'file_manager'
-require 'settings_manager'
+require 'settings'
 require 'logger'
 require 'filters'
 require 'exceptions'
@@ -17,54 +17,39 @@ module WebResourceBundler
   class Bundler
     class << self
 
-      attr_reader :settings, :settings_correct, :filters, :logger
-
-      def init
-        @filters = {} 
-        @settings = nil
-        @file_manager = FileManager.new('','') 
-        @parser = BlockParser.new
-        @logger = nil 
-        @settings_correct = false
-      end
+      attr_reader :filters, :logger
 
       #this method should called in initializer
       def setup(rails_root, rails_env)
-        @settings = SettingsManager.create_settings(rails_root, rails_env)
-        @settings_correct = SettingsManager.settings_correct?(@settings)
-        if @settings_correct
-          @logger = create_logger(@settings[:log_path]) unless @logger
-          @file_manager.resource_dir, @file_manager.cache_dir = @settings[:resource_dir], @settings[:cache_dir]
-          set_filters(@settings, @file_manager) 
+        @parser = BlockParser.new
+        settings = Settings.create_settings(rails_root, rails_env)
+        if Settings.correct? 
+          @logger = create_logger(settings[:log_path]) unless @logger
+          @file_manager = FileManager.new(settings[:resource_dir], settings[:cache_dir])
+          @filters = {}
+          set_filters
         end
       end
 
       #this method should be used to turn on\off filters
       #on particular request
       def set_settings(settings)
-        @settings.merge!(settings)
-        @settings_correct = SettingsManager.settings_correct?(@settings)
-        set_filters(@settings, @file_manager)
+        Settings.set(settings)
+        set_filters
       end
 
       #main method to process html text block
       def process(block, domain, protocol)
-        if @settings_correct
+        if Settings.correct? 
           begin
             filters = filters_array
-            #passing current request domain and protocol to each filter
             filters.each do |filter|
-              SettingsManager.set_request_specific_settings!(filter.settings, domain, protocol)
+              Settings.set_request_specific_data!(filter.settings, domain, protocol)
             end
-            #parsing html text block, creating BlockData instance
             block_data = @parser.parse(block)
-            #if filters set and no bundle files exists we should process block data
             unless filters.empty? or bundle_upto_date?(block_data)
-              #reading files content and populating block_data
               read_resources!(block_data)
-              #applying filters to block_data
               block_data.apply_filters(filters)
-              #writing resulted files with filtered content on disk
               write_files_on_disk(block_data)
               @logger.info("files written on disk")
               return block_data
@@ -88,27 +73,27 @@ module WebResourceBundler
       def filters_array
         filters = []
         %w{bundle_filter base64_filter cdn_filter}.each do |key|
-          filters << @filters[key.to_sym] if @settings[key.to_sym][:use] and @filters[key.to_sym] 
+          filters << @filters[key.to_sym] if Settings.settings[key.to_sym][:use] and @filters[key.to_sym] 
         end
         filters
       end
 
       #creates filters or change their settings
-      def set_filters(settings, file_manager)
+      def set_filters
         filters_data = {
           :bundle_filter => 'BundleFilter',
           :base64_filter => 'ImageEncodeFilter',
-          :cdn_filter => 'CdnFilter'
+          :cdn_filter    => 'CdnFilter'
         }
         filters_data.each_pair do |key, filter_class| 
           #if filter settings are present and filter turned on
-          if settings[key] and settings[key][:use] 
-            filter_settings = SettingsManager.send("#{key}_settings", settings) 
+          if Settings.settings[key] and Settings.settings[key][:use] 
+            filter_settings = Settings.send("#{key}_settings") 
             if @filters[key] 
               @filters[key].set_settings(filter_settings)
             else
               #creating filter instance with settings
-              @filters[key] = eval("Filters::" + filter_class + "::Filter").new(filter_settings, file_manager)
+              @filters[key] = eval("Filters::" + filter_class + "::Filter").new(filter_settings, @file_manager)
             end
           end
         end
@@ -139,7 +124,7 @@ module WebResourceBundler
         block_data_copy.apply_filters(filters_array)
         #cheking if resulted files exist on disk in cache folder
         block_data_copy.all_files.each do |file|
-          return false unless File.exist?(File.join(@settings[:resource_dir], file.path))
+          return false unless File.exist?(File.join(Settings.settings[:resource_dir], file.path))
         end
         true
       end
@@ -163,7 +148,7 @@ module WebResourceBundler
       def write_files_on_disk(block_data)
         @file_manager.create_cache_dir
         block_data.files.each do |file|
-          File.open(File.join(@settings[:resource_dir], file.path), "w") do |f|
+          File.open(File.join(Settings.settings[:resource_dir], file.path), "w") do |f|
             f.print(file.content)
           end
         end

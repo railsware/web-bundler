@@ -5,14 +5,11 @@ module WebResourceBundler
     before(:each) do
       @s = settings
       @bundler = WebResourceBundler::Bundler
-      @bundler.init
     end
 
     describe "#initialize" do 
       it "sets instance state correctly" do
         @bundler.logger.should == nil
-        @bundler.settings.should == nil
-        @bundler.settings_correct.should == false
       end
     end
 
@@ -20,14 +17,6 @@ module WebResourceBundler
       before(:each) do
         @bundler.setup(root_dir, 'development')
       end
-
-      #describe "#set_settings" do
-      #  it "changes settings for all filters" do
-      #    settings = @bundler.settings.dup
-      #    settings[:base64_filter][:use] = false
-      #    @bundler.set_settings(settings)
-      #  end
-      #end
 
       describe "#filters_array" do
         it "returns array of filters that has :use => true in settings" do
@@ -54,14 +43,17 @@ module WebResourceBundler
         end
         it "inits filters if no filters were initialized before" do
           @bundler.filters.should == {}
-          @bundler.send("set_filters", @s, @file_manager)
+          @bundler.send("set_filters")
           @bundler.filters.size.should == 3
         end
         it "sets filters settings if filters already inited" do
-          @bundler.send("set_filters", @s, @file_manager)
+          @bundler.send("set_filters")
           @bundler.filters[:base64_filter].settings[:max_image_size].should == @s[:base64_filter][:max_image_size]
-          @s[:base64_filter][:max_image_size] = 90
-          @bundler.send("set_filters", @s, @file_manager)
+          Settings.set({:base64_filter => {
+                          :use => true, 
+                          :max_image_size => 90
+                        }})
+          @bundler.send("set_filters")
           @bundler.filters[:base64_filter].settings[:max_image_size].should == 90 
         end
       end
@@ -70,15 +62,15 @@ module WebResourceBundler
       describe "#create_logger" do
 
         it "creates log directory if it's unexistent" do
-          log_dir_path = File.dirname(@bundler.settings[:log_path])
+          log_dir_path = File.dirname(Settings.settings[:log_path])
           FileUtils.rm_rf(log_dir_path)
-          @bundler.send("create_logger", @bundler.settings[:log_path])
+          @bundler.send("create_logger", Settings.settings[:log_path])
           File.exist?(log_dir_path).should be_true
           FileUtils.rm_rf(log_dir_path)
         end
 
         it "sets log_path in settings if it isn't specified" do
-          path = @bundler.settings[:log_path] 
+          path = Settings.settings[:log_path] 
           @bundler.send("create_logger", path)
           File.exist?(path).should be_true
           File.delete(path)
