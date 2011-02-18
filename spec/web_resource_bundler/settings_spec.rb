@@ -55,24 +55,11 @@ describe WebResourceBundler::Settings do
     end
   end
 
-  context "dynamically created filter settings methods" do
-    it "properly creates methods for each filter settings" do
-      %w{cdn_filter_settings base64_filter_settings bundle_filter_settings}.each do |method|
-        if RUBY_VERSION > '1.9.0'
-          key = method.to_sym 
-        else
-          key = method
-        end
-        Settings.public_methods.include?(key).should be_true
-      end
-    end
-    describe "#cdn_filter_settings" do
-      it "returns cdn settings merged with commons" do
-        cdn = Settings.cdn_filter_settings
-        cdn[:resource_dir].should == @s[:resource_dir]
-        cdn[:cache_dir].should == @s[:cache_dir]
-        cdn[:use].should == @s[:cdn_filter][:use]
-      end
+  describe "filter_settings" do
+    it "returns filter settings merged with common settings" do
+      cdn_sets = Settings.filter_settings(:cdn_filter)
+      cdn_sets[:resource_dir].should == Settings.settings[:resource_dir]
+      cdn_sets[:cache_dir].should == Settings.settings[:cache_dir]
     end
   end
 

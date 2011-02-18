@@ -88,7 +88,7 @@ module WebResourceBundler
         filters_data.each_pair do |key, filter_class| 
           #if filter settings are present and filter turned on
           if Settings.settings[key] and Settings.settings[key][:use] 
-            filter_settings = Settings.send("#{key}_settings") 
+            filter_settings = Settings.filter_settings(key) 
             if @filters[key] 
               @filters[key].set_settings(filter_settings)
             else

@@ -29,17 +29,14 @@ class WebResourceBundler::Settings
       return true
     end
 
-    #dynamically created methods for each filter have its own settings method
-    %w{base64_filter cdn_filter bundle_filter}.each do |filter_name|
-      define_method "#{filter_name}_settings" do
-        self.commons(@settings).merge(@settings[filter_name.to_sym])
-      end
-    end 
+    def filter_settings(filter_name)
+      self.commons(@settings).merge(@settings[filter_name])
+    end
 
     #setting request specific settings like domain and protocol
     def set_request_specific_data!(settings, domain, protocol)
-      settings[:domain]    = domain
-      settings[:protocol]  = protocol
+      settings[:domain]   = domain
+      settings[:protocol] = protocol
       settings
     end
 
@@ -91,7 +88,7 @@ class WebResourceBundler::Settings
     def commons(settings)
       {
         :resource_dir => settings[:resource_dir],
-        :cache_dir    => settings[:cache_dir],
+        :cache_dir    => settings[:cache_dir]
       }
     end
 
