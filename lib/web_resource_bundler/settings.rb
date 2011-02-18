@@ -5,6 +5,8 @@ class WebResourceBundler::Settings
   DEFAULT_RESOURCE_DIR  = 'public'
   DEFAULT_SETTINGS_PATH = 'config/web_resource_bundler.yml'
   DEFAULT_CACHE_DIR     = 'cache'
+  OBLIGATORY_SETTINGS   = [:resource_dir, :log_path, :cache_dir]
+
 
   class << self
 
@@ -13,22 +15,18 @@ class WebResourceBundler::Settings
     #creates settings from config file
     #and merging them with defaults
     def create_settings(rails_root, rails_env)
-      @settings = {}
-      if File.exist?(rails_root)
-        @settings = self.read_from_file(rails_root, rails_env) 
-        @settings = self.defaults(rails_root).merge(@settings)
-      end
+      config = self.read_from_file(rails_root, rails_env) 
+      @settings = self.defaults(rails_root).merge(config)
       @settings
     end
 
     #ensures that settings has obligatory keys present
     def correct?
-      %w{resource_dir log_path cache_dir}.each do |key|
-        return false unless @settings.has_key?(key.to_sym)
-      end
+      OBLIGATORY_SETTINGS.each { |key| return false unless @settings.has_key?(key) }
       return true
     end
 
+    #returns setting for particular filter, merged with common settings
     def filter_settings(filter_name)
       self.commons(@settings).merge(@settings[filter_name])
     end
@@ -40,6 +38,7 @@ class WebResourceBundler::Settings
       settings
     end
 
+    #sets new settings by merging with existing
     def set(settings)
       @settings.merge!(settings)
     end
@@ -61,6 +60,7 @@ class WebResourceBundler::Settings
       settings
     end
 
+    #returns path of config file
     def settings_file_path(rails_root)
       File.join(rails_root, DEFAULT_SETTINGS_PATH)
     end
