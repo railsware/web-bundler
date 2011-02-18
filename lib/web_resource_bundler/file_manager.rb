@@ -1,8 +1,12 @@
 module WebResourceBundler
   class FileManager
-    attr_accessor :resource_dir, :cache_dir
+    attr_reader :resource_dir, :cache_dir
 
     def initialize(resource_dir, cache_dir)
+      set_settings(resource_dir, cache_dir)
+    end
+
+    def set_settings(resource_dir, cache_dir)
       @resource_dir, @cache_dir = resource_dir, cache_dir
     end
 
@@ -23,6 +27,12 @@ module WebResourceBundler
       path = File.join(@resource_dir, @cache_dir)
       unless File.exist?(path)
         Dir.mkdir(path)
+      end
+    end
+    
+    def write_file(path, content)
+      File.open(full_path(path), "w") do |f|
+        f.print(content)
       end
     end
 

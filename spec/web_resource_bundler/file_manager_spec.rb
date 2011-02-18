@@ -1,8 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "../spec_helper"))
 describe WebResourceBundler::FileManager do
-  before(:each) do
-    @settings = settings
-  end
 
   def create_stub_file(name)
     File.open(File.join(@settings[:resource_dir], name), "w") do |file|
@@ -11,6 +8,7 @@ describe WebResourceBundler::FileManager do
   end
 
   before(:each) do
+    @settings = settings
     temp_dir = File.join(@settings[:resource_dir], 'temp')
     Dir.mkdir(temp_dir) unless File.exist?(temp_dir)
     @bundle_url = 'temp/bundle.dat'
@@ -29,6 +27,16 @@ describe WebResourceBundler::FileManager do
       FileUtils.rm_rf(dir_path)
       @manager.create_cache_dir
       File.exist?(dir_path).should == true
+    end
+  end
+
+  describe "#set_settings" do
+    it "should set new settings in file manager" do
+      @manager.resource_dir.should == @settings[:resource_dir]
+      @manager.cache_dir.should == @settings[:cache_dir]
+      @manager.set_settings('A', 'B')
+      @manager.resource_dir.should == 'A'
+      @manager.cache_dir.should == 'B' 
     end
   end
 

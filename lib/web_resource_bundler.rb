@@ -34,8 +34,16 @@ module WebResourceBundler
       #this method should be used to turn on\off filters
       #on particular request
       def set_settings(settings)
-        Settings.set(settings)
-        set_filters
+        begin
+          return false unless Settings.correct?(settings)
+          Settings.set(settings)
+          set_filters
+          @file_manager.set_settings(settings[:resource_dir], settings[:cache_dir]) 
+          true
+        rescue Exception => e
+          @logger.error("Error occured while trying to change settings")
+          false
+        end
       end
 
       #main method to process html text block
@@ -60,7 +68,6 @@ module WebResourceBundler
               @logger.info("files written on disk")
               return block_data
             end
-            #bundle up to date, returning existing block with modified file names 
             block_data.apply_filters(filters)
             return block_data
           rescue Exceptions::WebResourceBundlerError => e
@@ -99,10 +106,12 @@ module WebResourceBundler
         @filters
       end
 
+      #creates logger object with new log file in rails_app/log
+      #or appends to existing log file, log dir also created
+      #all exception catched
       def create_logger(log_path)
         begin
           log_dir = File.dirname(log_path)
-          #we should create log dir in rails root if it doesn't exist
           Dir.mkdir(log_dir) unless File.exist?(log_dir)
           file = File.open(log_path, File::WRONLY | File::APPEND | File::CREAT)
           logger = Logger.new(file)
@@ -132,22 +141,16 @@ module WebResourceBundler
           WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(file.path, content) if file.types.first[:ext] == 'css'  
           file.content = content
         end
-        block_data.child_blocks.each do |block|
-          read_resources!(block)
-        end
+        block_data.child_blocks.each { |block| read_resources!(block) }
       end
 
       #recursive method to write all resulted files on disk
       def write_files_on_disk(block_data)
         @file_manager.create_cache_dir
-        block_data.files.each do |file|
-          File.open(File.join(Settings.settings[:resource_dir], file.path), "w") do |f|
-            f.print(file.content)
-          end
-        end
-        block_data.child_blocks.each do |block|
-          write_files_on_disk(block)
-        end
+        block_data.files.each { |file| @file_manager.write_file(file.path, file.content) }
+        block_data.child_blocks.each { |block| 
+          write_files_on_disk(block) 
+        }
       end
 
     end

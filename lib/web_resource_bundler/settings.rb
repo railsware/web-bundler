@@ -21,8 +21,8 @@ class WebResourceBundler::Settings
     end
 
     #ensures that settings has obligatory keys present
-    def correct?
-      OBLIGATORY_SETTINGS.each { |key| return false unless @settings.has_key?(key) }
+    def correct?(settings = @settings)
+      OBLIGATORY_SETTINGS.each { |key| return false unless settings.has_key?(key) }
       return true
     end
 
