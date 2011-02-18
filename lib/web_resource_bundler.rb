@@ -24,9 +24,9 @@ module WebResourceBundler
         @parser = BlockParser.new
         settings = Settings.create_settings(rails_root, rails_env)
         if Settings.correct? 
-          @logger = create_logger(settings[:log_path]) unless @logger
+          @logger       = create_logger(settings[:log_path]) unless @logger
           @file_manager = FileManager.new(settings[:resource_dir], settings[:cache_dir])
-          @filters = {}
+          @filters      = {}
           set_filters
         end
       end
@@ -39,6 +39,12 @@ module WebResourceBundler
       end
 
       #main method to process html text block
+      #filters settings changed with request specific data
+      #html block parsed, and resulted bundle file names calculated
+      #we don't want to read files from disk on each request
+      #if bundle is not up to date block_data populated with files content
+      #all filters applied and resulted block_data returnd
+      #all exceptions resqued and logged so that no exceptions are raised in rails app
       def process(block, domain, protocol)
         if Settings.correct? 
           begin
@@ -72,28 +78,21 @@ module WebResourceBundler
       #giving filters array in right sequence (bundle filter should be first)
       def filters_array
         filters = []
-        %w{bundle_filter base64_filter cdn_filter}.each do |key|
-          filters << @filters[key.to_sym] if Settings.settings[key.to_sym][:use] and @filters[key.to_sym] 
+        [:bundle_filter, :base64_filter, :cdn_filter].each do |name|
+          filters << @filters[name] if Settings.settings[name][:use] && @filters[name] 
         end
         filters
       end
 
-      #creates filters or change their settings
+      #creates filters or change existing filter settings
       def set_filters
-        filters_data = {
-          :bundle_filter => 'BundleFilter',
-          :base64_filter => 'ImageEncodeFilter',
-          :cdn_filter    => 'CdnFilter'
-        }
-        filters_data.each_pair do |key, filter_class| 
-          #if filter settings are present and filter turned on
-          if Settings.settings[key] and Settings.settings[key][:use] 
-            filter_settings = Settings.filter_settings(key) 
-            if @filters[key] 
-              @filters[key].set_settings(filter_settings)
+        Filters::FILTER_NAMES.each_pair do |name, klass| 
+          if Settings.settings[name] && Settings.settings[name][:use] 
+            filter_settings = Settings.filter_settings(name) 
+            if @filters[name] 
+              @filters[name].set_settings(filter_settings)
             else
-              #creating filter instance with settings
-              @filters[key] = eval("Filters::" + filter_class + "::Filter").new(filter_settings, @file_manager)
+              @filters[name] = klass::Filter.new(filter_settings, @file_manager)
             end
           end
         end
@@ -113,32 +112,26 @@ module WebResourceBundler
         logger
       end
 
-      #checks if resulted files exist for current @filters and block data
+      #creates a clone of block_data to calculate resulted file names
+      #all filters applied to block_data
+      #if resulted bundle files exists - we considering bundle up to date
       def bundle_upto_date?(block_data)
-        #we don't want to change original parsed block data
-        #so just making a clone, using overriden clone method in BlockData
         block_data_copy = block_data.clone
-        #modifying clone to obtain resulted files
-        #apply_filters will just compute resulted file paths
-        #because block_data isn't populated with files content yet
         block_data_copy.apply_filters(filters_array)
-        #cheking if resulted files exist on disk in cache folder
         block_data_copy.all_files.each do |file|
           return false unless File.exist?(File.join(Settings.settings[:resource_dir], file.path))
         end
         true
       end
 
-      #reads block data resource files content from disk and populating block_data
+      #block_data and its childs (whole tree) populated with files content recursively
+      #relative url in css files rewritten to absolute
       def read_resources!(block_data)
-        #iterating through each resource files
         block_data.files.each do |file|
           content = @file_manager.get_content(file.path)
-          #rewriting url to absolute if content is css
           WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(file.path, content) if file.types.first[:ext] == 'css'  
           file.content = content
         end
-        #making the same for each child blocks, recursively
         block_data.child_blocks.each do |block|
           read_resources!(block)
         end
