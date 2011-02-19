@@ -31,17 +31,17 @@ module WebResourceBundler
         block += @sample_block_helper.sample_inline_block
         block += @sample_block_helper.construct_links_block(styles, scripts)
         block += @sample_block_helper.sample_inline_block
-        @block_parser.remove_links(block).should == @sample_block_helper.sample_inline_block + @sample_block_helper.sample_inline_block
+        @block_parser.send(:remove_links, block).should == @sample_block_helper.sample_inline_block + @sample_block_helper.sample_inline_block
       end
 
       it "doesn't delete links to non js or css resource, like favicon for example" do
         text = "<link href='1.css' /><link rel='shortcut icon' href='/favicon.ico' />"
-        @block_parser.remove_links(text).should == "<link rel='shortcut icon' href='/favicon.ico' />"
+        @block_parser.send(:remove_links, text).should == "<link rel='shortcut icon' href='/favicon.ico' />"
       end
 
       it "doesn't touch remote resources" do
         text = "<link href='http://google.com/1.css' type='text/css' rel='stylesheet' />"
-        @block_parser.remove_links(text).include?(text).should be_true
+        @block_parser.send(:remove_links, text).include?(text).should be_true
       end
     end
 
@@ -76,7 +76,7 @@ module WebResourceBundler
     describe "#find_files" do
     
       it "returns array of css and js files linked in block" do
-        result = @block_parser.find_files(@sample_block_helper.construct_links_block(styles, scripts))
+        result = @block_parser.send(:find_files, @sample_block_helper.construct_links_block(styles, scripts))
         files = styles + scripts
         result.each do |f|
           files.include?(f.path).should be_true
@@ -85,13 +85,13 @@ module WebResourceBundler
 
       it "recognize only css and js files" do
         block = "<link href='/rss.atom' /> <link href='valid.css' />"
-        result = @block_parser.find_files(block)
+        result = @block_parser.send(:find_files, block)
         result.first.path.should == 'valid.css'
       end
 
       it "recognize files only on disk, not full urls" do
         block = "<link href='http://glogle.com/web.css' /> <link href='valid.css' />"
-        result = @block_parser.find_files(block)
+        result = @block_parser.send(:find_files, block)
         result.first.path.should == 'valid.css'
       end
 

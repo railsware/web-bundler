@@ -12,6 +12,7 @@ require 'exceptions'
 require 'rails_app_helpers'
 require 'yaml'
 require 'digest/md5'
+require 'uri'
 
 module WebResourceBundler
   class Bundler
@@ -21,7 +22,6 @@ module WebResourceBundler
 
       #this method should called in initializer
       def setup(rails_root, rails_env)
-        @parser = BlockParser.new
         settings = Settings.create_settings(rails_root, rails_env)
         if Settings.correct? 
           @logger       = create_logger(settings[:log_path]) unless @logger
@@ -60,7 +60,7 @@ module WebResourceBundler
             filters.each do |filter|
               Settings.set_request_specific_data!(filter.settings, domain, protocol)
             end
-            block_data = @parser.parse(block)
+            block_data = BlockParser.parse(block)
             unless filters.empty? or bundle_upto_date?(block_data)
               read_resources!(block_data)
               block_data.apply_filters(filters)

@@ -1,9 +1,17 @@
 module WebResourceBundler
-  class BlockParser
+  module BlockParser
+
     CONDITIONAL_BLOCK_PATTERN = /<!--\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*>(.*?)<!\s*\[\s*endif\s*\]\s*-->/xmi
-    CONDITION_PATTERN = /<!--\s*(\[[^<]*\])\s*>/
-    LINK_PATTERN = /(<(link|script[^>]*?src\s*=).*?(><\/script>|>))/
-    URL_PATTERN = /(href|src) *= *["']([^"'?]+)/i
+    CONDITION_PATTERN         = /<!--\s*(\[[^<]*\])\s*>/
+    LINK_PATTERN              = /(<(link|script[^>]*?src\s*=).*?(><\/script>|>))/
+    URL_PATTERN               = /(href|src) *= *["']([^"'?]+)/i
+
+    #just a short method to start parsing block
+    def parse(block)
+      parse_block_with_childs(block, "")
+    end
+
+    private
 
     #parsing block content recursively
     #nested comments NOT supported
@@ -11,13 +19,12 @@ module WebResourceBundler
     def parse_block_with_childs(block, condition)
       block_data = BlockData.new(condition)
       block.gsub!(CONDITIONAL_BLOCK_PATTERN) do |s|
-        new_block = CONDITIONAL_BLOCK_PATTERN.match(s)[1]
+        new_block     = CONDITIONAL_BLOCK_PATTERN.match(s)[1]
         new_condition = CONDITION_PATTERN.match(s)[1]
         block_data.child_blocks << parse_block_with_childs(new_block, new_condition)
-        s = ""
+        ""
       end
-      files = find_files(block)
-      block_data.files = files
+      block_data.files        = find_files(block)
       block_data.inline_block = remove_links(block)
       block_data
     end
@@ -26,26 +33,21 @@ module WebResourceBundler
     #example: "<link href="bla"><script src="bla"></script>my inline content" => "my inline content"
     def remove_links(block)
       inline_block = block.gsub(LINK_PATTERN) do |s|
-        extension = File.extname(URL_PATTERN.match(s)[2])
-        if /\.js|\.css/.match(extension) and not s.include?('://')
-          #we should delete link to local css or js resource
-          '' 
-        else
-          #link to remote resource should be kept
-          s
-        end
+        url       = URL_PATTERN.match(s)[2]
+        extension = File.extname(url)
+        /\.js|\.css/.match(extension) && !URI.parse(url).absolute? ? '' : s
       end
-      return inline_block
+      inline_block
     end
 
     #looking for css and js files included and create BlockFiles with files paths
     def find_files(block)
       files = []
       block.scan(URL_PATTERN).each do |property, value|
-        unless value.include?('://') 
+        if !URI.parse(value).absolute?
           case property
             when "src" 
-              then files << WebResourceBundler::ResourceFile.new_js_file(value) if File.extname(value) == '.js'
+              then files << WebResourceBundler::ResourceFile.new_js_file(value)    if File.extname(value) == '.js'
             when "href" 
               then files << WebResourceBundler::ResourceFile.new_style_file(value) if File.extname(value) == '.css'
           end
@@ -54,10 +56,7 @@ module WebResourceBundler
       files
     end
 
-    #just a short method to start parsing passed block
-    def parse(block)
-      parse_block_with_childs(block, "")
-    end
+    
 
   end
 end
