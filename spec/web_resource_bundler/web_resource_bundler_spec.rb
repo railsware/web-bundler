@@ -97,7 +97,7 @@ module WebResourceBundler
           @bundler.set_settings(settings)
           clean_cache_dir
           block_text = @sample_block_helper.sample_block
-          block_data = BlockParser.new.parse(block_text.dup)
+          block_data = BlockParser.parse(block_text.dup)
           @bundler.send("bundle_upto_date?", block_data).should == false
           @bundler.process(block_text, 'localhost:3000', 'http')
           @bundler.send("bundle_upto_date?", block_data).should == true

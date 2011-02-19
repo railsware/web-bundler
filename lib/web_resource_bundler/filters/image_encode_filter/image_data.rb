@@ -8,21 +8,16 @@ module WebResourceBundler
     		attr_reader :extension, :id, :path, :exist, :url
 
     		def initialize(url, folder)
-          @url = url
-          #computing absolute file path using folder of css file
-    			@path = File.join(folder, url) 
-          if File.file?(@path)
-    			  @exist = true 
-          else 
-            @exist = false
-          end
-          if WebResourceBundler::Bundler.logger and !@path.include?('://') and !@exist
+          @url   = url
+    			@path  = File.join(folder, url) 
+          @exist = File.file?(@path)
+          if WebResourceBundler::Bundler.logger && !URI.parse(@path).absolute? && !@exist
             WebResourceBundler::Bundler.logger.info("Image not found #{@path}")
           end
     			if @exist
-    				@size = File.size(@path)
-    				name, @extension = File.basename(@path).split('.')
-    				@id = Digest::MD5.hexdigest(url) 
+    				@size      = File.size(@path)
+    				@id        = Digest::MD5.hexdigest(url) 
+    				@extension = File.basename(@path).split('.').last
     			end
     		end
 
