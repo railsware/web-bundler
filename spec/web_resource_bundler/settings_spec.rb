@@ -60,6 +60,7 @@ describe WebResourceBundler::Settings do
       cdn_sets = Settings.filter_settings(:cdn_filter)
       cdn_sets[:resource_dir].should == Settings.settings[:resource_dir]
       cdn_sets[:cache_dir].should == Settings.settings[:cache_dir]
+      cdn_sets[:max_image_size].should be_nil
     end
   end
 

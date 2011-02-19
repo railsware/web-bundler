@@ -2,10 +2,11 @@ module WebResourceBundler
   module Filters
     module ImageEncodeFilter
       class CssGenerator
-        TAGS           = ['background-image', 'background']
-        SEPARATOR      = 'A_SEPARATOR'
-        PATTERN        = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/
-        MAX_IMAGE_SIZE = 32 #IE 8 limitation
+        TAGS               = ['background-image', 'background']
+        SEPARATOR          = 'A_SEPARATOR'
+        PATTERN            = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/
+        MAX_IMAGE_SIZE     = 32 #IE 8 limitation
+        MHTML_CONTENT_TYPE = 'Content-Type: multipart/related; boundary="'
 
         def initialize(settings, file_manager)
           @settings = settings
@@ -21,7 +22,7 @@ module WebResourceBundler
         def construct_mhtml_content(images)
           result = ""
           unless images.empty?
-            result << 'Content-Type: multipart/related; boundary="' << SEPARATOR << '"' << "\n\n"
+            result << MHTML_CONTENT_TYPE << SEPARATOR << '"' << "\n\n"
             #each image found in css should be defined in header with base64 encoded content
             images.each_key do |key|
               result << images[key].construct_mhtml_image_data('--' + SEPARATOR)
@@ -61,8 +62,8 @@ module WebResourceBundler
 
         #generates css file for IE with encoded images using mhtml in cache dir
         #mhtml_filepath - path to file with images encoded in base64
+        #creating new css content with images encoded in base64
         def encode_images_for_ie!(content, mhtml_filepath)
-          #creating new css content with images encoded in base64
           images = encode_images_basic!(content) do |image_data, tag|
             "*#{tag}url(mhtml:#{construct_mhtml_link(mhtml_filepath)}!#{image_data.id})"
           end
@@ -71,7 +72,6 @@ module WebResourceBundler
     
         #generates css file with encoded images in cache dir 
         def encode_images!(content)
-          #encoding images in content
           images = encode_images_basic!(content) do |image_data, tag|
               "#{tag}url('data:image/#{image_data.extension};base64,#{image_data.encoded}')"
           end
