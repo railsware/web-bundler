@@ -51,10 +51,10 @@ module WebResourceBundler
           @bundler.filters[:base64_filter].settings[:max_image_size].should == @s[:base64_filter][:max_image_size]
           Settings.set({:base64_filter => {
                           :use => true, 
-                          :max_image_size => 90
+                          :max_image_size => 18
                         }})
           @bundler.send("set_filters")
-          @bundler.filters[:base64_filter].settings[:max_image_size].should == 90 
+          @bundler.filters[:base64_filter].settings[:max_image_size].should == 18 
         end
       end
       

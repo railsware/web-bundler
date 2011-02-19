@@ -24,6 +24,30 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         end
       end
     end
+
+    describe "#set_settings" do
+
+      it "should set settings[:max_image_size] attribute if its not setted" do
+        settings = base64_settings
+        settings[:max_image_size] = nil
+        @generator.set_settings(settings)
+        @generator.instance_variable_get("@settings")[:max_image_size].should == CssGenerator::MAX_IMAGE_SIZE
+      end
+
+      it "should set settings[:max_image_size] attribute to MAX_IMAGE_SIZE if its bigger" do
+        settings = base64_settings
+        settings[:max_image_size] = 100 
+        @generator.set_settings(settings)
+        @generator.instance_variable_get("@settings")[:max_image_size].should == CssGenerator::MAX_IMAGE_SIZE
+      end
+
+      it "should set settings[:max_image_size] attribute to MAX_IMAGE_SIZE if its bigger" do
+        settings = base64_settings
+        settings[:max_image_size] = 10
+        @generator.set_settings(settings)
+        @generator.instance_variable_get("@settings")[:max_image_size].should == 10 
+      end
+    end
     
     describe "#encode_images_basic" do
 

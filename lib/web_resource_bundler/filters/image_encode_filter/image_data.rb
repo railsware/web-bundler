@@ -4,16 +4,17 @@ module WebResourceBundler
     module ImageEncodeFilter
       #ImageData contains info about image found in css files
     	class ImageData
-    		MAX_RAND_FOR_ID = 10000
+
+        MHTML_CONTENT_LOCATION = 'Content-Location:'
+        MHTML_CONTENT_ENCODING = 'Content-Transfer-Encoding:base64'
+
     		attr_reader :extension, :id, :path, :exist, :url
 
     		def initialize(url, folder)
           @url   = url
     			@path  = File.join(folder, url) 
           @exist = File.file?(@path)
-          if WebResourceBundler::Bundler.logger && !URI.parse(@path).absolute? && !@exist
-            WebResourceBundler::Bundler.logger.info("Image not found #{@path}")
-          end
+          report_problem_if_file_not_found
     			if @exist
     				@size      = File.size(@path)
     				@id        = Digest::MD5.hexdigest(url) 
@@ -29,8 +30,8 @@ module WebResourceBundler
     		def construct_mhtml_image_data(separator)
     			if @exist
     				result = separator + "\n"
-    				result << 'Content-Location:' << @id << "\n"
-    				result <<	'Content-Transfer-Encoding:base64' << "\n\n"
+    				result << MHTML_CONTENT_LOCATION << @id << "\n"
+    				result <<	MHTML_CONTENT_ENCODING << "\n\n"
     				result << encoded << "\n\n"
     			end
     		end
@@ -39,6 +40,15 @@ module WebResourceBundler
     			return nil unless @exist
     			Base64.encode64(File.read(@path)).gsub("\n", '')
     		end
+
+        private
+        
+        def report_problem_if_file_not_found
+          if WebResourceBundler::Bundler.logger && !URI.parse(@path).absolute? && !@exist
+            WebResourceBundler::Bundler.logger.info("Image not found #{@path}")
+          end
+        end
+
     	end
     end
   end

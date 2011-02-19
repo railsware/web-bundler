@@ -2,10 +2,10 @@ module WebResourceBundler
   module Filters
     module ImageEncodeFilter
       class CssGenerator
-        TAGS = ['background-image', 'background']
-        SEPARATOR = 'A_SEPARATOR'
-        PATTERN = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/
-        MAX_IMAGE_SIZE = 20
+        TAGS           = ['background-image', 'background']
+        SEPARATOR      = 'A_SEPARATOR'
+        PATTERN        = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/
+        MAX_IMAGE_SIZE = 32 #IE 8 limitation
 
         def initialize(settings, file_manager)
           @settings = settings
@@ -14,7 +14,7 @@ module WebResourceBundler
 
         def set_settings(settings)
           @settings = settings
-          @settings[:max_image_size] = MAX_IMAGE_SIZE unless @settings[:max_image_size]
+          @settings[:max_image_size] = @settings[:max_image_size] ?  [MAX_IMAGE_SIZE, @settings[:max_image_size]].min : MAX_IMAGE_SIZE
         end
 
         #construct mhtml head of css file with definition of image data in base64
