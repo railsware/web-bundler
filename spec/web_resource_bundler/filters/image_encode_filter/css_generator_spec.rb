@@ -26,26 +26,34 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     end
 
     describe "#set_settings" do
+      it "should set new settings" do
+        sets = {:key => 'value'}
+        @generator.set_settings(sets)
+        @generator.instance_variable_get("@settings").should == sets
+      end
+    end
 
-      it "should set settings[:max_image_size] attribute if its not setted" do
+    describe "#image_size_limit" do
+      it "should return 32kb @settings[:max_image_size] is not setted" do
         settings = base64_settings
         settings[:max_image_size] = nil
         @generator.set_settings(settings)
-        @generator.instance_variable_get("@settings")[:max_image_size].should == CssGenerator::MAX_IMAGE_SIZE
+        @generator.image_size_limit.should == CssGenerator::MAX_IMAGE_SIZE
       end
 
-      it "should set settings[:max_image_size] attribute to MAX_IMAGE_SIZE if its bigger" do
+      it "should return settings[:max_image_size] if it's less then 32 kb" do
         settings = base64_settings
-        settings[:max_image_size] = 100 
+        settings[:max_image_size] = 10 
         @generator.set_settings(settings)
-        @generator.instance_variable_get("@settings")[:max_image_size].should == CssGenerator::MAX_IMAGE_SIZE
+        @generator.image_size_limit.should == 10
       end
 
-      it "should set settings[:max_image_size] attribute to MAX_IMAGE_SIZE if its bigger" do
+      it "should return 32kb if settings[:max_image_size] bigger than 32" do
         settings = base64_settings
-        settings[:max_image_size] = 10
+        settings[:max_image_size] = 100
         @generator.set_settings(settings)
-        @generator.instance_variable_get("@settings")[:max_image_size].should == 10 
+        @generator.image_size_limit.should == CssGenerator::MAX_IMAGE_SIZE 
+        @generator.image_size_limit.should == 32
       end
     end
     

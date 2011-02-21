@@ -15,7 +15,10 @@ module WebResourceBundler
 
         def set_settings(settings)
           @settings = settings
-          @settings[:max_image_size] = @settings[:max_image_size] ?  [MAX_IMAGE_SIZE, @settings[:max_image_size]].min : MAX_IMAGE_SIZE
+        end
+
+        def image_size_limit
+          @settings[:max_image_size] ?  [MAX_IMAGE_SIZE, @settings[:max_image_size]].min : MAX_IMAGE_SIZE
         end
 
         #construct mhtml head of css file with definition of image data in base64
@@ -47,7 +50,7 @@ module WebResourceBundler
             tag, url = $1, $3
             #ImageData constructor will write in log if image doesn't exist
             data = ImageData.new(url, @settings[:resource_dir])
-            if !url.empty? and data.exist and data.size <= @settings[:max_image_size] and block_given?
+            if !url.empty? and data.exist and data.size <= image_size_limit and block_given?
               #changing string using provided block
               #using image url as key to prevent one image be encoded many times
               images[url] = data unless images[url]
