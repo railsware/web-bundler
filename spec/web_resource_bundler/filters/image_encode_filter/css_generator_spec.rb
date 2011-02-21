@@ -38,22 +38,21 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         settings = base64_settings
         settings[:max_image_size] = nil
         @generator.set_settings(settings)
-        @generator.image_size_limit.should == CssGenerator::MAX_IMAGE_SIZE
+        @generator.send(:image_size_limit).should == CssGenerator::MAX_IMAGE_SIZE
       end
 
       it "should return settings[:max_image_size] if it's less then 32 kb" do
         settings = base64_settings
         settings[:max_image_size] = 10 
         @generator.set_settings(settings)
-        @generator.image_size_limit.should == 10
+        @generator.send(:image_size_limit).should == 10
       end
 
       it "should return 32kb if settings[:max_image_size] bigger than 32" do
         settings = base64_settings
         settings[:max_image_size] = 100
         @generator.set_settings(settings)
-        @generator.image_size_limit.should == CssGenerator::MAX_IMAGE_SIZE 
-        @generator.image_size_limit.should == 32
+        @generator.send(:image_size_limit).should == CssGenerator::MAX_IMAGE_SIZE 
       end
     end
     
@@ -61,7 +60,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
 
       before(:each) do
         @content = "background-image: url('images/ligo.jpg'); background: url('images/logo.jpg');"
-        @images = @generator.encode_images_basic!(@content) do |image_data, tag|
+        @images = @generator.send(:encode_images_basic!, @content) do |image_data, tag|
           tag + image_data.extension
         end
       end
@@ -128,7 +127,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     
     describe "#construct_mhtml_link" do
       it "should create link without public folder" do
-        @generator.construct_mhtml_link("temp.css").should == "http://#{@settings[:domain]}/temp.css"
+        @generator.send(:construct_mhtml_link, "temp.css").should == "http://#{@settings[:domain]}/temp.css"
       end
     end
   end

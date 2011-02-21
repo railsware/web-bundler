@@ -13,20 +13,20 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
   describe "#encoded_filepath" do
     it "should return new filename for css for all browsers except IE" do
       filename = "mycss.css"
-      @filter.encoded_filepath(filename).should == File.join(@settings[:cache_dir], @file_prefix + filename)
+      @filter.send(:encoded_filepath, filename).should == File.join(@settings[:cache_dir], @file_prefix + filename)
     end
   end
 
   describe "#new_filepath_for_ie" do
     it "should return new filename for css for IE" do
       filename = "2.css"
-      @filter.encoded_filepath_for_ie(filename).should == File.join(@settings[:cache_dir], @ie_file_prefix + filename)
+      @filter.send(:encoded_filepath_for_ie, filename).should == File.join(@settings[:cache_dir], @ie_file_prefix + filename)
     end
   end
 
   describe "#mhtml_filepath" do
     it "returns mhtml file path" do
-      @filter.mhtml_filepath('styles/1.css').should == 'cache/mhtml_1.mhtml'
+      @filter.send(:mhtml_filepath, 'styles/1.css').should == 'cache/mhtml_1.mhtml'
     end
   end
 

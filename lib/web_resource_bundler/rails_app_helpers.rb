@@ -6,11 +6,11 @@ module WebResourceBundler::RailsAppHelpers
     result = String.new(capture(&block))
     #result is original block content by default
     version = Rails::VERSION::STRING
-    if !params['no_bundler'] and WebResourceBundler::Bundler.settings_correct
+    if !params['no_bundler'] and WebResourceBundler::Settings.correct?
       #we want to keep original string unchanged so we can return same content on error
       block_data = WebResourceBundler::Bundler.process(result.dup, request.host_with_port, request.protocol.gsub(/:\/\//,''))
       #if everything ok with bundling we should construct resulted html content and change result
-      result = construct_block(block_data, WebResourceBundler::Bundler.settings) if block_data 
+      result = construct_block(block_data, WebResourceBundler::Settings.settings) if block_data 
     end
     case
       when version >= '3.0.0' then return raw(result) 
