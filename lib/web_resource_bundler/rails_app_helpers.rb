@@ -27,7 +27,7 @@ module WebResourceBundler::RailsAppHelpers
 
   def construct_block(block_data, settings)
 
-    result = DATA_URI_START << "\n" 
+    result = DATA_URI_START + "\n" 
     block_data.base64_styles.each do |file|
       result << construct_file_link(file.path)
     end
