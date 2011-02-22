@@ -6,10 +6,6 @@ require File.join(File.dirname(__FILE__), 'sample_block_helper')
 require 'logger'
 include WebResourceBundler 
 
-def p(args)
-  raise 'hah'
-end
-
 def clean_cache_dir
   cache_dir_path = File.join(File.dirname(__FILE__), '/public/cache')
   FileUtils.rm_rf(cache_dir_path) if File.exist?(cache_dir_path)
