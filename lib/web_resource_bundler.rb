@@ -138,7 +138,7 @@ module WebResourceBundler
       def read_resources!(block_data)
         block_data.files.each do |file|
           content = @file_manager.get_content(file.path)
-          WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(file.path, content) if file.types.first[:ext] == 'css'  
+          WebResourceBundler::CssUrlRewriter.rewrite_content_urls!(file.path, content) if file.type[:ext] == 'css'  
           file.content = content
         end
         block_data.child_blocks.each { |block| read_resources!(block) }

@@ -110,7 +110,7 @@ module WebResourceBundler
           @bundler.set_settings(settings)
           block_data = @sample_block_helper.sample_block_data
           @bundler.send("read_resources!", block_data)
-          all_files = block_data.styles + block_data.scripts + block_data.child_blocks[0].styles + block_data.child_blocks[0].scripts
+          all_files = block_data.all_files
           all_files.each do |file|
             CssUrlRewriter::rewrite_content_urls!(file.path, File.read(File.join(@s[:resource_dir], file.path))).should == file.content
           end

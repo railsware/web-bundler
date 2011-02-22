@@ -33,9 +33,9 @@ module WebResourceBundler
         #generates css file for IE with encoded images using mhtml in cache dir
         #mhtml_filepath - path to file with images encoded in base64
         #creating new css content with images encoded in base64
-        def encode_images_for_ie!(content, mhtml_filepath)
+        def encode_images_for_ie!(content, path)
           encode_images_basic!(content) do |image_data, tag|
-            "*#{tag}url(mhtml:#{construct_mhtml_link(mhtml_filepath)}!#{image_data.id})"
+            "#{tag}url(mhtml:#{construct_mhtml_link(path)}!#{image_data.id})"
           end
         end
     

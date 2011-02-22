@@ -29,8 +29,8 @@ class SampleBlockHelper
     block
   end
 
-  def construct_resource_file(file, content, *types)
-    resource_file = WebResourceBundler::ResourceFile.new(file, '', types)
+  def construct_resource_file(file, content, type)
+    resource_file = WebResourceBundler::ResourceFile.new(file, '', type)
     if content
       resource_file.content = content
     else
@@ -55,7 +55,7 @@ class SampleBlockHelper
   def sample_block_data
     data = BlockData.new
     @styles[0..(@styles.size / 2 - 1)].each do |file|
-      data.files << construct_resource_file(file, nil, ResourceFileType::CSS, ResourceFileType::IE_CSS)
+      data.files << construct_resource_file(file, nil, ResourceFileType::CSS)
     end
     @scripts[0..(@scripts.size / 2 - 1)].each do |file|
       data.files << construct_resource_file(file, nil, ResourceFileType::JS)

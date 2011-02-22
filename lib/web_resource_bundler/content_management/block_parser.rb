@@ -49,9 +49,9 @@ module WebResourceBundler
           if !URI.parse(value).absolute?
             case property
               when "src" 
-                then files << WebResourceBundler::ResourceFile.new_js_file(value)    if File.extname(value) == '.js'
+                then files << WebResourceBundler::ResourceFile.new_js_file(value)  if File.extname(value) == '.js'
               when "href" 
-                then files << WebResourceBundler::ResourceFile.new_style_file(value) if File.extname(value) == '.css'
+                then files << WebResourceBundler::ResourceFile.new_css_file(value) if File.extname(value) == '.css'
             end
           end
         end

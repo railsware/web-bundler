@@ -119,7 +119,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
         it "changes urls to mhtml link" do
           @generator.encode_images_for_ie!(@content, 'cache/1.mhtml')
           @content.include?("mhtml:#{@settings[:protocol]}://#{@settings[:domain]}/cache/1.mhtml!").should be_true
-          @content.include?("*background: #eeeeee url(mhtml:").should be_true
+          @content.include?("background: #eeeeee url(mhtml:").should be_true
           @content.include?("repeat-x 0 100%").should be_true
         end
       end
