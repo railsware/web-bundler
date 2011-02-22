@@ -18,11 +18,13 @@ module WebResourceBundler
     end
 
     def base64_styles
-      @files.select { |f| f.type == WebResourceBundler::ResourceFileType::BASE64_CSS }
+      @files.select { |f| [WebResourceBundler::ResourceFileType::BASE64_CSS, 
+        WebResourceBundler::ResourceFileType::CSS].include?(f.type)}
     end
 
     def mhtml_styles
-      @files.select { |f| f.type == WebResourceBundler::ResourceFileType::MHTML_CSS }
+      @files.select { |f| [WebResourceBundler::ResourceFileType::MHTML_CSS, 
+        WebResourceBundler::ResourceFileType::CSS].include?(f.type)}
     end
 
     def clone

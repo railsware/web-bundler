@@ -1,5 +1,10 @@
 module WebResourceBundler::RailsAppHelpers
 
+  DATA_URI_START = "<!--[if (!IE)|(gte IE 8)]><!-->" 
+  DATA_URI_END   = "<!--<![endif]-->"               
+  MHTML_START    = "<!--[if lte IE 7]>"             
+  MHTML_END      = "<![endif]-->"                    
+
   def web_resource_bundler_process(&block)
     #getting ActionView::NonConcattingString
     #but we want simple string to escape problems
@@ -21,47 +26,44 @@ module WebResourceBundler::RailsAppHelpers
   end
 
   def construct_block(block_data, settings)
-    result = ""
-    #we should include only mhtml files if browser IE 7 or 6
-    if mhtml_should_be_added?
-      styles = block_data.files.select do |f| 
-        !([WebResourceBundler::ResourceFileType::MHTML, WebResourceBundler::ResourceFileType::IE_CSS] & f.types).empty?
-      end
-    else
-    #it normal browser - so just including base64 css
-      styles = block_data.files.select {|f| f.types.include?(WebResourceBundler::ResourceFileType::CSS)}
+
+    result = DATA_URI_START << "\n" 
+    block_data.base64_styles.each do |file|
+      result << construct_file_link(file.path)
     end
-    styles.each do |file|
-      url = File.join('/', file.path)
-      result << stylesheet_link_tag(url) 
-      result << "\n"
+    result << DATA_URI_END << "\n"
+
+    result << MHTML_START << "\n"
+    block_data.mhtml_styles.each do |file|
+      result << construct_file_link(file.path)
     end
+    result << MHTML_END << "\n"
+
     block_data.scripts.each do |file|
       url = File.join('/', file.path)
       result << javascript_include_tag(url) 
       result << "\n"
     end
+
     result << block_data.inline_block unless block_data.inline_block.blank?
     block_data.child_blocks.each do |block|
       result << construct_block(block, settings)
     end
+
     unless block_data.condition.empty?
       result = "<!--#{block_data.condition}>\n #{result}<![endif]-->\n"
     end
+
     #removing unnecessary new line symbols
     result.gsub!(/\n(\s)+/, "\n")
     result
   end
 
-  def mhtml_should_be_added?
-    result = false
-    pattern = /MSIE (.*?);/
-    header = request.headers['HTTP_USER_AGENT']
-    match = pattern.match(header)
-    if match and match[1] <= '7.0'  
-        result = true
-    end
-    return result
+  private
+
+  def construct_file_link(path)
+    url     = File.join('/', path)
+    stylesheet_link_tag(url) << "\n"
   end
 
 end
