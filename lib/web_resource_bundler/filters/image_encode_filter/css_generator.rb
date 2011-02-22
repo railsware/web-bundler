@@ -49,11 +49,11 @@ module WebResourceBundler
         private
 
         def mhtml_header
-          MHTML_CONTENT_TYPE << SEPARATOR << '"' << "\n\n"
+          MHTML_CONTENT_TYPE + SEPARATOR + '"' + "\n\n"
         end
 
         def mhtml_footer
-          "\n" << '--' << SEPARATOR << '--' << "\n"
+          "\n--" + SEPARATOR + "--\n"
         end
 
         def mhtml_images_data(images)
