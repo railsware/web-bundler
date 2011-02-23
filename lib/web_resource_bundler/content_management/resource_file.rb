@@ -6,6 +6,7 @@ module WebResourceBundler
     JS         = {:value => 2, :name => 'script', :ext => 'js'}
     MHTML_CSS  = {:value => 3, :name => 'style',  :ext => 'css'}
     BASE64_CSS = {:value => 4, :name => 'style',  :ext => 'css'}
+    MHTML      = {:value => 5, :name => 'mhtml',  :ext => 'mhtml'}
 
   end
 
@@ -27,8 +28,12 @@ module WebResourceBundler
       ResourceFile.new(path, content, ResourceFileType::CSS)
     end
 
-    def self.new_mhtml_css_file(path, content ="")
+    def self.new_mhtml_css_file(path, content = "")
       ResourceFile.new(path, content, ResourceFileType::MHTML_CSS)
+    end
+
+    def self.new_mhtml_file(path, content = "")
+      ResourceFile.new(path, content, ResourceFileType::MHTML)
     end
     
     def clone

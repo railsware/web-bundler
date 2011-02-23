@@ -6,6 +6,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
     @base64_settings = base64_settings
     @file_prefix     = Filters::ImageEncodeFilter::Filter::FILE_PREFIX
     @ie_file_prefix  = Filters::ImageEncodeFilter::Filter::IE_FILE_PREFIX
+    @mhtml_prefix    = Filters::ImageEncodeFilter::Filter::MHTML_FILE_PREFIX 
     @file_manager    = FileManager.new(@settings[:resource_dir], @settings[:cache_dir])
     @filter          = Filters::ImageEncodeFilter::Filter.new(@base64_settings, @file_manager)
   end
@@ -17,12 +18,20 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
     end
   end
 
-  describe "#mhtml_filepath" do
+  describe "#mhtml_css_filepath" do
     it "should return new filename for css for IE" do
       filename = "2.css"
-      @filter.send(:mhtml_filepath, filename).should == File.join(@settings[:cache_dir], @ie_file_prefix + filename)
+      @filter.send(:mhtml_css_filepath, filename).should == File.join(@settings[:cache_dir], @ie_file_prefix + filename)
     end
   end
+
+  describe "#mhtml_filepath" do
+    it "should return new filename for mhtml file for IE" do
+      filename = "2.css"
+      @filter.send(:mhtml_filepath, filename).should == File.join(@settings[:cache_dir], @mhtml_prefix + '2.mhtml')
+    end
+  end
+
 
   describe "#apply" do
     context "block was bundled" do
@@ -48,8 +57,8 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
         block_data.child_blocks = []
         @bundler_filter.apply!(block_data)
         @filter.apply!(block_data)
-        block_data.files.size.should == 2
-        %w{BASE64_CSS MHTML_CSS}.each do |type_name|
+        block_data.files.size.should == 3
+        %w{BASE64_CSS MHTML_CSS MHTML}.each do |type_name|
           type = eval("WebResourceBundler::ResourceFileType::" + type_name)
           block_data.files.select {|f| f.type == type}.size.should == 1
         end

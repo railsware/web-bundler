@@ -21,13 +21,13 @@ module WebResourceBundler
         #construct mhtml head of css file with definition of image data in base64
         #each image found in css should be defined in header with base64 encoded content
         def construct_mhtml_content(images)
-          result = "/*\n"
+          result = ""
           if images.any?
             result << mhtml_header
             result << mhtml_images_data(images)
             result << mhtml_footer 
           end
-          result << "*/\n"
+          result
         end
 
         #generates css file for IE with encoded images using mhtml in cache dir

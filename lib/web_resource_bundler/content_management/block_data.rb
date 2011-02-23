@@ -24,7 +24,7 @@ module WebResourceBundler
 
     def mhtml_styles
       @files.select { |f| [WebResourceBundler::ResourceFileType::MHTML_CSS, 
-        WebResourceBundler::ResourceFileType::CSS].include?(f.type)}
+        WebResourceBundler::ResourceFileType::CSS, WebResourceBundler::ResourceFileType::MHTML].include?(f.type)}
     end
 
     def clone
