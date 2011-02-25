@@ -40,14 +40,14 @@ describe WebResourceBundler::Filters::CdnFilter do
 
     it "adds hosts to image urls" do
       content = "background: url('../images/1.png');"
-      @filter.rewrite_content_urls!(@file_path, content)
+      @filter.send(:rewrite_content_urls!, @file_path, content)
       content.should == "background: url('http://boogle.com/styles/images/1.png');"
     end
 
     it "doesn't add hosts for images encoded in base64" do
       content = "background:url('data:image/png;base64,iVBORw0KGg); *background:url(mhtml:http://domain.com/cache/base64_ie_style_9648c01be7e50284958eb07877c70e03.en.css!rails5804) no-repeat 0 100%;"
       clon = content.dup
-      @filter.rewrite_content_urls!(@file_path, content.dup)
+      @filter.send(:rewrite_content_urls!, @file_path, content.dup)
       content.should == clon 
     end
 
@@ -57,7 +57,7 @@ describe WebResourceBundler::Filters::CdnFilter do
       content = "background: url('../images/1.png');background-image: url('../images/1.png');" 
       host = @cdn_settings[:http_hosts]['/styles/images/1.png'.hash % @cdn_settings[:http_hosts].size]
       url = "#{host}/styles/images/1.png"
-      @filter.rewrite_content_urls!(@file_path, content)
+      @filter.send(:rewrite_content_urls!, @file_path, content)
       content.should == "background: url('#{url}');background-image: url('#{url}');"
     end
   end

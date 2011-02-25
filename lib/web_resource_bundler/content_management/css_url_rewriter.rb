@@ -1,10 +1,10 @@
 class WebResourceBundler::CssUrlRewriter
   class << self
+
     # rewrites a relative path to an absolute path, removing excess "../" and "./"
     # rewrite_relative_path("stylesheets/default/global.css", "../image.gif") => "/stylesheets/image.gif"
-
     def rewrite_relative_path(source_url, relative_url)
-      return relative_url if relative_url.include?('http://')
+      return relative_url if URI.parse(relative_url).absolute?
       File.expand_path(relative_url, File.dirname(source_url))
     end
   

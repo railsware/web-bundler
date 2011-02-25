@@ -28,13 +28,13 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
 
   describe "#get_md5" do
     it "returns md5 from sorted filepaths and another additional data" do
-      @filter.get_md5(@block_data.files.select{|f| f.type[:ext] == 'css'}).should == @css_md5_value
+      @filter.send(:get_md5, @block_data.files.select{|f| f.type[:ext] == 'css'}).should == @css_md5_value
     end
   end
 
   describe "#bundle_filepath" do
     it "returns filename of bundle constructed from passed files" do
-      @filter.bundle_filepath(WebResourceBundler::ResourceFileType::CSS, @block_data.files.select{|f| f.type[:ext] == 'css'}).should == @css_bundle_file 
+      @filter.send(:bundle_filepath, WebResourceBundler::ResourceFileType::CSS, @block_data.files.select{|f| f.type[:ext] == 'css'}).should == @css_bundle_file 
     end
   end
 

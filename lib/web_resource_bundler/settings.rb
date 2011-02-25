@@ -23,7 +23,7 @@ class WebResourceBundler::Settings
     #ensures that settings has obligatory keys present
     def correct?(settings = @settings)
       OBLIGATORY_SETTINGS.each { |key| return false unless settings.has_key?(key) }
-      return true
+      true
     end
 
     #returns setting for particular filter, merged with common settings

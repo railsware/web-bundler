@@ -42,7 +42,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
 
       it "encodes images in css and change filename" do
         block_data = @sample_block_helper.sample_block_data
-        bundle_filepath = @bundler_filter.bundle_filepath(WebResourceBundler::ResourceFileType::CSS, block_data.styles)
+        bundle_filepath = @bundler_filter.send(:bundle_filepath, WebResourceBundler::ResourceFileType::CSS, block_data.styles)
         @bundler_filter.apply!(block_data)
         @filter.apply!(block_data)
         generated_files = block_data.files.map {|f| f.path}      

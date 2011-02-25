@@ -1,6 +1,8 @@
 $:.unshift File.join(File.dirname(__FILE__), "/bundle_filter")
+
 require 'bundle_filter/resource_packager'
 require 'base_filter'
+
 module WebResourceBundler::Filters::BundleFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
 
@@ -11,21 +13,23 @@ module WebResourceBundler::Filters::BundleFilter
 
     def apply!(block_data)
       new_files = []
-      unless block_data.styles.empty?
-        new_css_filename = css_bundle_filepath(block_data.styles)
-        new_css_content = @packager.bundle_files(block_data.styles)
-        new_css_file = WebResourceBundler::ResourceFile.new_css_file(new_css_filename, new_css_content)
-        new_files << new_css_file 
+      if block_data.styles.any?
+        new_css_filename =  css_bundle_filepath(block_data.styles)
+        new_css_content  =  @packager.bundle_files(block_data.styles)
+        new_css_file     =  WebResourceBundler::ResourceFile.new_css_file(new_css_filename, new_css_content)
+        new_files        << new_css_file
       end
-      unless block_data.scripts.empty?
-        new_js_filename = js_bundle_filepath(block_data.scripts)
-        new_js_content = @packager.bundle_files(block_data.scripts)
-        new_js_file = WebResourceBundler::ResourceFile.new_js_file(new_js_filename, new_js_content)
-        new_files << new_js_file
+      if block_data.scripts.any?
+        new_js_filename  =  js_bundle_filepath(block_data.scripts)
+        new_js_content   =  @packager.bundle_files(block_data.scripts)
+        new_js_file      =  WebResourceBundler::ResourceFile.new_js_file(new_js_filename, new_js_content)
+        new_files        << new_js_file
       end
       block_data.files = new_files
       block_data
     end
+
+    private
 
     def get_md5(files)
       items = [(files.map {|f| f.path }).sort]
@@ -36,14 +40,11 @@ module WebResourceBundler::Filters::BundleFilter
     end
 
     def bundle_filepath(type, files)
-      unless files.empty?
-        items = [type[:name] + '_' + get_md5(files)]
-        items += @settings[:filename_additional_data] if @settings[:filename_additional_data]
-        items << type[:ext]
-        return File.join(@settings[:cache_dir], items.join('.'))
-      else
-        return nil
-      end
+      return nil if files.empty?
+      items = [type[:name] + '_' + get_md5(files)]
+      items += @settings[:filename_additional_data] if @settings[:filename_additional_data]
+      items << type[:ext]
+      File.join(@settings[:cache_dir], items.join('.'))
     end
 
     #just aliases to simplify code

@@ -1,5 +1,9 @@
 module WebResourceBundler::Filters::CdnFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
+
+		EXTENSTIONS_PATTERN = /\.(jpg|gif|png|jpeg|bmp)/
+		FILE_PREFIX					= 'cdn_'
+
     def initialize(settings, file_manager)
       super(settings, file_manager)
     end
@@ -13,27 +17,29 @@ module WebResourceBundler::Filters::CdnFilter
     end
 
     def new_filepath(path)
-      File.join(@settings[:cache_dir], 'cdn_' + File.basename(path))
+      File.join(@settings[:cache_dir], FILE_PREFIX + File.basename(path))
     end
 
     #insures that image linked to one particular host  
+		#host type depends on request protocol type
     def host_for_image(image_url)
-      #hosts are different depending on protocol 
-      if @settings[:protocol] == 'https' 
-        hosts = @settings[:https_hosts]
-      else
-        hosts = @settings[:http_hosts]
-      end
-      #getting host based on image url hash
-      host_index = image_url.hash % hosts.size
-      hosts[host_index]
+      hosts = get_hosts
+      index = image_url.hash % hosts.size
+      hosts[index]
     end
+
+		private
+
+		def get_hosts
+			key = @settings[:protocol] == 'https' ? :https_hosts : :http_hosts
+			@settings[key]
+		end
 
     def rewrite_content_urls!(file_path, content)
       content.gsub!(/url\s*\(['|"]?([^\)'"]+)['|"]?\)/) do |s|
         matched_url = $1
         #we shouldn't change url value for base64 encoded images
-        if not (/base64/.match(s) or /mhtml/.match(s)) and matched_url.match(/\.(jpg|gif|png|jpeg|bmp)/)
+        if !(/base64/.match(s) || /mhtml/.match(s)) && matched_url.match(EXTENSTIONS_PATTERN)
           #using CssUrlRewriter method to get image url 
           url = WebResourceBundler::CssUrlRewriter.rewrite_relative_path(file_path, matched_url)
           host = host_for_image(url)

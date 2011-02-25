@@ -45,17 +45,22 @@ module WebResourceBundler
       #looking for css and js files included and create BlockFiles with files paths
       def find_files(block)
         files = []
-        block.scan(URL_PATTERN).each do |property, value|
-          if !URI.parse(value).absolute?
-            case property
-              when "src" 
-                then files << WebResourceBundler::ResourceFile.new_js_file(value)  if File.extname(value) == '.js'
-              when "href" 
-                then files << WebResourceBundler::ResourceFile.new_css_file(value) if File.extname(value) == '.css'
-            end
+        block.scan(URL_PATTERN).each do |attribute, path|
+          if !URI.parse(path).absolute?
+            resource = create_resource_file(attribute, path)
+            files << resource if resource
           end
         end
         files
+      end
+
+      def create_resource_file(attribute, path)
+        case attribute
+          when "src" 
+            then WebResourceBundler::ResourceFile.new_js_file(path) if File.extname(path) == '.js'
+          when "href" 
+            then WebResourceBundler::ResourceFile.new_css_file(path) if File.extname(path) == '.css'
+        end
       end
 
     end 

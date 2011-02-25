@@ -48,7 +48,7 @@ module WebResourceBundler
       block_data.child_blocks.each do |child|
         result += BlockData.all_childs(child)
       end
-      return result
+      result
     end
 
     def apply_filters(filters)

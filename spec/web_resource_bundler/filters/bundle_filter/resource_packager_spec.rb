@@ -13,7 +13,7 @@ describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
   describe "#extract_imported_files!" do
     it "returns array of imported css files" do
       content = "@import 'import/first.css';\n@import 'import/second.css';"
-      imported_files = @file_packager.extract_imported_files!(content, 'styles/base.css')
+      imported_files = @file_packager.send(:extract_imported_files!, content, 'styles/base.css')
       content.should == "\n"
       imported_files.should == ['styles/import/first.css', 'styles/import/second.css']
     end
