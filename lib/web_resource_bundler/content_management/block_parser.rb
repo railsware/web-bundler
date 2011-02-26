@@ -1,9 +1,9 @@
 module WebResourceBundler
   module BlockParser
 
-    CONDITIONAL_BLOCK_PATTERN = /<!--\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*>(.*?)<!\s*\[\s*endif\s*\]\s*-->/xmi
+    CONDITIONAL_BLOCK_PATTERN = /<!--\s*\[\s*if[^>]*IE\s*\d*[^>]*\]\s*>(.*?)<!\s*\[\s*endif\s*\]\s*-->/
     CONDITION_PATTERN         = /<!--\s*(\[[^<]*\])\s*>/
-    LINK_PATTERN              = /(<(link|script[^>]*?src\s*=).*?(><\/script>|>))/
+    LINK_PATTERN              = /(<(link|script[^>]*?src\s*=).*?(><\/script>|>))/i
     URL_PATTERN               = /(href|src) *= *["']([^"'?]+)/i
 
     class << self
@@ -21,9 +21,9 @@ module WebResourceBundler
       def parse_block_with_childs(block, condition)
         block_data = BlockData.new(condition)
         block.gsub!(CONDITIONAL_BLOCK_PATTERN) do |s|
-          new_block     = CONDITIONAL_BLOCK_PATTERN.match(s)[1]
-          new_condition = CONDITION_PATTERN.match(s)[1]
-          block_data.child_blocks << parse_block_with_childs(new_block, new_condition)
+          child_block     = $1 
+          child_condition = CONDITION_PATTERN.match(s)[1]
+          block_data.child_blocks << parse_block_with_childs(child_block, child_condition)
           ""
         end
         block_data.files        = find_files(block)
@@ -47,8 +47,8 @@ module WebResourceBundler
         files = []
         block.scan(URL_PATTERN).each do |attribute, path|
           if !URI.parse(path).absolute?
-            resource = create_resource_file(attribute, path)
-            files << resource if resource
+            resource =  create_resource_file(attribute, path)
+            files    << resource if resource
           end
         end
         files

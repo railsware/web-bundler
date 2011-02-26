@@ -18,13 +18,11 @@ module WebResourceBundler
     end
 
     def base64_styles
-      @files.select { |f| [WebResourceBundler::ResourceFileType::BASE64_CSS, 
-        WebResourceBundler::ResourceFileType::CSS].include?(f.type)}
+      @files.select { |f| WebResourceBundler::ResourceFileType::CSS_TYPES.include?(f.type)}
     end
 
     def mhtml_styles
-      @files.select { |f| [WebResourceBundler::ResourceFileType::MHTML_CSS, 
-        WebResourceBundler::ResourceFileType::CSS, WebResourceBundler::ResourceFileType::MHTML].include?(f.type)}
+      @files.select { |f| WebResourceBundler::ResourceFileType::MHTML_TYPES.include?(f.type)}
     end
 
     def clone
@@ -52,12 +50,10 @@ module WebResourceBundler
     end
 
     def apply_filters(filters)
-      unless filters.empty?
+      if filters.any?
         filters.each do |filter|
           items = BlockData.all_childs(self)
-          items.each do |block_data|
-            filter.apply!(block_data)
-          end
+          items.each { |block_data| filter.apply!(block_data) } 
         end      
       end
     end

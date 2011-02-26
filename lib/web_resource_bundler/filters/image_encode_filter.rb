@@ -63,16 +63,17 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       WebResourceBundler::ResourceFile.new_mhtml_file(mhtml_filepath(css_file.path))
     end
     
-    #path of a new file with images encoded
+    #path to new file with images encoded in base64 for normal browsers
     def css_filepath(base_file_path)
       File.join(@settings[:cache_dir], FILE_PREFIX + File.basename(base_file_path))
     end
 
-    #path of a new file for IE with images encoded
+    #path to new file for IE with images encoded in it
     def mhtml_css_filepath(base_file_path)
       File.join(@settings[:cache_dir], IE_FILE_PREFIX + File.basename(base_file_path))
     end
 
+		#path to file with mhtml content for IE
     def mhtml_filepath(base_file_path)
       File.join(@settings[:cache_dir], MHTML_FILE_PREFIX + File.basename(base_file_path, '.css') + '.mhtml')
     end

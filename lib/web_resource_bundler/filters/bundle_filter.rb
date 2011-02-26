@@ -12,24 +12,28 @@ module WebResourceBundler::Filters::BundleFilter
     end
 
     def apply!(block_data)
-      new_files = []
-      if block_data.styles.any?
-        new_css_filename =  css_bundle_filepath(block_data.styles)
-        new_css_content  =  @packager.bundle_files(block_data.styles)
-        new_css_file     =  WebResourceBundler::ResourceFile.new_css_file(new_css_filename, new_css_content)
-        new_files        << new_css_file
-      end
-      if block_data.scripts.any?
-        new_js_filename  =  js_bundle_filepath(block_data.scripts)
-        new_js_content   =  @packager.bundle_files(block_data.scripts)
-        new_js_file      =  WebResourceBundler::ResourceFile.new_js_file(new_js_filename, new_js_content)
-        new_files        << new_js_file
-      end
-      block_data.files = new_files
+      new_files        =  []
+      new_files        << create_css_bundle(block_data.styles) if block_data.styles.any?
+      new_files        << create_js_bundle(block_data.scripts) if block_data.scripts.any?
+      block_data.files =  new_files
       block_data
     end
 
     private
+
+    #creates one bundle resource file from css files
+    def create_css_bundle(styles)
+      filename = css_bundle_filepath(styles)
+      content  = @packager.bundle_files(styles)
+      WebResourceBundler::ResourceFile.new_css_file(filename, content)
+    end
+
+    #creates one bundle resource file from js files
+    def create_js_bundle(scripts)
+      filename = js_bundle_filepath(scripts)
+      content  = @packager.bundle_files(scripts)
+      WebResourceBundler::ResourceFile.new_js_file(filename, content)
+    end
 
     def get_md5(files)
       items = [(files.map {|f| f.path }).sort]

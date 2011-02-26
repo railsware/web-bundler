@@ -3,9 +3,9 @@ module WebResourceBundler
     module ImageEncodeFilter
       class CssGenerator
 
-        TAGS               = ['background-image', 'background']
+        TAGS               = %w(background-image background)
         SEPARATOR          = 'A_SEPARATOR'
-        PATTERN            = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/
+        PATTERN            = /((#{TAGS.join('|')})\s*:[^\(]*)url\(\s*['|"]([^\)]*)['|"]\s*\)/i
         MAX_IMAGE_SIZE     = 32 #IE 8 limitation
         MHTML_CONTENT_TYPE = 'Content-Type: multipart/related; boundary="'
 
@@ -57,7 +57,7 @@ module WebResourceBundler
         end
 
         def mhtml_images_data(images)
-          images.map {|i| i.construct_mhtml_image_data('--' + SEPARATOR) }.join
+          images.inject("") {|data, i| data << i.construct_mhtml_image_data('--' << SEPARATOR) }
         end
 
         #creates mhtml link to use in css tags instead of image url

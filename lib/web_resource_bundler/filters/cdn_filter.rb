@@ -1,8 +1,8 @@
 module WebResourceBundler::Filters::CdnFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
 
-		EXTENSTIONS_PATTERN = /\.(jpg|gif|png|jpeg|bmp)/
-		FILE_PREFIX					= 'cdn_'
+		FILE_PREFIX				= 'cdn_'
+		IMAGE_URL_PATTERN	= /url\s*\(['|"]?([^\)'"]+\.(jpg|gif|png|jpeg|bmp))['|"]?\)/i
 
     def initialize(settings, file_manager)
       super(settings, file_manager)
@@ -16,7 +16,9 @@ module WebResourceBundler::Filters::CdnFilter
       block_data
     end
 
-    def new_filepath(path)
+		private
+
+		def new_filepath(path)
       File.join(@settings[:cache_dir], FILE_PREFIX + File.basename(path))
     end
 
@@ -28,27 +30,23 @@ module WebResourceBundler::Filters::CdnFilter
       hosts[index]
     end
 
-		private
-
 		def get_hosts
 			key = @settings[:protocol] == 'https' ? :https_hosts : :http_hosts
 			@settings[key]
 		end
 
+		#rewrites image urls excluding mhtml and base64 urls
     def rewrite_content_urls!(file_path, content)
-      content.gsub!(/url\s*\(['|"]?([^\)'"]+)['|"]?\)/) do |s|
-        matched_url = $1
-        #we shouldn't change url value for base64 encoded images
-        if !(/base64/.match(s) || /mhtml/.match(s)) && matched_url.match(EXTENSTIONS_PATTERN)
-          #using CssUrlRewriter method to get image url 
-          url = WebResourceBundler::CssUrlRewriter.rewrite_relative_path(file_path, matched_url)
-          host = host_for_image(url)
-          s = "url('#{File.join(host, url)}')"
-        else
-          s
-        end
+      content.gsub!(IMAGE_URL_PATTERN) do |s|
+				url = WebResourceBundler::CssUrlRewriter.rewrite_relative_path(file_path, $1)
+				host = host_for_image(url)
+				s = url_css_tag(host, url) 
       end
     end
-    
+
+		def url_css_tag(host, url)
+			"url('#{File.join(host, url)}')"
+		end
+
   end
 end

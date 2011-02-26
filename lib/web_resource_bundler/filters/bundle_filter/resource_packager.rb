@@ -1,6 +1,6 @@
 module WebResourceBundler::Filters::BundleFilter
   class ResourcePackager
-    IMPORT_PTR = /\@import ['|"](.*?)['|"];/
+    IMPORT_PTR = /\@import ['|"](.*?)['|"];/i
 
     def initialize(settings, file_manager)
       @settings     = settings
@@ -56,11 +56,9 @@ module WebResourceBundler::Filters::BundleFilter
 
     #created resource files using imported files paths
     def build_imported_files(imported_file_paths) 
-      files = [] 
-      imported_file_paths.each do |path|
+      imported_file_paths.inject([]) do |files, path|
         files << WebResourceBundler::ResourceFile.new_css_file(path, @file_manager.get_content(path))
       end
-      files
     end
 
   end

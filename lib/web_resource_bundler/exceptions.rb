@@ -5,9 +5,7 @@ module WebResourceBundler::Exceptions
       @message = message
     end
 
-    def to_s
-      @message
-    end
+    def to_s; @message; end
 
   end
 

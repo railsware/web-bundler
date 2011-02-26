@@ -15,21 +15,21 @@ describe WebResourceBundler::Filters::CdnFilter do
     it "returns host for image using its hash" do
      @cdn_settings[:http_hosts] << 'http://froogle.com'
      url = '/images/1.gif'
-     @filter.host_for_image(url).should == @cdn_settings[:http_hosts][url.hash % @cdn_settings[:http_hosts].size]
+     @filter.send(:host_for_image, url).should == @cdn_settings[:http_hosts][url.hash % @cdn_settings[:http_hosts].size]
     end
 
     it "returns https host if request was https" do
       @cdn_settings[:protocol] = 'https'
       @filter = Filters::CdnFilter::Filter.new(@cdn_settings, @file_manager)
       url = '/images/1.gif'
-      @filter.host_for_image(url).should == @cdn_settings[:https_hosts][url.hash % @cdn_settings[:https_hosts].size]
+      @filter.send(:host_for_image, url).should == @cdn_settings[:https_hosts][url.hash % @cdn_settings[:https_hosts].size]
     end
   end
 
   describe "#new_filename" do
     it "adds cdn_ prefix to original file name" do
       path = 'styles/1.css'
-      @filter.new_filepath(path).should == 'cache/cdn_1.css'
+      @filter.send(:new_filepath, path).should == 'cache/cdn_1.css'
     end
   end
 

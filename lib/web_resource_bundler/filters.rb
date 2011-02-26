@@ -6,9 +6,9 @@ require 'filters/cdn_filter'
 module WebResourceBundler
   module Filters
     FILTER_NAMES = {
-                     :bundle_filter => BundleFilter,
-                     :base64_filter => ImageEncodeFilter,
-                     :cdn_filter    => CdnFilter
-                   }
+			:bundle_filter => BundleFilter,
+			:base64_filter => ImageEncodeFilter,
+			:cdn_filter    => CdnFilter
+		}
   end
 end
