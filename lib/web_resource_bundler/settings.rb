@@ -43,7 +43,7 @@ class WebResourceBundler::Settings
     end
 
 		def filter_used?(name)
-			Settings.settings[name] && Settings.settings[name][:use]
+			@settings[name] && @settings[name][:use]
 		end
 
     protected
