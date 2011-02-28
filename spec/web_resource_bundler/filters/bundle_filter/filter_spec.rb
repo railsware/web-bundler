@@ -4,7 +4,7 @@ describe WebResourceBundler::Filters::BundleFilter::Filter do
     clean_cache_dir
     @settings = settings
     @bundle_settings = bundle_settings
-    @filter = Filters::BundleFilter::Filter.new(@bundle_settings, FileManager.new(@settings[:resource_dir], @settings[:cache_dir]))
+    @filter = Filters::BundleFilter::Filter.new(@bundle_settings, FileManager.new(@settings))
     @block_data = @sample_block_helper.sample_block_data
     css_type = ResourceFileType::CSS
     js_type = ResourceFileType::JS

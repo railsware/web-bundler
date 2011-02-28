@@ -3,7 +3,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
   describe CssGenerator do
     before(:each) do
       @settings = base64_settings
-      @generator = CssGenerator.new(@settings, FileManager.new(@settings[:resource_dir], @settings[:cache_dir]))
+      @generator = CssGenerator.new(@settings, FileManager.new(@settings))
     end
     
     describe "#pattern" do

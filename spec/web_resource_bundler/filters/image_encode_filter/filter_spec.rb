@@ -7,7 +7,7 @@ describe WebResourceBundler::Filters::ImageEncodeFilter::Filter do
     @file_prefix     = Filters::ImageEncodeFilter::Filter::FILE_PREFIX
     @ie_file_prefix  = Filters::ImageEncodeFilter::Filter::IE_FILE_PREFIX
     @mhtml_prefix    = Filters::ImageEncodeFilter::Filter::MHTML_FILE_PREFIX 
-    @file_manager    = FileManager.new(@settings[:resource_dir], @settings[:cache_dir])
+    @file_manager    = FileManager.new(@settings)
     @filter          = Filters::ImageEncodeFilter::Filter.new(@base64_settings, @file_manager)
   end
 

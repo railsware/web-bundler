@@ -7,7 +7,7 @@ describe WebResourceBundler::Filters::CdnFilter do
     @cdn_settings[:https_hosts] = ['http://froogle.com']
     @settings[:cdn_filter][:http_hosts] = @cdn_settings[:http_hosts] 
     @settings[:cdn_filter][:https_hosts] = @cdn_settings[:https_hosts]
-    @file_manager = FileManager.new(@settings[:resource_dir], @settings[:cache_dir]) 
+    @file_manager = FileManager.new(@settings) 
     @filter = Filters::CdnFilter::Filter.new(@cdn_settings, @file_manager)
   end
 

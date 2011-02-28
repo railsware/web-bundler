@@ -18,7 +18,7 @@ describe WebResourceBundler::Settings do
       settings[:base64_filter][:use].should == true
     end
   end
-
+	
   describe "#commons" do
     it "returns settings common to all filters" do
       settings = Settings.send(:commons, @s)

@@ -4,7 +4,7 @@ module WebResourceBundler
 
     before(:each) do
       @settings = settings
-      @file_manager = FileManager.new(@settings[:resource_dir], @settings[:cache_dir])
+      @file_manager = FileManager.new(@settings)
       @block_parser = BlockParser
     end
 

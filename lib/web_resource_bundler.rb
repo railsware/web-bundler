@@ -16,6 +16,7 @@ require 'uri'
 
 module WebResourceBundler
   class Bundler
+
     class << self
 
       attr_reader :filters, :logger
@@ -23,22 +24,20 @@ module WebResourceBundler
       #this method should called in initializer
       def setup(rails_root, rails_env)
         settings = Settings.create_settings(rails_root, rails_env)
-        if Settings.correct? 
-          @logger       = create_logger(settings[:log_path]) unless @logger
-          @file_manager = FileManager.new(settings[:resource_dir], settings[:cache_dir])
-          @filters      = {}
-          set_filters
-        end
+        return false unless Settings.correct? 
+        @logger       = create_logger(settings[:log_path]) unless @logger
+        @file_manager = FileManager.new(settings)
+        @filters      = set_filters({}, @file_manager)
       end
 
       #this method should be used to turn on\off filters
-      #on particular request
+      #on particular specific request
       def set_settings(settings)
         begin
           return false unless Settings.correct?(settings)
           Settings.set(settings)
-          set_filters
-          @file_manager.set_settings(settings[:resource_dir], settings[:cache_dir]) 
+          set_filters(@filters, @file_manager)
+          @file_manager.set_settings(settings) 
           true
         rescue Exception => e
           @logger.error("Error occured while trying to change settings")
@@ -54,56 +53,52 @@ module WebResourceBundler
       #all filters applied and resulted block_data returnd
       #all exceptions resqued and logged so that no exceptions are raised in rails app
       def process(block, domain, protocol)
-        if Settings.correct? 
-          begin
-            filters = filters_array
-            filters.each do |filter|
-              Settings.set_request_specific_data!(filter.settings, domain, protocol)
-            end
-            block_data = BlockParser.parse(block)
-            unless filters.empty? or bundle_upto_date?(block_data)
-              read_resources!(block_data)
-              block_data.apply_filters(filters)
-              write_files_on_disk(block_data)
-              @logger.info("files written on disk")
-              return block_data
-            end
+        return nil unless Settings.correct? 
+        begin
+          block_data = BlockParser.parse(block)
+          filters    = filters_array(@filters)
+          set_filters_request_specific_data!(filters, domain, protocol)
+          if filters.any? && !bundle_upto_date?(block_data, @filters)
+            read_resources!(block_data)
             block_data.apply_filters(filters)
+            write_files_on_disk(block_data)
+            @logger.info("files written on disk")
             return block_data
-          rescue Exceptions::WebResourceBundlerError => e
-            @logger.error(e.to_s)
-            return nil
-          rescue Exception => e
-            @logger.error(e.backtrace.join("\n") + "Unknown error occured: " + e.to_s)
-            return nil
           end
+          block_data.apply_filters(filters)
+          block_data
+        rescue Exception => e
+          @logger.error("Error occured: " + e.to_s)
+          nil
         end
       end
 
       private
 
+      def set_filters_request_specific_data!(filters, domain, protocol)
+        filters.each do |filter|
+          Settings.set_request_specific_data!(filter.settings, domain, protocol)
+        end
+      end
+
       #giving filters array in right sequence (bundle filter should be first)
-      def filters_array
+      def filters_array(filters_hash)
         filters = []
         [:bundle_filter, :base64_filter, :cdn_filter].each do |name|
-          filters << @filters[name] if Settings.settings[name][:use] && @filters[name] 
+          filters << filters_hash[name] if Settings.filter_used?(name) && filters_hash[name]
         end
         filters
       end
 
       #creates filters or change existing filter settings
-      def set_filters
+      def set_filters(filters, file_manager)
         Filters::FILTER_NAMES.each_pair do |name, klass| 
-          if Settings.settings[name] && Settings.settings[name][:use] 
+          if Settings.filter_used?(name) 
             filter_settings = Settings.filter_settings(name) 
-            if @filters[name] 
-              @filters[name].set_settings(filter_settings)
-            else
-              @filters[name] = klass::Filter.new(filter_settings, @file_manager)
-            end
+            filters[name] ? filters[name].set_settings(filter_settings) : filters[name] = klass::Filter.new(filter_settings, file_manager)
           end
         end
-        @filters
+        filters
       end
 
       #creates logger object with new log file in rails_app/log
@@ -113,7 +108,7 @@ module WebResourceBundler
         begin
           log_dir = File.dirname(log_path)
           Dir.mkdir(log_dir) unless File.exist?(log_dir)
-          file = File.open(log_path, File::WRONLY | File::APPEND | File::CREAT)
+          file   = File.open(log_path, File::WRONLY | File::APPEND | File::CREAT)
           logger = Logger.new(file)
         rescue Exception => e
           raise WebResourceBundler::Exceptions::LogCreationError.new(log_path, e.to_s) 
@@ -124,9 +119,10 @@ module WebResourceBundler
       #creates a clone of block_data to calculate resulted file names
       #all filters applied to block_data
       #if resulted bundle files exists - we considering bundle up to date
-      def bundle_upto_date?(block_data)
+      def bundle_upto_date?(block_data, filters)
         block_data_copy = block_data.clone
-        block_data_copy.apply_filters(filters_array)
+        filters         = filters_array(filters)
+        block_data_copy.apply_filters(filters)
         block_data_copy.all_files.each do |file|
           return false unless File.exist?(File.join(Settings.settings[:resource_dir], file.path))
         end
@@ -147,10 +143,8 @@ module WebResourceBundler
       #recursive method to write all resulted files on disk
       def write_files_on_disk(block_data)
         @file_manager.create_cache_dir
-        block_data.files.each { |file| @file_manager.write_file(file.path, file.content) }
-        block_data.child_blocks.each { |block| 
-          write_files_on_disk(block) 
-        }
+        block_data.files.each        { |file| @file_manager.write_file(file.path, file.content) } 
+        block_data.child_blocks.each { |block| write_files_on_disk(block)                       } 
       end
 
     end

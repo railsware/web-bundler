@@ -1,6 +1,8 @@
 $:.unshift File.dirname(__FILE__)
+
 require 'image_encode_filter/image_data'
 require 'image_encode_filter/css_generator'
+
 module WebResourceBundler::Filters::ImageEncodeFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
 

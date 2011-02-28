@@ -2,12 +2,13 @@ module WebResourceBundler
   class FileManager
     attr_reader :resource_dir, :cache_dir
 
-    def initialize(resource_dir, cache_dir)
-      set_settings(resource_dir, cache_dir)
+    def initialize(attributes)
+      set_settings(attributes)
     end
 
-    def set_settings(resource_dir, cache_dir)
-      @resource_dir, @cache_dir = resource_dir, cache_dir
+    def set_settings(attributes)
+      @resource_dir = attributes[:resource_dir]
+      @cache_dir    = attributes[:cache_dir]
     end
 
     def full_path(relative_path)

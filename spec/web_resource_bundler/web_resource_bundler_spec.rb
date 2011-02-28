@@ -21,14 +21,14 @@ module WebResourceBundler
       describe "#filters_array" do
         it "returns array of filters that has :use => true in settings" do
           @bundler.set_settings(@s)
-          filters = @bundler.send("filters_array")
+          filters = @bundler.send("filters_array", @bundler.filters)
           filters.size.should == 3
           @bundler.filters.size.should == 3
           i = 2
           %w{cdn_filter bundle_filter base64_filter}.each do |s|
             @s[s.to_sym][:use] = false
             @bundler.set_settings(@s)
-            filters = @bundler.send("filters_array")
+            filters = @bundler.send("filters_array", @bundler.filters)
             filters.size.should == i
             @bundler.filters.size.should == 3
             i -= 1
@@ -38,22 +38,22 @@ module WebResourceBundler
 
       describe "#set_filters" do
         before(:each) do
-          @file_manager = FileManager.new(@s[:resource_dir], @s[:cache_dir])
+          @file_manager = FileManager.new(@s)
           @bundler.instance_eval "@filters={}"
         end
         it "inits filters if no filters were initialized before" do
           @bundler.filters.should == {}
-          @bundler.send("set_filters")
+          @bundler.send("set_filters", @bundler.filters, @bundler.instance_variable_get("@file_manager"))
           @bundler.filters.size.should == 3
         end
         it "sets filters settings if filters already inited" do
-          @bundler.send("set_filters")
+          @bundler.send("set_filters", @bundler.filters, @bundler.instance_variable_get("@file_manager"))
           @bundler.filters[:base64_filter].settings[:max_image_size].should == @s[:base64_filter][:max_image_size]
           Settings.set({:base64_filter => {
                           :use => true, 
                           :max_image_size => 18
                         }})
-          @bundler.send("set_filters")
+          @bundler.send("set_filters", @bundler.filters, @bundler.instance_variable_get("@file_manager"))
           @bundler.filters[:base64_filter].settings[:max_image_size].should == 18 
         end
       end
@@ -98,9 +98,9 @@ module WebResourceBundler
           clean_cache_dir
           block_text = @sample_block_helper.sample_block
           block_data = BlockParser.parse(block_text.dup)
-          @bundler.send("bundle_upto_date?", block_data).should == false
+          @bundler.send("bundle_upto_date?", block_data, @bundler.filters).should == false
           @bundler.process(block_text, 'localhost:3000', 'http')
-          @bundler.send("bundle_upto_date?", block_data).should == true
+          @bundler.send("bundle_upto_date?", block_data, @bundler.filters).should == true
         end
       end
 

@@ -7,7 +7,6 @@ class WebResourceBundler::Settings
   DEFAULT_CACHE_DIR     = 'cache'
   OBLIGATORY_SETTINGS   = [:resource_dir, :log_path, :cache_dir]
 
-
   class << self
 
     attr_accessor :settings
@@ -42,6 +41,10 @@ class WebResourceBundler::Settings
     def set(settings)
       @settings.merge!(settings)
     end
+
+		def filter_used?(name)
+			Settings.settings[name] && Settings.settings[name][:use]
+		end
 
     protected
 

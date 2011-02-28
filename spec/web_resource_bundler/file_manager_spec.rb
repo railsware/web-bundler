@@ -14,7 +14,7 @@ describe WebResourceBundler::FileManager do
     @bundle_url = 'temp/bundle.dat'
     @bundle_path = File.join(@settings[:resource_dir], @bundle_url)
     create_stub_file(@bundle_url)
-    @manager = FileManager.new(@settings[:resource_dir], @settings[:cache_dir])
+    @manager = FileManager.new(@settings)
   end
 
   after(:each) do
@@ -34,7 +34,7 @@ describe WebResourceBundler::FileManager do
     it "should set new settings in file manager" do
       @manager.resource_dir.should == @settings[:resource_dir]
       @manager.cache_dir.should == @settings[:cache_dir]
-      @manager.set_settings('A', 'B')
+      @manager.set_settings({:resource_dir => 'A', :cache_dir => 'B'})
       @manager.resource_dir.should == 'A'
       @manager.cache_dir.should == 'B' 
     end
