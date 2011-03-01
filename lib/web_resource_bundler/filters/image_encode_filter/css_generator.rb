@@ -74,8 +74,9 @@ module WebResourceBundler
         def encode_images_basic!(content)
           images = {}
           content.gsub!(PATTERN) do |s|
-            tag, url = $1, $3
-            data     = ImageData.new(url, @settings[:resource_dir])
+            tag  = $1
+            url  = $3
+            data = ImageData.new(url, @settings[:resource_dir])
             if !url.empty? && data.exist && data.size <= image_size_limit && block_given?
               images[url] = data unless images[url]
               yield(images[url], tag)

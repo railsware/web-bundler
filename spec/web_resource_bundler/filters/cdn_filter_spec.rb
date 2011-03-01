@@ -26,6 +26,14 @@ describe WebResourceBundler::Filters::CdnFilter do
     end
   end
 
+  describe "#url_css_tag" do
+    it "should return css url tag with absolute url" do
+      host = 'http://google.com'
+      url  = '/styles/1.css'
+      @filter.send(:url_css_tag, host, url).should == "url('" + host + url + "')"
+    end
+  end
+
   describe "#new_filename" do
     it "adds cdn_ prefix to original file name" do
       path = 'styles/1.css'

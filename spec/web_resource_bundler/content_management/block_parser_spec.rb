@@ -51,8 +51,6 @@ module WebResourceBundler
         @block_parser.parse("").is_a?(BlockData).should be_true
       end
 
-      
-
       it "returns empty BlockData when block is empty" do
         data = @block_parser.parse("")
         data.files.should be_empty
@@ -97,5 +95,21 @@ module WebResourceBundler
 
     end
 
+    describe "#create_resource_file" do
+      it "returns nil if attributes not src or href" do
+        @block_parser.send(:create_resource_file, 'invalid', '1.jpg').should == nil
+      end
+      it "returns nil if file isn't css or js" do
+        @block_parser.send(:create_resource_file, 'href', '1.cssI').should == nil
+        @block_parser.send(:create_resource_file, 'src', '1.jsI').should == nil
+      end
+      it "returns correct ResourceFile if conditions met" do
+        @block_parser.send(:create_resource_file, 'href', '1.css').path.should == '1.css' 
+        @block_parser.send(:create_resource_file, 'src', '1.js').path.should == '1.js'
+      end
+    end
+
   end
+
+  
 end

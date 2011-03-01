@@ -125,6 +125,15 @@ module WebResourceBundler::Filters::ImageEncodeFilter
       end
     end
     
+    describe "#construct_mhtml_content" do
+      it "returns mhtml block for ie" do
+        images = [ImageData.new('images/logo.jpg', @settings[:resource_dir])]
+        result = @generator.construct_mhtml_content(images)
+        result.include?(CssGenerator::MHTML_CONTENT_TYPE).should be_true
+        result.include?(CssGenerator::SEPARATOR).should be_true
+      end
+    end
+
     describe "#construct_mhtml_link" do
       it "should create link without public folder" do
         @generator.send(:construct_mhtml_link, "temp.css").should == "http://#{@settings[:domain]}/temp.css"

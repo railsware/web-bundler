@@ -19,6 +19,19 @@ describe WebResourceBundler::Filters::BundleFilter::ResourcePackager do
     end
   end
 
+  describe "#build_imported_files" do
+    it "should return css resource files" do
+      files = @file_packager.send(:build_imported_files, styles)
+      files.each do |file|
+        styles.include?(file.path).should be_true
+      end
+    end
+    it "should return empty array if paths are not css" do
+      files = @file_packager.send(:build_imported_files, scripts)
+      files.should be_empty
+    end
+  end
+
   describe "#bundle_files" do
     it "throws ResourceNotFoundError exception if one of imported files not found" do
       #creating file with content with imported unexistent files
