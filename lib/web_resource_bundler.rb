@@ -84,7 +84,7 @@ module WebResourceBundler
       #giving filters array in right sequence (bundle filter should be first)
       def filters_array(filters_hash)
         filters = []
-        [:bundle_filter, :base64_filter, :cdn_filter].each do |name|
+        [:bundle_filter, :base64_filter, :cdn_filter, :compress_filter].each do |name|
           filters << filters_hash[name] if Settings.filter_used?(name) && filters_hash[name]
         end
         filters

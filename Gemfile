@@ -1,2 +1,5 @@
 source "http://rubygems.org"
-gem "rspec", '1.3.1'
+gem "yui-compressor"
+group :development, :test do
+  gem "rspec", '1.3.1'
+end

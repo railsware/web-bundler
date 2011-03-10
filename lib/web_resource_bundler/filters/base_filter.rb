@@ -5,7 +5,7 @@ module WebResourceBundler
       attr_reader :settings
 
       def initialize(settings, file_manager)
-        @settings = settings
+        @settings     = settings
         @file_manager = file_manager
       end
 
@@ -13,8 +13,8 @@ module WebResourceBundler
         @settings = settings
       end
 
-      def apply(block_data = nil)
-        #applies filter to block_data
+      def apply!(block_data = nil)
+        raise NotImplementedError.new
       end
 
     end

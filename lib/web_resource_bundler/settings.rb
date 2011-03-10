@@ -71,19 +71,23 @@ class WebResourceBundler::Settings
     #creates defaults settings
     def defaults(rails_root)
       {
-        :resource_dir  => File.join(rails_root, DEFAULT_RESOURCE_DIR),
-        :log_path      => File.join(rails_root, DEFAULT_LOG_PATH),
-        :cache_dir     => DEFAULT_CACHE_DIR,
-        :bundle_filter => {
-                            :use => true
-                          },
-        :cdn_filter    => {
-                            :use => false
-                          },
-        :base64_filter => {
-                            :use            => true,
-                            :max_image_size => 20
-                          }
+        :resource_dir    => File.join(rails_root, DEFAULT_RESOURCE_DIR),
+        :log_path        => File.join(rails_root, DEFAULT_LOG_PATH),
+        :cache_dir       => DEFAULT_CACHE_DIR,
+        :bundle_filter   => {
+					:use => true
+				},
+        :cdn_filter      => {
+					:use => false
+				},
+        :base64_filter   => {
+					:use            => true,
+					:max_image_size => 20
+			  },
+				:compress_filter => {
+					:use					=> true,
+					:obfuscate_js => true
+				}
       }
     end
 

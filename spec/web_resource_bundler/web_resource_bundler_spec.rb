@@ -22,15 +22,15 @@ module WebResourceBundler
         it "returns array of filters that has :use => true in settings" do
           @bundler.set_settings(@s)
           filters = @bundler.send("filters_array", @bundler.filters)
-          filters.size.should == 3
-          @bundler.filters.size.should == 3
-          i = 2
-          %w{cdn_filter bundle_filter base64_filter}.each do |s|
+          filters.size.should == 4
+          @bundler.filters.size.should == 4
+          i = 3
+          %w{cdn_filter bundle_filter base64_filter compress_filter}.each do |s|
             @s[s.to_sym][:use] = false
             @bundler.set_settings(@s)
             filters = @bundler.send("filters_array", @bundler.filters)
             filters.size.should == i
-            @bundler.filters.size.should == 3
+            @bundler.filters.size.should == 4
             i -= 1
           end
         end
@@ -44,7 +44,7 @@ module WebResourceBundler
         it "inits filters if no filters were initialized before" do
           @bundler.filters.should == {}
           @bundler.send("set_filters", @bundler.filters, @bundler.instance_variable_get("@file_manager"))
-          @bundler.filters.size.should == 3
+          @bundler.filters.size.should == 4
         end
         it "sets filters settings if filters already inited" do
           @bundler.send("set_filters", @bundler.filters, @bundler.instance_variable_get("@file_manager"))

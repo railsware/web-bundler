@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["gregolsen"]
-  s.date = %q{2011-02-09}
+  s.date = %q{2011-03-10}
   s.description = %q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
   s.email = %q{anotheroneman@yahoo.com}
   s.files = [
@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
     "lib/web_resource_bundler/filters/image_encode_filter/css_generator.rb",
     "lib/web_resource_bundler/filters/image_encode_filter/image_data.rb",
     "lib/web_resource_bundler/rails_app_helpers.rb",
-    "lib/web_resource_bundler/settings_manager.rb",
+    "lib/web_resource_bundler/settings.rb",
     "lib/web_resource_bundler/web_resource_bundler_init.rb",
     "spec/sample_block_helper.rb",
     "spec/spec_helper.rb",
@@ -64,7 +64,7 @@ Gem::Specification.new do |s|
     "spec/web_resource_bundler/filters/image_encode_filter/css_generator_spec.rb",
     "spec/web_resource_bundler/filters/image_encode_filter/filter_spec.rb",
     "spec/web_resource_bundler/filters/image_encode_filter/image_data_spec.rb",
-    "spec/web_resource_bundler/settings_manager_spec.rb",
+    "spec/web_resource_bundler/settings_spec.rb",
     "spec/web_resource_bundler/web_resource_bundler_spec.rb",
     "web_resource_bundler.gemspec"
   ]
@@ -83,10 +83,11 @@ Gem::Specification.new do |s|
     "spec/web_resource_bundler/filters/bundle_filter/filter_spec.rb",
     "spec/web_resource_bundler/filters/bundle_filter/resource_packager_spec.rb",
     "spec/web_resource_bundler/filters/cdn_filter_spec.rb",
+    "spec/web_resource_bundler/filters/compress_filter_spec.rb",
     "spec/web_resource_bundler/filters/image_encode_filter/css_generator_spec.rb",
     "spec/web_resource_bundler/filters/image_encode_filter/filter_spec.rb",
     "spec/web_resource_bundler/filters/image_encode_filter/image_data_spec.rb",
-    "spec/web_resource_bundler/settings_manager_spec.rb",
+    "spec/web_resource_bundler/settings_spec.rb",
     "spec/web_resource_bundler/web_resource_bundler_spec.rb"
   ]
 
@@ -95,11 +96,17 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<yui-compressor>, [">= 0"])
+      s.add_development_dependency(%q<rspec>, ["= 1.3.1"])
       s.add_development_dependency(%q<rspec>, ["= 1.3.1"])
     else
+      s.add_dependency(%q<yui-compressor>, [">= 0"])
+      s.add_dependency(%q<rspec>, ["= 1.3.1"])
       s.add_dependency(%q<rspec>, ["= 1.3.1"])
     end
   else
+    s.add_dependency(%q<yui-compressor>, [">= 0"])
+    s.add_dependency(%q<rspec>, ["= 1.3.1"])
     s.add_dependency(%q<rspec>, ["= 1.3.1"])
   end
 end

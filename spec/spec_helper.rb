@@ -42,6 +42,10 @@ def settings
       :use => true,
       :http_hosts => ['http://localhost:3000'],
       :https_hosts => ['https://localhost:3000']
+    },
+    :compress_filter => {
+      :use => true,
+      :obfuscate_js => true
     }
   }
 end
