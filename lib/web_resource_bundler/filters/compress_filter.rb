@@ -1,4 +1,3 @@
-require "yui/compressor"
 module WebResourceBundler::Filters::CompressFilter
   class Filter < WebResourceBundler::Filters::BaseFilter
 
