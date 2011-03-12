@@ -45,6 +45,22 @@ describe WebResourceBundler::Filters::CompressFilter do
     end
   end
 
+  describe "#set_settings" do
+
+    it "should change settings" do
+      subject.set_settings({:a => 23})
+      subject.settings.should == {:a => 23}
+    end
+
+    it "should change js filter if obfuscation changed" do
+      old_id = subject.instance_variable_get("@js_compressor").object_id
+      obfuscate = !subject.settings[:obfuscate_js]
+      subject.set_settings({:obfuscate_js => obfuscate})
+      subject.instance_variable_get("@js_compressor").object_id.should_not equal(old_id)
+    end
+
+  end
+
   context "obfuscating setted to false" do
 
     subject do
