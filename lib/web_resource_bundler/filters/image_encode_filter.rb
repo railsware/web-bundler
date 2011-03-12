@@ -25,7 +25,6 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     #also its type changed to CSS because from this point it is valid only for
     #normal browsers and IE > 7
     def apply!(block_data)
-      new_files = []
       block_data.styles.each do |file|
         base_name = file.path
         mhtml_css_file = create_mhtml_css_file(file) 
@@ -36,8 +35,7 @@ module WebResourceBundler::Filters::ImageEncodeFilter
           images = change_images_to_mhtml_links!(mhtml_css_file, mhtml_filepath(base_name))
           mhtml_file.content = @generator.construct_mhtml_content(images.values)
         end
-        block_data.files << mhtml_css_file
-        block_data.files << mhtml_file
+        block_data.files << mhtml_css_file << mhtml_file
       end
       block_data
     end
@@ -71,13 +69,13 @@ module WebResourceBundler::Filters::ImageEncodeFilter
     end
 
     #path to new file for IE with images encoded in it
-    def mhtml_css_filepath(base_file_path)
-      File.join(@settings[:cache_dir], IE_FILE_PREFIX + File.basename(base_file_path))
+    def mhtml_css_filepath(path)
+      @file_manager.cache_path_with_prefix(IE_FILE_PREFIX, path)
     end
 
 		#path to file with mhtml content for IE
     def mhtml_filepath(base_file_path)
-      File.join(@settings[:cache_dir], MHTML_FILE_PREFIX + File.basename(base_file_path, '.css') + '.mhtml')
+      @file_manager.cache_path_with_prefix(MHTML_FILE_PREFIX, File.basename(base_file_path, '.css') + '.mhtml')
     end
 
   end

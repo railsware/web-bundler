@@ -48,7 +48,7 @@ module WebResourceBundler::Filters::BundleFilter
       items = [type[:name] + '_' + get_md5(files)]
       items += @settings[:filename_additional_data] if @settings[:filename_additional_data]
       items << type[:ext]
-      File.join(@settings[:cache_dir], items.join('.'))
+      @file_manager.cache_path_with_prefix('', items.join('.'))
     end
 
     #just aliases to simplify code

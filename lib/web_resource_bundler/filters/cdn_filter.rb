@@ -19,7 +19,7 @@ module WebResourceBundler::Filters::CdnFilter
 		private
 
 		def new_filepath(path)
-      File.join(@settings[:cache_dir], FILE_PREFIX + File.basename(path))
+      @file_manager.cache_path_with_prefix(FILE_PREFIX, path)
     end
 
     #insures that image linked to one particular host  

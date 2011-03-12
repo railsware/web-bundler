@@ -39,11 +39,11 @@ module WebResourceBundler::Filters::CompressFilter
     end
 
     def new_css_path(path)
-      @file_manager.add_name_prefix(path, FILE_PREFIX)
+      @file_manager.cache_path_with_prefix(FILE_PREFIX, path)
     end
 
     def new_js_path(path)
-      @file_manager.add_name_prefix(path, FILE_PREFIX)
+      @file_manager.cache_path_with_prefix(FILE_PREFIX, path)
     end
 
   end

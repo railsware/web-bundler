@@ -15,8 +15,8 @@ module WebResourceBundler
       File.join(@resource_dir, relative_path)
     end
 
-    def add_name_prefix(path, prefix)
-      File.join(File.dirname(path), prefix + File.basename(path))
+    def cache_path_with_prefix(prefix, path)
+      File.join(@cache_dir, prefix + File.basename(path))
     end
 
     def exist?(relative_path)

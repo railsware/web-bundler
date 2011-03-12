@@ -44,7 +44,8 @@ module WebResourceBundler
         it "inits filters if no filters were initialized before" do
           @bundler.filters.should == {}
           @bundler.send("set_filters", @bundler.filters, @bundler.instance_variable_get("@file_manager"))
-          @bundler.filters.size.should == 4
+          #only 3 filters used by defaults
+          @bundler.filters.size.should == 3
         end
         it "sets filters settings if filters already inited" do
           @bundler.send("set_filters", @bundler.filters, @bundler.instance_variable_get("@file_manager"))

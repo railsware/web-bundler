@@ -21,13 +21,13 @@ describe WebResourceBundler::Filters::CompressFilter do
 
   describe "#new_css_path" do
     it "should return new css file path with prefix min" do
-      subject.send(:new_css_path, '/images/1.css').should == '/images/min_1.css'
+      subject.send(:new_css_path, '/images/1.css').should == File.join(settings[:cache_dir], "min_1.css")
     end
   end
 
   describe "#new_css_path" do
     it "should return new js file path with prefix min" do
-      subject.send(:new_js_path, '/images/1.js').should == '/images/min_1.js'
+      subject.send(:new_js_path, '/images/1.js').should == File.join(settings[:cache_dir], 'min_1.js')
     end
   end
 
