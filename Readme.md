@@ -30,24 +30,20 @@ Declare web_resource_bundler in your Gemfile like this:
 
 Add this two lines in your application.rb file on rails config dir:
 
-    WebResourceBundler::Bundler.instance.setup(Rails.root, Rails.env)
+    WebResourceBundler::Bundler.setup(Rails.root, Rails.env)
     ActionView::Base.send(:include, WebResourceBundler::RailsAppHelpers)
 
 Now in your view files you can call **`web_resource_bundler_process`** helper like this:
 
     <head>
-    <% web_resource_bundler_process do %>
+
+    <%= web_resource_bundler_process do %>
 
       <%= stylesheet_link_tag :scaffold %>
       <%= javascript_include_tag :defaults %>
-      <link type="text/css" rel="stylesheet" href="/stylesheets/somestyle.css"/>
-      <%=yield :head %>
-      <!--[if lte IE 7]>
-         <link type="text/css" rel="stylesheet" href="/stylesheets/ie7fix.css"/>
-         <link type="text/css" rel="stylesheet" href="/stylesheets/pngfix.css"/>
-      <![endif]-->
 
     <% end %>
+
     </head>
 
 Notice:
@@ -59,18 +55,18 @@ And For Rails >= 3
 use **`<%= web_resource_bundler_process do %>`**
 
 
-And as result you'll have
+And as result you'll got something like this:
 
-    <link href="/cache/base64_style_d880a502addaa493b889c0970616430b.css?1290594873" media="screen" rel="stylesheet" type="text/css" />
-    <script src="/cache/script_275d311037da40e9c9b8c919a8c08b55.js?1290594873" type="text/javascript"></script>
-
-    <!--[if lte IE 7]>
-       <link href="/cache/base64_ie_style_d880a502addaa493b889c0970616430b.css?1290594873" media="screen" rel="stylesheet" type="text/css" />
-    <![endif]-->
-
-    <!--[if lte IE 7]>
-       <link type="text/css" rel="stylesheet" href="/cache/base64_style_ad801w02addaa493b889c0970616430b.css?1290594873"/>
-    <![endif]-->
+    <head> 
+      <!--[if (!IE)|(gte IE 8)]>
+        <link href="/cache/cdn_base64_style_03fc490ab76c3c79d908c11cd03684ff.css?1298969608" media="screen" rel="stylesheet" type="text/css" /> 
+        <script src="/cache/script_4fd3a6705e370f98957d625976c96f64.js?1292848219" type="text/javascript"></script>
+      <![endif]-->
+      <!--[if lte IE 7]>
+        <link href="/cache/cdn_base64_ie_style_03fc490ab76c3c79d908c11cd03684ff.css?1298969608" media="screen" rel="stylesheet" type="text/css" />
+        <link href="/cache/mhtml_style_03fc490ab76c3c79d908c11cd03684ff.mhtml?1298969608" media="screen" rel="stylesheet" type="text/css" />
+      <![endif]-->
+    </head>
 
 !!!
 Don't forget to clean your cache directory after deploy to clean old bundles
@@ -92,6 +88,9 @@ To configure bundler by your self you can create your custom config file - web_r
         :use: false
         :http_hosts: ['http://localhost:3000']
         :https_hosts: ['https://localhost:3000']
+      :compress_filter
+        :use: true
+        :obfuscate_js: true
 
 Recommendations
 --------------------
