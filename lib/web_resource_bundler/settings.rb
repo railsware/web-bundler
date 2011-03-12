@@ -85,7 +85,7 @@ class WebResourceBundler::Settings
 					:max_image_size => 20
 			  },
 				:compress_filter => {
-					:use					=> true,
+					:use					=> false,
 					:obfuscate_js => true
 				}
       }
