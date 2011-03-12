@@ -10,10 +10,10 @@ module WebResourceBundler::Filters::CompressFilter
     end
 
     def set_settings(settings)
-      @settings = settings
       if @settings[:obfuscate_js] != settings[:obfuscate_js] 
         @js_compressor = YUI::JavaScriptCompressor.new(:munge => settings[:obfuscate_js]) 
       end
+      @settings = settings
     end
 
     def apply!(block_data)
