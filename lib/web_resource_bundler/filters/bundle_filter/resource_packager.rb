@@ -40,7 +40,7 @@ module WebResourceBundler::Filters::BundleFilter
       paths = []
       content.gsub!(IMPORT_PTR) do |result|
         path  = $1 
-        paths << File.join(File.dirname(base_file_path), path) if path 
+        paths << File.join(File.dirname(base_file_path), path) if path && File.extname(path) == '.css'
         ""
       end
       paths
@@ -56,11 +56,10 @@ module WebResourceBundler::Filters::BundleFilter
 
     #created resource files using imported files paths
     def build_imported_files(imported_file_paths) 
-      files = []
-      imported_file_paths.map do |path|
-        files << WebResourceBundler::ResourceFile.new_css_file(path, @file_manager.get_content(path)) if File.basename(path).split('.')[-1] == 'css'
+      imported_file_paths.inject([]) do |files, path|
+        files << WebResourceBundler::ResourceFile.new_css_file(path, @file_manager.get_content(path))
+        files
       end
-      files
     end
 
   end
