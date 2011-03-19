@@ -15,6 +15,8 @@ require 'digest/md5'
 require 'uri'
 require 'yui/compressor'
 
+require 'railtie' if defined?(Rails)
+
 module WebResourceBundler
   class Bundler
 

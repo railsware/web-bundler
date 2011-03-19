@@ -12,6 +12,7 @@ begin
     gem.homepage = "https://github.com/railsware/web-bundler"
     gem.authors = ["gregolsen"]
     gem.add_development_dependency "rspec", "1.3.1"
+    gem.add_runtime_dependency "yui-compressor", "~>0.9.4"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
