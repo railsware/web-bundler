@@ -22,6 +22,7 @@ Filters
 + Base64 image encoding 
 + CDN url rewriter
 + CSS/JS compress (in master)
+  + uses yui-compressor, which requires jre
 
 Installation
 ---------------------
