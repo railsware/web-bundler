@@ -16,6 +16,14 @@ and other browsers created. Conditional comments (like `<!--[if IE 6]>`) also
 supported. You can use external image hosts to server images in css: 
 cdn filter can rewrite image urls for you. Resulted filename is a md5(filenames.sort)
 
+Filters
+-------
+
++ Base64 image encoding 
++ CDN url rewriter
++ CSS/JS compress (in master)
+  + uses yui-compressor, which requires jre
+
 Installation
 ---------------------
 
@@ -88,7 +96,7 @@ To configure bundler by your self you can create your custom config file - web_r
         :use: false
         :http_hosts: ['http://localhost:3000']
         :https_hosts: ['https://localhost:3000']
-      :compress_filter
+      :compress_filter:
         :use: true
         :obfuscate_js: true
 
