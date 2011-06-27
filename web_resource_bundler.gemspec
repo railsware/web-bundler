@@ -16,6 +16,6 @@
     s.require_paths = ["lib"]
     s.files = Dir["Rakefile", "Readme.md", "VERSION", "lib/**/*", "test/**/*"]
     s.test_files = Dir["spec/**/*"] unless $SAFE > 0
-    s.add_dependency("rspec", ["= 1.3.1"])
+    s.add_development_dependency("rspec", ["= 1.3.1"])
     s.add_dependency("yui-compressor", ["~> 0.9.6"])
   end
