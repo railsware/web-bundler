@@ -36,7 +36,6 @@ Gem::Specification.new do |s|
     "lib/web_resource_bundler/filters/image_encode_filter/image_data.rb",
     "lib/web_resource_bundler/rails_app_helpers.rb",
     "lib/web_resource_bundler/settings.rb",
-    "lib/web_resource_bundler/web_resource_bundler_init.rb",
     "spec/sample_block_helper.rb",
     "spec/spec_helper.rb",
     "spec/test_data/config/web_resource_bundler.yml",
