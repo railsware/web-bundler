@@ -1,11 +1,10 @@
 require 'yaml'
 class WebResourceBundler::Settings
 
-  DEFAULT_LOG_PATH      = 'log/web_resource_bundler.log'
   DEFAULT_RESOURCE_DIR  = 'public'
   DEFAULT_SETTINGS_PATH = 'config/web_resource_bundler.yml'
   DEFAULT_CACHE_DIR     = 'cache'
-  OBLIGATORY_SETTINGS   = [:resource_dir, :log_path, :cache_dir]
+  OBLIGATORY_SETTINGS   = [:resource_dir, :cache_dir]
 
   class << self
 
@@ -72,7 +71,6 @@ class WebResourceBundler::Settings
     def defaults(rails_root)
       {
         :resource_dir    => File.join(rails_root, DEFAULT_RESOURCE_DIR),
-        :log_path        => File.join(rails_root, DEFAULT_LOG_PATH),
         :cache_dir       => DEFAULT_CACHE_DIR,
         :bundle_filter   => {
 					:use => true
