@@ -44,9 +44,7 @@ module WebResourceBundler
         private
         
         def report_problem_if_file_not_found
-          if WebResourceBundler::Bundler.logger && !URI.parse(@path).absolute? && !@exist
-            WebResourceBundler::Bundler.logger.info("Image not found #{@path}")
-          end
+          WebResourceBundler::Bundler.logger_error("Image not found #{@path}") unless @exist
         end
 
     	end

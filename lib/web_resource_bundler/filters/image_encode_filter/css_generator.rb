@@ -75,6 +75,7 @@ module WebResourceBundler
           images = {}
           content.gsub!(PATTERN) do |s|
             tag, url = $1, $3
+            next if URI.parse(url).absolute?
             data = ImageData.new(url, @settings[:resource_dir])
             if !url.empty? && data.exist && data.size <= image_size_limit && block_given?
               images[url] = data unless images[url]

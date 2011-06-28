@@ -28,7 +28,6 @@ module WebResourceBundler
       def setup(rails_root, rails_env)
         settings = Settings.create_settings(rails_root, rails_env)
         return false unless Settings.correct? 
-        @logger       = create_logger(settings[:log_path]) unless @logger
         @file_manager = FileManager.new(settings)
         @filters      = set_filters({}, @file_manager)
       end
@@ -43,7 +42,7 @@ module WebResourceBundler
           @file_manager.set_settings(settings) 
           true
         rescue Exception => e
-          @logger.error("Error occured while trying to change settings")
+          logger_error("Error occured while trying to change settings")
           false
         end
       end
@@ -65,15 +64,27 @@ module WebResourceBundler
             read_resources!(block_data)
             block_data.apply_filters(filters)
             write_files_on_disk(block_data)
-            @logger.info("files written on disk")
+            logger_info("files written on disk")
             return block_data
           end
           block_data.apply_filters(filters)
           block_data
         rescue Exception => e
-          @logger.error("Error occured: " + e.to_s)
+          logger_error("Error occured: " + e.to_s)
           nil
         end
+      end
+
+      def logger
+        defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
+      end
+
+      def logger_info(message)
+        logger.info("[web_resource_bundler]: #{message}")
+      end
+
+      def logger_error(message)
+        logger.error("[web_resource_bundler]: #{message}")
       end
 
       private
@@ -102,21 +113,6 @@ module WebResourceBundler
           end
         end
         filters
-      end
-
-      #creates logger object with new log file in rails_app/log
-      #or appends to existing log file, log dir also created
-      #all exception catched
-      def create_logger(log_path)
-        begin
-          log_dir = File.dirname(log_path)
-          Dir.mkdir(log_dir) unless File.exist?(log_dir)
-          file   = File.open(log_path, File::WRONLY | File::APPEND | File::CREAT)
-          logger = Logger.new(file)
-        rescue Exception => e
-          raise WebResourceBundler::Exceptions::LogCreationError.new(log_path, e.to_s) 
-        end
-        logger
       end
 
       #creates a clone of block_data to calculate resulted file names

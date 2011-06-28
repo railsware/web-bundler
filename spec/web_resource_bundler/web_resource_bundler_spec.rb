@@ -7,12 +7,6 @@ module WebResourceBundler
       @bundler = WebResourceBundler::Bundler
     end
 
-    describe "#initialize" do 
-      it "sets instance state correctly" do
-        @bundler.logger.should == nil
-      end
-    end
-
     context "#bundler setup called" do
       before(:each) do
         @bundler.setup(root_dir, 'development')
@@ -59,26 +53,6 @@ module WebResourceBundler
         end
       end
       
-
-      describe "#create_logger" do
-
-        it "creates log directory if it's unexistent" do
-          log_dir_path = File.dirname(Settings.settings[:log_path])
-          FileUtils.rm_rf(log_dir_path)
-          @bundler.send("create_logger", Settings.settings[:log_path])
-          File.exist?(log_dir_path).should be_true
-          FileUtils.rm_rf(log_dir_path)
-        end
-
-        it "sets log_path in settings if it isn't specified" do
-          path = Settings.settings[:log_path] 
-          @bundler.send("create_logger", path)
-          File.exist?(path).should be_true
-          File.delete(path)
-        end
-
-      end
-
       describe "#process" do
         it "returns the same filenames when bundling or just computing resulted files" do
           @bundler.set_settings(settings)
