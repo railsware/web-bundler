@@ -105,12 +105,13 @@ Recommendations
 
 1. Be mindful while organazing and linking your resource files 
 WebResourceBundler combines all resource file in one. This resulted file could be huge.
-  a. Don't link all resources in layouts!
+
+  * Don't link all resources in layouts!
     Be sure to link resources (css\js) only for pages that using them, in other case your users will be forced
     to download huge css\js files with unused content.
-  b. One css for one page.
+  * One css for one page.
     Try to slice you css files - separate file for each particular page.
-  c. Separate bundle block for crucial resources
+  * Separate bundle block for crucial resources
     To make crucial resources (basic styles\scripts for user can see basic page layout ASAP) load first - just bundle them in separate web_resource_bundler_process block and put this block at the top of your head block. 
 
 2. Don't set max_image_size to big values. 
@@ -124,5 +125,6 @@ on the client side. But your scripts are bundled and their relative path changed
 won't be able to compute loaded file path correctly. You should avoid bundling such tricky javascripts.
 
 4. Unexistent resources handling 
-  a. Be sure to link in html only existent resource files, otherwise bundler won't work.
-  b. If you have unexistent images in css, bundler will work but you've got info messages in log.
+
+  * Be sure to link in html only existent resource files, otherwise bundler won't work.
+  * If you have unexistent images in css, bundler will work but you've got info messages in log.
