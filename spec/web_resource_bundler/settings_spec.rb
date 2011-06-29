@@ -11,7 +11,6 @@ describe WebResourceBundler::Settings do
       root = '/root' 
       settings = Settings.send(:defaults, root)
       settings[:resource_dir].should == File.join(root, Settings::DEFAULT_RESOURCE_DIR)
-      settings[:log_path].should == File.join(root, Settings::DEFAULT_LOG_PATH)
       settings[:cache_dir].should == Settings::DEFAULT_CACHE_DIR
       settings[:bundle_filter][:use].should == true
       settings[:cdn_filter][:use].should == false

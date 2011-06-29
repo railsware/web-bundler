@@ -1,30 +1,21 @@
 require 'rake'
 require 'spec/rake/spectask'
-require 'rubygems'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "web_resource_bundler"
-    gem.summary = %Q{lib for css and js content bundling and managment}
-    gem.description = %Q{this lib could bundle you css/js files in single file, encode images in base64, rewrite images urls to your cdn hosts}
-    gem.email = "anotheroneman@yahoo.com"
-    gem.homepage = "https://github.com/railsware/web-bundler"
-    gem.authors = ["gregolsen"]
-    gem.add_development_dependency "rspec", "1.3.1"
-    gem.add_runtime_dependency "yui-compressor", "~>0.9.4"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+require File.join(File.dirname(__FILE__), "version.rb")
+
+task :build do
+  system "gem build web_resource_bundler.gemspec"
 end
 
-namespace :spec do
+task :install => :build do
+  system "sudo gem install web_resource_bundler-#{WebResourceBundler::VERSION}.gem"
+end
 
-  desc "Run specs with RCov"
-    Spec::Rake::SpecTask.new('rcov' ) do |t|
-      t.spec_files = FileList['spec/**/*_spec.rb' ]
-      t.rcov = true
-    end
+task :release => :build do
+  system "gem push web_resource_bundler-#{WebResourceBundler::VERSION}.gem"
+end
+
+desc "Run all specs"
+Spec::Rake::SpecTask.new('spec' ) do |t|
+  t.spec_files = FileList['spec/**/*_spec.rb' ]
 end
