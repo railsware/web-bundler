@@ -8,7 +8,7 @@ task :build do
 end
 
 task :install => :build do
-  system "sudo gem install web_resource_bundler-#{WebResourceBundler::VERSION}.gem"
+  system "gem install web_resource_bundler-#{WebResourceBundler::VERSION}.gem"
 end
 
 task :release => :build do
