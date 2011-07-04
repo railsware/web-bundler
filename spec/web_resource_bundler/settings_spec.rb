@@ -1,4 +1,32 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "../spec_helper"))
+
+describe WebResourceBundler::SettingsReader do
+
+  describe ".read_from_file" do
+
+    it "loads settings from yaml file" do
+      rails_root = root_dir
+      content = File.read(File.join(root_dir, 'config/web_resource_bundler.yml'))
+      rails_env = 'development'
+      original = SettingsReader.to_options(YAML::load(content)[rails_env])
+      settings = SettingsReader.read_from_file(rails_root, rails_env)
+      original.each_key { |key| settings[key].should == original[key] }
+    end
+
+    it "returns empty hash if file isn't exist" do
+      SettingsReader.read_from_file('', '').should == {}
+    end
+
+  end
+
+  describe ".to_options" do
+    it "should symbolize hash keys" do
+      SettingsReader.to_options({ "base" => { "face" => "case" } }).should == { :base => { :face => "case" } }
+    end
+  end
+
+end
+
 describe WebResourceBundler::Settings do
 
   before(:each) do
@@ -17,7 +45,7 @@ describe WebResourceBundler::Settings do
       settings[:base64_filter][:use].should == true
     end
   end
-	
+
   describe "#commons" do
     it "returns settings common to all filters" do
       settings = Settings.send(:commons, @s)
@@ -27,22 +55,6 @@ describe WebResourceBundler::Settings do
     end
   end
 
-  describe "#read_from_file" do
-    it "loads settings from yaml file" do
-      rails_root = root_dir 
-      content = File.read(File.join(root_dir, 'config/web_resource_bundler.yml'))
-      rails_env = 'development'
-      original = YAML::load(content)[rails_env]
-      settings = Settings.send(:read_from_file, rails_root, rails_env) 
-      original.each_key do |key|
-        settings[key].should == original[key]
-      end
-      settings[:resource_dir].should == File.join(root_dir, Settings::DEFAULT_RESOURCE_DIR)
-    end
-    it "returns empty hash if file isn't exist" do
-      Settings.send(:read_from_file, '', '').should == {}
-    end
-  end
 
   describe "#correct?" do
     it "should return true if all required keys present" do
