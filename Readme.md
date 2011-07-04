@@ -87,18 +87,18 @@ To configure bundler by your self you can create your custom config file - web_r
 /your_rails_app/config/web_resource_bundler.yml
 
     development:
-      :base64_filter:
-        :use: true
-        :max_image_size: 23
-      :bundle_filter:
-        :use: true
-      :cdn_filter:
-        :use: false
-        :http_hosts: ['http://localhost:3000']
-        :https_hosts: ['https://localhost:3000']
-      :compress_filter:
-        :use: true
-        :obfuscate_js: true
+      base64_filter:
+        use: true
+        max_image_size: 23
+      bundle_filter:
+        use: true
+      cdn_filter:
+        use: false
+        http_hosts: ['http://localhost:3000']
+        https_hosts: ['https://localhost:3000']
+      compress_filter:
+        use: true
+        obfuscate_js: true
 
 Recommendations
 --------------------
